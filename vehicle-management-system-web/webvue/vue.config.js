@@ -27,6 +27,10 @@ module.exports  = {
         }
     },
     runtimeCompiler:false,
+  //   chainWebpack: config => {
+  //     config.resolve.alias
+  //         .set('@', resolve('src'))
+  // },
     // css:{
     //     extract:true,
     //     sourceMap:false,

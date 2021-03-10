@@ -33,5 +33,18 @@ export default {
     }
 }
 </script>
-<style>
+<style lang="scss" scoped>
+.app-main{
+    position:absolute ;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    top: 2vh;
+    .app-main-container{
+        background: #fff;
+        padding: 0 25px 0;
+    }
+}
 </style>
