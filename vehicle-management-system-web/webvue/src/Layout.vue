@@ -1,5 +1,6 @@
 <template>
-    <div class="app-wrapper">
+<div>
+     <div class="app-wrapper" v-if="!isMobile()">
        
             <Sidebar class="sidebar-container"  :phone="false"></Sidebar>
             
@@ -8,11 +9,18 @@
                 <app-main class="loading-area"></app-main>
 
             </div>
-            
-
-       
-
     </div>
+
+     <div class="layout_m" v-else >
+        <Header></Header>
+        <div class="container"> 
+           <router-view></router-view>
+        </div>
+        
+        
+    </div>
+</div>
+   
 </template>
 <script>
 import { AppMain , Header , Sidebar } from './components';
@@ -31,6 +39,12 @@ export default {
     created(){},
     mounted(){},
     methods:{
+        isMobile(){
+            let flag = navigator.userAgent.match(
+            /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+            );
+            return flag;
+        }
 
     }
 }
@@ -59,6 +73,20 @@ export default {
        right: 0;
         min-height:calc(100vh - 50px);
         border:1px solid #eee;
+    }
+}
+.layout_m{
+    width: 100%;
+    height: 100vh;
+    .container{
+        width: 100%;
+        background-color: #eee;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        height:94vh;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 }
 </style>

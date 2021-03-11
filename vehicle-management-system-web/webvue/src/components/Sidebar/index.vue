@@ -12,6 +12,12 @@
         active-text-color="#fff"
         >
 
+        <RouterLink class="goto"  :to="{path:this._isMobile()?'/home_m':'/home'}"  @click.native="closeshow(`-1`)"> 
+                    <el-menu-item index="home"> 
+                               <span>主页</span>
+                    </el-menu-item>
+                </RouterLink>
+
             <template v-for="(item,index) in menus" :ref="`menu-${item.title}`"  >
                 <el-submenu  v-if="item.children" :index="item.title" :key="item.title">
                     <template>
@@ -28,8 +34,9 @@
                     </template>
 
                 </el-submenu>
-                <RouterLink class="goto" v-else :to="{path:item.path}" :key="`${item.title}-${index}`" @click.native="closeshow"> 
-                    <el-menu-item :index="item.title"> 
+                
+                <RouterLink class="goto" v-else :to="{path:item.path}" :key="`${item.title}-${index}`" @click.native="closeshow(`${item.title}-${index}`)"> 
+                    <el-menu-item :index="`${item.title}-${index}`"> 
                                <span>{{item.title}}</span>
                             </el-menu-item>
                 </RouterLink>
@@ -50,7 +57,7 @@ export default {
     props:['phone'],
     data(){
         return{
-            defaultActive:'menu-11111',
+            defaultActive:'home',
             menus:[
                 {
                     title:'11111',
@@ -74,7 +81,8 @@ export default {
 
     },
     methods:{
-        closeshow(){
+        closeshow(name){
+            this.defaultActive = name;
             this.$emit("close")
         },
          _isMobile() {
@@ -83,13 +91,14 @@ export default {
       );
       return flag;
     },
-        listmenu(){
+    listmenu(){
             this.menus=[];
             userApi.listmenu({},res=>{
                 console.log("listmenu",res);
                 if(res.status == 200){
-                    
-                    res.data.data.forEach(item=>{
+                    let data = [].concat(res.data.data);
+                    console.log("data",data);
+                    data.forEach(item=>{
                         if(this._isMobile()){
                              item.path='/management_m';
 
@@ -129,6 +138,10 @@ export default {
         }
         .el-menu-item {
             cursor: pointer !important;
+            
+        }
+        .el-menu-item.is-active {
+            background-color:#888;
             
         }
         .el-menu-item:focus, .el-menu-item:hover {

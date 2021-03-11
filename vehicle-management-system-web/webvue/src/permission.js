@@ -4,7 +4,6 @@ import userApi from '@/api/user/user'
 router.beforeEach((to, from, next) => {
     
   var jwttoken = getCookie("jwttoken");
-
   if(jwttoken == null&&to.path=='/login'){
     setCookie("jwttoken",-1);
     next('/login');

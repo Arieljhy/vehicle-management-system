@@ -7,18 +7,18 @@
          
         <div class="info" style="text-align:right;">
 
-            <span class="user">
-                <i class="iconfont icon-fenpeijiaose"></i>
+            <span class="user" style="margin-right:1%;">
+                <i class="iconfont icon-fenpeijiaose" style="font-size:14px;"></i>
                 {{name}}
             </span>
             <el-button class="link" type="text" style="color:#e33e33;" @click="logout">
-                <i class="iconfont icon-zhuxiao"></i>
+                <i class="iconfont icon-zhuxiao" ></i>
                 退出
             </el-button>
         </div>
-         <div style="width:100%;position:fixed;left:0;top:6vh;z-index:1001;" v-if="this._isMobile()">
+         <div style="width:100%;position:fixed;left:0;top:6vh;z-index:1001;" v-show="this._isMobile()">
               <transition  name="fade"  >
-                <Sidebar v-if="show" :phone="true" @close="show=false"></Sidebar>
+                <Sidebar v-show="show" :phone="true" @close="show=false"></Sidebar>
             </transition>
 
         </div>
@@ -101,20 +101,22 @@ export default {
     z-index: 1001;
     .menubtn{
         width: 20%;
-        height: 5vh;
-        line-height: 5vh;
+        height: 6vh;
+        line-height: 6vh;
+        padding-left:3%;
         .btn{
             width:50%;
             height:4vh;
-            margin: 0.5vh 0 0.5vh 10%;
+            margin: 1vh 0 0.5vh 10%;
             line-height: 4vh;
             text-align: center;
             border:1px solid #eee;
             border-radius: 4px;
-              background-color: #fff;
+            //   background-color: #fff;
+              background-color: rgba(17, 24,49,1);
             i{
                 font-size: 30px;
-                color: rgba(17, 24,49,1);
+               color: #fff;
             }
         }
         .btn:hover{
@@ -133,6 +135,9 @@ export default {
     
     .info{
        color: #fff;
+       span{
+            font-size:14px;
+        }
     }
 }
 .header{
@@ -145,8 +150,11 @@ export default {
 
     
     .info{
-        width:80%;
-        padding-right: 2%;
+        width:75%;
+        padding-right: 5%;
+        span{
+            font-size:14px;
+        }
     }
 }
 </style>

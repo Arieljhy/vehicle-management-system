@@ -64,7 +64,7 @@ export default {
                      this.$router.push('/home');
                     
                 }else{
-                    this.$message.error("登录失败");
+                    this.$message.error(res.data.msg);
                     
                     
                     // sessionStorage.setItem("userinfo",JSON.stringify(response.data));
@@ -138,17 +138,19 @@ export default {
                 .el-input__inner{
                 height: 40px;
                 border: 1px solid #e4e7eb;
+                background: #fcfcfc;
                 line-height: 40px;
                 padding: 0 14px 0 23px;
              
               
                 border-radius: 3px;
                 margin-bottom: 1vh;
-                    
+                    color: #858584;
                     }
                 .el-input__prefix{
                     height: 40px;
                     line-height: 40px;
+                    color: #858585;
 
                 }
             }

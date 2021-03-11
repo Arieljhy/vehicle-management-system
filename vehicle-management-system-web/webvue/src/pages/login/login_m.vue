@@ -9,7 +9,7 @@
                 用户登录
             </div>
             <div class="center">
-                 <el-input prefix-icon="iconfont icon-yonghumingtubiao" placeholder="请输入登录名" type="tel" v-model="username"></el-input>
+                 <el-input prefix-icon="iconfont icon-yonghumingtubiao" placeholder="请输入登录名" v-model="username"></el-input>
                 <el-input prefix-icon="iconfont icon-Lock" placeholder="请输入登录密码" type="password" v-model="upwd"></el-input>
                 <el-button  class="loginbtn" size="large"  @click="login">登录</el-button>  
 
@@ -57,19 +57,20 @@ export default {
             userApi.login(data,res=>{
                  console.log("resm",res);
                  if(res.data.code==0){
-                    this.$toast({
-                            message: '登录成功',
-                            position: 'middle',
-                            duration: 1000
-                    });
+                    
                      
                      this.setCookie("jwttoken",res.data.jwttoken)
                      this.setCookie("username",res.data.data.username)
                       this.$router.push('/home_m');
+                      this.$toast({
+                            message: '登录成功',
+                            position: 'middle',
+                            duration: 1000
+                    });
                     
                 }else{
                     this.$toast({
-                            message: '登录失败',
+                            message: res.data.msg,
                             position: 'middle',
                             duration: 1000
                     });
@@ -123,7 +124,8 @@ export default {
         position: absolute;
         width:90%;
         height: 46vh;
-        background-color:rgba(255, 255, 255,0.9);
+        // background-color:rgba(255, 255, 255,0.9);
+        background-color: #fff;
         left:50%;
         top:50%;
         margin-top:-23vh;
@@ -145,17 +147,19 @@ export default {
                 .el-input__inner{
                 height: 40px;
                 border: 1px solid #e4e7eb;
+                 background: #fcfcfc;
                 line-height: 40px;
                padding: 0 14px 0 23px;
              
               
                 border-radius: 3px;
                 margin-bottom: 1vh;
-                    
+                    color: #858584;
                     }
                 .el-input__prefix{
                     height: 40px;
                     line-height: 40px;
+                    color: #858585;
 
                 }
             }
@@ -180,8 +184,9 @@ export default {
     }
     .footertit{
         width: 96%;
-        position: absolute;
-        bottom: 5px;
+        height: 5vh;
+         position: absolute;
+         bottom: 4vh;
         color: #fff;
        
        
