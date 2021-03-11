@@ -1,12 +1,11 @@
+
 import Vue from 'vue';
 import Router from 'vue-router';
 Vue.use(Router);
+import Layout from './Layout.vue'
 
 export const constantRouterMap =[
-    {
-        path:'/',
-        redirect: '/login'
-    },
+    
     {
         path:'/login',
         name:'login',
@@ -20,7 +19,36 @@ export const constantRouterMap =[
         component:()=>import('./pages/login/login_m.vue'),
         meta: { title:"登录页" }
 
-    }
+    },
+    {
+        path:'/home_m',
+        name:'home_m',
+        component:()=>import('@/pages/home/home_m'),
+        meta: { title:"手机主页" }
+
+    },
+    {
+        path:"/management_m",
+        name:"Management_m",
+        component:()=>import("@/pages/page/management_m")
+        },
+    {
+        path:'/',
+        component:Layout,
+        hidden:true,
+        children:[{
+           path:"home",
+           name:"Home",
+           component:()=>import("@/pages/home/home")
+       },
+       {
+        path:"management",
+        name:"Management",
+        component:()=>import("@/pages/page/management")
+        },
+    ]
+
+    },
 
 ]
 export default new Router({

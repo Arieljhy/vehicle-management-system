@@ -1,4 +1,10 @@
 //vue.config.js
+
+
+const path = require('path');
+function resolve (dir) {
+    return path.join(__dirname, dir)
+}
 module.exports  = {
     lintOnSave:false,
     //基本路径
@@ -22,11 +28,17 @@ module.exports  = {
             entry:'src/main.js',
             template: 'public/index.html',
             filename:'index.html',
-            title:"车辆信息管控平台",
+            title:"车辆信息管理平台",
             chunks:['chunk-vendors','chunk-common','index']
         }
     },
     runtimeCompiler:false,
+    chainWebpack: (config)=>{
+      //修改文件引入自定义路径
+      config.resolve.alias
+          .set('@', resolve('src'))
+          .set('style', resolve('src/assets/style'))
+  },
   //   chainWebpack: config => {
   //     config.resolve.alias
   //         .set('@', resolve('src'))

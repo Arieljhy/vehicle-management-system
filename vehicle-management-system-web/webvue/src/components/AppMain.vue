@@ -3,8 +3,8 @@
        <el-scrollbar class="app-container">
            <transition name="fade" mode="out-in"> 
                <div class="app-main-container">
-                   <keep-alive :exclude="['Home']">
-                       <router-view :key="key"></router-view>
+                   <keep-alive>
+                       <router-view></router-view>
                    </keep-alive>
 
                </div>
@@ -18,6 +18,7 @@
 export default {
     data(){
         return{
+            key:true
 
         }
     },
@@ -35,15 +36,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 .app-main{
+    z-index: 500;
     position:absolute ;
     left: 0;
     right: 0;
     bottom: 0;
     overflow-y: auto;
     overflow-x: hidden;
-    top: 2vh;
+   
+    height: 93vh;
+
+     border: 1px solid #eee;
+     
     .app-main-container{
-        background: #fff;
+       background-color:#eee;
         padding: 0 25px 0;
     }
 }

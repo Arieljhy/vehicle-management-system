@@ -39,12 +39,12 @@ export function tryHideFullScreenLoading(){
 //请求前兰姐饿
 axios.interceptors.request.use(
     config =>{
-        showFullScreenLoading();
+        // showFullScreenLoading();
         return config;
     },
     error =>{
         console.warn(error);
-        tryHideFullScreenLoading();
+        // tryHideFullScreenLoading();
         return Promise.reject("请求数据失败！")
     }
 )
@@ -52,12 +52,11 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
    
     response=>{
-        console.log("response",response);
     
-        //tryHideFullScreenLoading();
+        // tryHideFullScreenLoading();
        
         if(response.status === 200){
-            debugger;
+        
             return Promise.resolve(response);
         }else{
             location.href='/';
@@ -66,7 +65,7 @@ axios.interceptors.response.use(
 
     },
     error=>{
-        tryHideFullScreenLoading();
+        // tryHideFullScreenLoading();
         switch (error.response.status){
             case 403:
                 window.location.href = "http://www.baidu.com"
@@ -81,6 +80,20 @@ axios.interceptors.response.use(
         }
     }
 )
+export function setCookie(name,value){
+    var Days = 30;
+    var exp = new Date();
+    exp.setTime(exp.getTime() + Days*24*60*60*30);
+    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+}
+
+export function getCookie(name){
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+    if(arr=document.cookie.match(reg))
+    return unescape(arr[2]);
+    else
+    return null;
+}
 
 export default {
     /**
@@ -91,11 +104,21 @@ export default {
      * @param {Function} fail 失败回调（可选）
      * **/
     post(url,data,done,fail){
+        let jwttoken = getCookie("jwttoken");
+        let sheader = '';
+        if(jwttoken!=null&&jwttoken!=0&&jwttoken!=-1){
+             sheader = jwttoken;
+        }
+
         return axios({
             method:"post",
             url,
             data:data,
-            headers:{
+            headers:sheader.length!=0?{
+                "X-Requested-With":"XMLHttpRequest",
+                "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
+                "jwttoken":sheader
+            }:{
                 "X-Requested-With":"XMLHttpRequest",
                 "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"
             }
@@ -112,9 +135,20 @@ export default {
         )
     },
     postBody(url,data,done,fail){
+        let jwttoken = getCookie("jwttoken");
+        let sheader = '';
+        if(jwttoken!=null&&jwttoken!=0&&jwttoken!=-1){
+             sheader = jwttoken;
+             
+        }
+
         return axios.post(
             url,
-            data
+            data,
+            {
+                headers: 
+                {"jwttoken":sheader.length!=0?sheader:''}
+            }
         ).then(data=>done(data)).catch(
             error=>{
                 if(fail){
@@ -127,6 +161,12 @@ export default {
     }
     ,
     get(url,...options){
+        let jwttoken = getCookie("jwttoken");
+        let sheader = '';
+        if(jwttoken!=null&&jwttoken!=0&&jwttoken!=-1){
+             sheader = jwttoken;
+        }
+
         let params,done,fail;
         if(typeof options[0] == 'object'){
             params = options[0];
@@ -141,9 +181,13 @@ export default {
             method:'get',
             url,
             params,
-            headers:{
+            headers:sheader.length!=0?{
+                "X-Requested-With":"XMLHttpRequest",
+                "jwttoken":sheader
+            }:{
                 "X-Requested-With":"XMLHttpRequest"
             }
+            
 
         }).then(data=>done(data)).catch(
             error=>{

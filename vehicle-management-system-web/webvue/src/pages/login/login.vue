@@ -9,8 +9,8 @@
                 用户登录
             </div>
             <div class="center">
-                 <el-input prefix-icon="iconfont iconyonghumingtubiao" placeholder="请输入登录名" v-model="username"></el-input>
-                <el-input prefix-icon="iconfont iconLock"  placeholder="请输入登录密码" type="password" v-model="upwd"></el-input>
+                 <el-input prefix-icon="iconfont icon-yonghumingtubiao" placeholder="请输入登录名" v-model="username"></el-input>
+                <el-input prefix-icon="iconfont icon-Lock"  placeholder="请输入登录密码" type="password" v-model="upwd"></el-input>
                 <el-button  class="loginbtn" size="large"  @click="login">登录</el-button>  
 
             </div>
@@ -23,7 +23,7 @@
     </div>
 </template>
 <script>
-import userApi from '../../api/user/login';
+import userApi from '../../api/user/user';
 import md5 from 'js-md5';
 export default {
     data(){
@@ -54,10 +54,14 @@ export default {
            
             
             userApi.login(data,res=>{
-                 console.log("res",res);
+                
                
                  if(res.data.code==0){
-                     this.$message.success("登录成功")
+                     this.$message.success("登录成功");
+                      this.setCookie("jwttoken",res.data.jwttoken)
+                
+                      this.setCookie("username",res.data.data.username)
+                     this.$router.push('/home');
                     
                 }else{
                     this.$message.error("登录失败");
@@ -70,6 +74,21 @@ export default {
                 } 
             })               
         }  
+        ,
+         setCookie(name,value){
+            var Days = 30;
+            var exp = new Date();
+            exp.setTime(exp.getTime() + Days*24*60*60*30);
+            document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+        },
+
+        getCookie(name){
+            var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+            if(arr=document.cookie.match(reg))
+            return unescape(arr[2]);
+            else
+            return null;
+        }
     }
 }
 </script>
