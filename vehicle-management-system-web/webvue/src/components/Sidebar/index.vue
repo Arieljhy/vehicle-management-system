@@ -35,7 +35,7 @@
 
                 </el-submenu>
                 
-                <RouterLink class="goto" v-else :to="{path:item.path}" :key="`${item.title}-${index}`" @click.native="closeshow(`${item.title}-${index}`)"> 
+                <RouterLink class="goto" v-else :to="{path:_isMobile()?`${item.path}_m`:item.path}" :key="`${item.title}-${index}`" @click.native="closeshow(`${item.title}-${index}`)"> 
                     <el-menu-item :index="`${item.title}-${index}`"> 
                                <span>{{item.title}}</span>
                             </el-menu-item>
@@ -58,18 +58,7 @@ export default {
     data(){
         return{
             defaultActive:'home',
-            menus:[
-                {
-                    title:'11111',
-                    path:"/home",
-                    children:[]
-                },
-                {
-                    title:'22222',
-                    path:"/login",
-                    children:[]
-                }
-            ]
+            menus:[]
         }
     },
     created(){
@@ -94,20 +83,18 @@ export default {
     listmenu(){
             this.menus=[];
             userApi.listmenu({},res=>{
-                console.log("listmenu",res);
+            
                 if(res.status == 200){
-                    let data = [].concat(res.data.data);
-                    console.log("data",data);
-                    data.forEach(item=>{
-                        if(this._isMobile()){
-                             item.path='/management_m';
-
-                        }else{
-                             item.path='/management';
-                        }
-                       
-                        this.menus.push(item);
-                    })
+                    let data = [];
+                   
+                    
+                    for(let i=0;i<res.data.data.length;i++){
+                      let obj = Object.assign({},res.data.data[i])
+                        data[i]=obj;
+                    }
+                    
+                    this.menus=data;
+                    
                 }
             })
         }
@@ -124,9 +111,11 @@ export default {
     background-color: rgba(17, 24,49,1);
     .title{
         width: 100%;
+        height:60px;
+        line-height:60px;
         color:#fff;
         text-align: center;
-        padding: 20px 0;
+        // padding: 20px 0;
     }
     /deep/.el-menu{
         background-color: rgba(17, 24,49,1);

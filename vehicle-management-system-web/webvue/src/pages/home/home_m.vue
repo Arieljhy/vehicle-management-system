@@ -1,20 +1,41 @@
 <template>
     <div class="home_m">
         <div class="container">
-                手机主页
+                 <div class="name">{{name}},</div>
+                <div class="title">Welcom to the systerm!</div>
 
         </div>
         
     </div>
 </template>
 <script>
-import { AppMain , Header , Sidebar } from '@/components';
 export default {
-     components:{
-        AppMain,
-        Header,
-        Sidebar
+       data(){
+        return{
+            name:''
+        }
     },
+    created(){},
+    mounted(){
+        this.name = this.getCookie('username')!=null?this.getCookie('username'):'默认';
+    },
+    methods:{
+        
+         setCookie(name,value){
+            var Days = 30;
+            var exp = new Date();
+            exp.setTime(exp.getTime() + Days*24*60*60*30);
+            document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+        },
+
+        getCookie(name){
+            var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+            if(arr=document.cookie.match(reg))
+            return unescape(arr[2]);
+            else
+            return null;
+        }
+    }
     
 }
 </script>
@@ -24,7 +45,7 @@ export default {
     height: 94vh;
     .container{
         width: 90%;
-        background-color: #eee;
+        background-color: #fff;
         position: fixed;
         left: 0;
         bottom: 0;
@@ -33,6 +54,17 @@ export default {
         overflow-y: auto;
  height:92vh;
         padding: 1vh 5%;
+
+         .name{
+            height:12vh;
+            line-height:12vh;
+            font-size:20px;
+            font-weight:600;
+        }
+        .title{
+            font-size:20px;
+            font-weight:600;
+        }
     }
 }
 

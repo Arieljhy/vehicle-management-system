@@ -53,7 +53,7 @@ axios.interceptors.response.use(
    
     response=>{
     
-        // tryHideFullScreenLoading();
+        tryHideFullScreenLoading();
        
         if(response.status === 200){
         

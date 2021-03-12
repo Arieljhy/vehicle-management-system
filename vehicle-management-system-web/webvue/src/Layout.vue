@@ -14,7 +14,7 @@
      <div class="layout_m" v-else >
         <Header></Header>
         <div class="container"> 
-           <router-view></router-view>
+           <router-view class="loading-area"></router-view>
         </div>
         
         
@@ -80,7 +80,7 @@ export default {
     height: 100vh;
     .container{
         width: 100%;
-        background-color: #eee;
+        background-color: #fff;
         position: fixed;
         left: 0;
         bottom: 0;

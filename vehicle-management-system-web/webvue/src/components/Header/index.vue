@@ -110,7 +110,7 @@ export default {
             margin: 1vh 0 0.5vh 10%;
             line-height: 4vh;
             text-align: center;
-            border:1px solid #eee;
+            border:1px solid rgba(17, 24,49,1);
             border-radius: 4px;
             //   background-color: #fff;
               background-color: rgba(17, 24,49,1);
@@ -135,6 +135,8 @@ export default {
     
     .info{
        color: #fff;
+       width:76%;
+       padding-right: 4%;
        span{
             font-size:14px;
         }
@@ -146,12 +148,12 @@ export default {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    border-bottom:1px solid #eee;
+    border-bottom:1px solid rgba(17, 24,49,1);
 
     
     .info{
-        width:75%;
-        padding-right: 5%;
+        width:78%;
+        padding-right: 2%;
         span{
             font-size:14px;
         }

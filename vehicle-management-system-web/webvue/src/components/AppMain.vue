@@ -18,7 +18,7 @@
 export default {
     data(){
         return{
-            key:true
+            // key:true
 
         }
     },
@@ -49,7 +49,7 @@ export default {
      border: 1px solid #eee;
      
     .app-main-container{
-       background-color:#eee;
+       background-color:#fff;
         padding: 0 25px 0;
     }
 }

@@ -2,7 +2,7 @@
   
     <div class="management">
         <div class="container">
-                 management  手机页
+               账单管理  手机页
 
         </div>
         
@@ -23,7 +23,7 @@ export default {
     height: 94vh;
     .container{
         width: 90%;
-        background-color: #eee;
+        background-color: #fff;
         position: fixed;
         left: 0;
         bottom: 0;

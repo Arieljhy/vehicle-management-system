@@ -32,11 +32,6 @@ export const constantRouterMap =[
                 component:()=>import("@/pages/home/home")
             },
             {
-                path:"management",
-                name:"Management",
-                component:()=>import("@/pages/page/management")
-                },
-                {
                     path:'home_m',
                     name:'home_m',
                     component:()=>import('@/pages/home/home_m'),
@@ -44,10 +39,28 @@ export const constantRouterMap =[
             
                 },
                 {
-                    path:"management_m",
-                    name:"Management_m",
-                    component:()=>import("@/pages/page/management_m")
-                    },
+                    path:"transport",
+                    name:"Transport",
+                    component:()=>import("@/pages/page/transport/transport")
+                },
+
+
+                {
+                    path:"transport_m",
+                    name:"Transport_m",
+                    component:()=>import("@/pages/page/transport/transport_m")
+                },
+                {
+                    path:"account",
+                    name:"Account",
+                    component:()=>import("@/pages/page/account/account")
+                },
+
+                {
+                    path:"account_m",
+                    name:"Account_m",
+                    component:()=>import("@/pages/page/account/account_m")
+                }
             ]
 
     },
