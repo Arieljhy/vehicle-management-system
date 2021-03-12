@@ -39,7 +39,7 @@ export function tryHideFullScreenLoading(){
 //请求前兰姐饿
 axios.interceptors.request.use(
     config =>{
-        // showFullScreenLoading();
+        showFullScreenLoading();
         return config;
     },
     error =>{
