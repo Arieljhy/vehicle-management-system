@@ -39,7 +39,7 @@ export function tryHideFullScreenLoading(){
 //请求前兰姐饿
 axios.interceptors.request.use(
     config =>{
-        showFullScreenLoading();
+        //showFullScreenLoading();
         return config;
     },
     error =>{
@@ -53,7 +53,7 @@ axios.interceptors.response.use(
    
     response=>{
     
-        tryHideFullScreenLoading();
+        //tryHideFullScreenLoading();
        
         if(response.status === 200){
         
@@ -109,6 +109,8 @@ export default {
         if(jwttoken!=null&&jwttoken!=0&&jwttoken!=-1){
              sheader = jwttoken;
         }
+        console.log("sheader",sheader.length);
+        debugger;
 
         return axios({
             method:"post",
@@ -127,9 +129,9 @@ export default {
                 if(fail){
                     fail(error);
                 }else{
-                    Message.error({
-                        message:error
-                    })
+                    // Message.error({
+                    //     message:error
+                    // })
                 }
             }
         )
@@ -141,6 +143,8 @@ export default {
              sheader = jwttoken;
              
         }
+        console.log("sheader",sheader.length);
+        debugger;
 
         return axios.post(
             url,
@@ -163,6 +167,8 @@ export default {
     get(url,...options){
         let jwttoken = getCookie("jwttoken");
         let sheader = '';
+        console.log("sheader",sheader.length);
+        debugger;
         if(jwttoken!=null&&jwttoken!=0&&jwttoken!=-1){
              sheader = jwttoken;
         }
@@ -194,9 +200,9 @@ export default {
                 if(fail){
                     fail(error);
                 }else{
-                    Message.error({
-                        message:error
-                    })
+                    // Message.error({
+                    //     message:error
+                    // })
                 }
             }
         )
