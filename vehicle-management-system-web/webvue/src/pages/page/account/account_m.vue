@@ -35,6 +35,19 @@
                 border
                 style="width: 100%">
                 <el-table-column
+              
+                label="序号"
+                align="center"
+                >
+                <template slot-scope="scope">
+                    <div>
+                        {{scope.$index+1}}
+                    </div>
+                    
+                </template>
+                </el-table-column>
+
+                <el-table-column
                 prop="carNum"
                 label="车牌号"
 
@@ -154,17 +167,26 @@
             
             </el-table>
             <div class="pagination">
-                <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-sizes="[5, 10, 15, 20]"
-                :page-size="10"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total">
-                </el-pagination>
+               <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                
+                    
+                        layout=" prev, pager, next, jumper"
+                        :total="total">
+                        </el-pagination>
+                        <div class="tit">
+                            共：<span>{{total}}</span>&nbsp;&nbsp;&nbsp;&nbsp;条  （10条/页）
+
+                        </div>
             </div>
        </div>
+        <div class="footer">
+
+                —— 我是有底线的 ——
+
+            </div>
 
         </div>
         
@@ -344,11 +366,14 @@ export default {
                                     flex-wrap: wrap;
                                         width: 170px !important;;
                                      th{
-                                         text-align: right;
+                                         text-align: left;
                                          width: 170px !important;
                                         padding:11px 0 !important;
                                         background-color: #eee;
                                         border: 1px solid rgb(142, 144, 153) ;
+                                    }
+                                     th:nth-child(8){
+                                         height: 138px;
                                     }
                                 }
 
@@ -375,40 +400,98 @@ export default {
                     }
 
                     .el-table__body-wrapper{
-                        display: flex;
-                        width: calc(100% - 34px);
-                        overflow:  none !important;
-                        .el-table__body{
-                            tbody{
-                                display: flex !important;
-                                tr{
+                          
+                            display: flex;
+                            width: calc(100% - 34px);
+                            overflow:  none !important;
+                            .el-table__body{
+                                 width:min-content !important; 
+                                 display:inline-block;
+                                tbody{
+                                     width:min-content !important; 
                                     display: flex !important;
-                                    flex-direction: row;
-                        
-                                    flex-wrap: wrap;
-                                        width: 120px;
-                                     td{
-                                         text-align: left;
-                                         width: 120px !important;
-                                        padding:11px 0 !important;
+                                    tr{
+                                        display: flex !important;
+                                        flex-direction: row;
+                            
+                                        flex-wrap: wrap;
+                                            width: 120px;
+                                        td{
+                                            text-align: left;
+                                            width: 120px !important;
+                                            height: 47px;
+                                            padding:11px 0 !important;
+                                            
                                         
-                                       
+                                        }
+                                        td:nth-child(8){
+                                             height: 138px;
+                                        }
                                     }
+
+                                }
+
+                            }
+                            
+                        }
+                }
+                .pagination{
+                            width: 100%;
+
+                        
+                            margin: 10px 0 20px 0;
+                            /deep/.el-pagination{
+                                text-align: right;
+                                position: relative;
+                                padding: 2px 0;
+                                
+                                span{
+                                    font-size: 10px !important;
+                                }
+                                button{
+                                    padding: 0 2px;
+                                    min-width:25px;
+                                
+                                    
+                                    border-radius: 4px;
+                                    margin: auto;
+                                }
+                                .el-pager{
+                                    li{
+                                        min-width: 32px;
+                                    }
+                                
+                                
+                                }
+                                .el-pagination__jump{
+                                    margin-left: 2%;
+
+
+                                    position: absolute;
+                                    right: 2%;
+                                    bottom: -30px;
                                 }
 
                             }
 
-                        }
+                            .tit{
+                                font-size: 10px;
+                                height: 32px;
+                                line-height: 32px;
+                                padding-left: 2%;
+                            }
                         
                     }
-                }
-                .pagination{
-                        width: 100%;
+            }
 
-                        text-align: right;
-                        margin-top: 10px;
-                    
-                    }
+             .footer{
+                width: 100%;
+                height:3vh;
+                line-height: 3vh;
+                font-size: 12px;
+                text-align: center;
+                color: rgb(204, 200, 200);
+                
             }
     }
 

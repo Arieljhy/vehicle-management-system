@@ -88,7 +88,7 @@ export default {
                     let data = [];
 
                     console.log("res.data.data.length;",res.data.data.length)
-                   debugger;
+              
                     
                     for(let i=0;i<res.data.data.length;i++){
                       let obj = Object.assign({},res.data.data[i])

@@ -166,7 +166,8 @@ export default {
                 color: #fff;
                 font-size: 18px;
                 cursor: pointer;
-                background: -webkit-linear-gradient(left, #17afe8, #2a84ff);
+                // background: -webkit-linear-gradient(left, #17afe8, #2a84ff);
+                  background: -webkit-linear-gradient(left, rgb(29, 40, 78), rgb(27, 40, 83));
                 padding: 0;
             
             }

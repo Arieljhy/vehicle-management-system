@@ -3,155 +3,183 @@
     <div class="management">
         <div class="container">
                 
-        <div class="title">
-            货运明细
-            <el-button class="add">添加<i class="iconfont icon-tianjia" style="font-size:10px;font-weight:600;margin-left:2px;"></i></el-button>
-        </div>
-      
-       <div class="search-part">
-           <el-form  label-width="100px" :model="searchdata">
-               
-                    <el-form-item label="车牌号" >
-                        <el-input v-model="searchdata.carNum"></el-input>
-                    </el-form-item>
-                    <el-form-item label="运输时间" >
-                        <el-input v-model="searchdata.billDate"></el-input>
-                    </el-form-item>
-                   <el-form-item label="装货地" >
-                        <el-input v-model="searchdata.loadingPlace"></el-input>
-                    </el-form-item>
-                        <el-form-item label="卸货地" >
-                        <el-input v-model="searchdata.unloadingPlace"></el-input>
-                    </el-form-item>
-
-            
-              
-                
-           </el-form>
-
-           <div class="rightbtn">
-               <el-button>搜索</el-button>
-                <el-button>重置</el-button>
-           </div>
-           
-       </div>
-       <div class="content">
-           <el-table
-                :data="transport_data"
-              
-                border
-                style="width: 100%">
-                <el-table-column
-                prop="carNum"
-                label="车牌号"
-               
-                align="center"
-                
-                
-                >
-                </el-table-column>
-                <el-table-column
-                prop="billDate"
-                label="运输时间"
-                width="120"
-                align="center"
-             >
-                </el-table-column>
-
-                 <el-table-column
-                prop="loadingPlace"
-                label="装货地"
-                width="120"
-                align="center"
-                >
-                </el-table-column>
-                 <el-table-column
-                prop="unloadingPlace"
-                label="卸货地"
-                width="120"
-                align="center"
-                >
-                </el-table-column>
-               
-                <el-table-column
-                prop="meters"
-                label="里程"
-                width="120"
-                align="center"
-                >
-                </el-table-column>
-
-                <el-table-column
-                prop="money"
-                label="运费(元)"
-                width="120"
-                align="center"
-                >
-                </el-table-column>
-
-                <el-table-column
-                prop="oil"
-                label="油耗（L）"
-                width="120"
-                align="center"
-                >
-                </el-table-column>
-
-                 <el-table-column
-                prop="ratio"
-                label="比率(%)"
-                width="120"
-                align="center"
-                >
-                </el-table-column>
-                 <el-table-column
-                prop="specs"
-                label="规格"
-                width="120"
-                align="center"
-                >
-                </el-table-column>
-                 <el-table-column
-                prop="tonnage"
-                label="吨位（吨）"
-                width="120"
-                align="center"
-                >
-                </el-table-column>
-                 <el-table-column
-                prop="unitPrice"
-                label="单价（元）"
-                width="120"
-                align="center"
-                >
-                </el-table-column>
-
-                
-                 <el-table-column
-             
-                label="操作"
-                width="80"
-                align="center"
-                >
-                <template slot-scope="scope">
-                    <el-button class="sbtn" @click="detail(scope.row)">
-                        查看
-                    </el-button>
-                </template>
-                </el-table-column>
-            </el-table>
-            <div class="pagination">
-                <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-sizes="[5, 10, 15, 20]"
-                :page-size="10"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total">
-                </el-pagination>
+            <div class="title">
+                货运明细
+                <el-button class="add">添加<i class="iconfont icon-tianjia" style="font-size:10px;font-weight:600;margin-left:2px;"></i></el-button>
             </div>
-       </div>
+      
+            <div class="search-part">
+                <el-form  label-width="100px" :model="searchdata">
+                    
+                            <el-form-item label="车牌号" >
+                                <el-input v-model="searchdata.carNum"></el-input>
+                            </el-form-item>
+                            <el-form-item label="运输时间" >
+                                <el-input v-model="searchdata.billDate"></el-input>
+                            </el-form-item>
+                        <el-form-item label="装货地" >
+                                <el-input v-model="searchdata.loadingPlace"></el-input>
+                            </el-form-item>
+                                <el-form-item label="卸货地" >
+                                <el-input v-model="searchdata.unloadingPlace"></el-input>
+                            </el-form-item>
+
+                    
+                    
+                        
+                </el-form>
+
+                <div class="rightbtn">
+                    <el-button>搜索</el-button>
+                        <el-button>重置</el-button>
+                </div>
+                
+            </div>
+            <div class="content">
+                <el-table
+                        ref="transporttable"
+                        :data="transport_data"
+                    
+                        border
+                        style="width: 100%">
+
+                        <el-table-column
+              
+                        label="序号"
+                        align="center"
+                        >
+                        <template slot-scope="scope">
+                            <div>
+                                {{scope.$index+1}}
+                            </div>
+                            
+                        </template>
+                    </el-table-column>
+
+                        <el-table-column
+                        prop="carNum"
+                        label="车牌号"
+                    
+                        align="center"
+                        
+                        
+                        >
+                        </el-table-column>
+                        <el-table-column
+                        prop="billDate"
+                        label="运输时间"
+                        width="120"
+                        align="center"
+                    >
+                        </el-table-column>
+
+                        <el-table-column
+                        prop="loadingPlace"
+                        label="装货地"
+                        width="120"
+                        align="center"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                        prop="unloadingPlace"
+                        label="卸货地"
+                        width="120"
+                        align="center"
+                        >
+                        </el-table-column>
+                    
+                        <el-table-column
+                        prop="meters"
+                        label="里程"
+                        width="120"
+                        align="center"
+                        >
+                        </el-table-column>
+
+                        <el-table-column
+                        prop="money"
+                        label="运费(元)"
+                        width="120"
+                        align="center"
+                        >
+                        </el-table-column>
+
+                        <el-table-column
+                        prop="oil"
+                        label="油耗（L）"
+                        width="120"
+                        align="center"
+                        >
+                        </el-table-column>
+
+                        <el-table-column
+                        prop="ratio"
+                        label="比率(%)"
+                        width="120"
+                        align="center"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                        prop="specs"
+                        label="规格"
+                        width="120"
+                        align="center"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                        prop="tonnage"
+                        label="吨位（吨）"
+                        width="120"
+                        align="center"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                        prop="unitPrice"
+                        label="单价（元）"
+                        width="120"
+                        align="center"
+                        >
+                        </el-table-column>
+
+                        
+                        <el-table-column
+                    
+                        label="操作"
+                        width="80"
+                        align="center"
+                        >
+                        <template slot-scope="scope">
+                            <el-button class="sbtn" @click="detail(scope.row)">
+                                查看
+                            </el-button>
+                        </template>
+                        </el-table-column>
+                    </el-table>
+                    <div class="pagination">
+                        
+
+                        <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                
+                    
+                        layout=" prev, pager, next, jumper"
+                        :total="total">
+                        </el-pagination>
+                        <div class="tit">
+                            共：<span>{{total}}</span>&nbsp;&nbsp;&nbsp;&nbsp;条  （10条/页）
+
+                        </div>
+                    </div>
+            </div>
+
+
+            <div class="footer">
+
+                —— 我是有底线的 ——
+
+            </div>
 
         </div>
         
@@ -205,7 +233,8 @@ export default {
                 
                 if(res.data.code == 0){
                     this.transport_data = res.data.data.rows;
-                    this.total = res.data.data.total;
+                     this.total = res.data.data.total;
+                    
                 }
             })
         },
@@ -253,8 +282,8 @@ export default {
                     right: 2%;
                     border-color: rgba(17, 24,49,1);
                 }
-            }
-            .search-part{
+        }
+        .search-part{
                 width: 96%;
                 border: 1px solid #eee;
                 padding: 2%;
@@ -310,8 +339,8 @@ export default {
                         background-color: #ecf5ff;
                     }
                 }
-            }
-            .content{
+        }
+        .content{
             /deep/ .el-table{
                 display: flex;
                 overflow-y:  auto !important;
@@ -357,60 +386,117 @@ export default {
 
                         }
 
-                    }
-                    th.is-leaf{
-                        color:rgba(17, 24,49,1);
-                        padding:2px 0 !important;
-                        background-color: #eee;
-                    }
-                    .sbtn{
-                        border:none !important;
-                        padding: 0;
-                        color: #409eee;
-                        font-size: 10px;
-                    }
-                    .sbtn:hover{
-                
-                        color: rgba(17, 24,49,1);
+                        }
+                        th.is-leaf{
+                            color:rgba(17, 24,49,1);
+                            padding:2px 0 !important;
+                            background-color: #eee;
+                        }
+                        .sbtn{
+                            border:none !important;
+                            padding: 0;
+                            color: #409eee;
+                            font-size: 10px;
+                        }
+                        .sbtn:hover{
                     
-                    }
-
-                    .el-table__body-wrapper{
-                        display: flex;
-                        width: calc(100% - 34px);
-                        overflow:  none !important;
-                        .el-table__body{
-                            tbody{
-                                display: flex !important;
-                                tr{
-                                    display: flex !important;
-                                    flex-direction: row;
+                            color: rgba(17, 24,49,1);
                         
-                                    flex-wrap: wrap;
-                                        width: 120px;
-                                     td{
-                                         text-align: left;
-                                         width: 120px !important;
-                                        padding:11px 0 !important;
+                        }
+
+                        .el-table__body-wrapper{
+                          
+                            display: flex;
+                            width: calc(100% - 34px);
+                            overflow:  none !important;
+                            .el-table__body{
+                                 width:min-content !important; 
+                                 display:inline-block;
+                                tbody{
+                                     width:min-content !important; 
+                                    display: flex !important;
+                                    tr{
+                                        display: flex !important;
+                                        flex-direction: row;
+                            
+                                        flex-wrap: wrap;
+                                            width: 120px;
+                                        td{
+                                            text-align: left;
+                                            width: 120px !important;
+                                            height: 47px;
+                                            padding:11px 0 !important;
+                                            
                                         
-                                       
+                                        }
                                     }
+
+                                }
+
+                            }
+                            
+                        }
+                    }
+                    .pagination{
+                            width: 100%;
+
+                        
+                            margin: 10px 0 20px 0;
+                            /deep/.el-pagination{
+                                text-align: right;
+                                position: relative;
+                                padding: 2px 0;
+                                
+                                span{
+                                    font-size: 10px !important;
+                                }
+                                button{
+                                    padding: 0 2px;
+                                    min-width:25px;
+                                
+                                    
+                                    border-radius: 4px;
+                                    margin: auto;
+                                }
+                                .el-pager{
+                                    li{
+                                        min-width: 32px;
+                                    }
+                                
+                                
+                                }
+                                .el-pagination__jump{
+                                    margin-left: 2%;
+
+
+                                    position: absolute;
+                                    right: 2%;
+                                    bottom: -30px;
                                 }
 
                             }
 
-                        }
+                            .tit{
+                                font-size: 10px;
+                                height: 32px;
+                                line-height: 32px;
+                                padding-left: 2%;
+                            }
                         
                     }
-                }
-                .pagination{
-                        width: 100%;
-
-                        text-align: right;
-                        margin-top: 10px;
-                    
-                    }
-            }
+                
+        }
+        .footer{
+            width: 100%;
+            height:3vh;
+            line-height: 3vh;
+            font-size: 12px;
+            text-align: center;
+            color: rgb(204, 200, 200);
+            
+        }
+    
+    
     }
 
 }

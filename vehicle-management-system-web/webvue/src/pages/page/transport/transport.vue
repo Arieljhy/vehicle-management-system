@@ -2,7 +2,7 @@
     <div class="management">
         <div class="title">
             货运明细
-            <el-button class="add">添加</el-button>
+            <el-button class="add" >添加</el-button>
         </div>
       
        <div class="search-part">
@@ -153,6 +153,23 @@
                 </el-pagination>
             </div>
        </div>
+
+       <el-dialog
+       class="add-dialog"
+        title="添加"
+        :visible.sync="add"
+        width="30%"
+        
+         >
+        <div>
+            11111
+
+        </div>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="centerDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+        </div>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -169,7 +186,8 @@ export default {
             },
             tableheight:'200',
             currentPage: 1,
-            total:0
+            total:0,
+            add:false
         }
     },
     created(){
@@ -331,6 +349,12 @@ export default {
                
             }
     }
+    // /deep/.el-dialog__wrapper.add-dialog{
+    //     .el-dialog{
+    //         z-index:3000 !important;
+
+    //     }
+    // }
     
 }
 

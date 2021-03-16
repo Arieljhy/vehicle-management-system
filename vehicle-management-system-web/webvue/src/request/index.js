@@ -110,7 +110,7 @@ export default {
              sheader = jwttoken;
         }
         console.log("sheader",sheader.length);
-        debugger;
+  
 
         return axios({
             method:"post",
@@ -144,7 +144,7 @@ export default {
              
         }
         console.log("sheader",sheader.length);
-        debugger;
+       
 
         return axios.post(
             url,
@@ -168,7 +168,7 @@ export default {
         let jwttoken = getCookie("jwttoken");
         let sheader = '';
         console.log("sheader",sheader.length);
-        debugger;
+     
         if(jwttoken!=null&&jwttoken!=0&&jwttoken!=-1){
              sheader = jwttoken;
         }

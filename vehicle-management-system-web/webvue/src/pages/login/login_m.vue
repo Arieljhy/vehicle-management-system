@@ -38,11 +38,21 @@ export default {
          login(){ 
          
                 if(!this.username){
-                    this.$message.warning("用户名不能为空");  
+                    this.$toast({
+                            message: '用户名不能为空',
+                            position: 'middle',
+                            duration: 1000
+                    });
+                   
                     return;
                 }
                 if(!this.upwd){
-                    this.$message.warning("密码不能为空");       
+                     this.$toast({
+                            message: '密码不能为空',
+                            position: 'middle',
+                            duration: 1000
+                    });
+                        
                     return ;
                 }
             //发送ajax请求 使用post方式发送json字符串给后台login
@@ -175,7 +185,8 @@ export default {
                 color: #fff;
                 font-size: 18px;
                 cursor: pointer;
-                background: -webkit-linear-gradient(left, #17afe8, #2a84ff);
+                // background: -webkit-linear-gradient(left, #17afe8, #2a84ff);
+                background: -webkit-linear-gradient(left, rgb(29, 40, 78), rgb(27, 40, 83));
                 padding: 0;
             
             }

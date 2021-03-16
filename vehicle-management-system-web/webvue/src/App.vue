@@ -55,6 +55,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" >
 
+.v-modal{
+
+}
 </style>

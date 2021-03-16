@@ -5,7 +5,10 @@ const path = require('path');
 function resolve (dir) {
     return path.join(__dirname, dir)
 }
+
+const vuxLoader = require('vux-loader')
 module.exports  = {
+  
     lintOnSave:false,
     //基本路径
     publicPath:'',
@@ -39,6 +42,12 @@ module.exports  = {
           .set('@', resolve('src'))
           .set('style', resolve('src/assets/style'))
   },
+  //   configureWebpack: config => {
+  //     require('vux-loader').merge(config, {
+  //         options: {},
+  //         plugins: ['vux-ui']
+  //     })
+  // },
   //   chainWebpack: config => {
   //     config.resolve.alias
   //         .set('@', resolve('src'))
