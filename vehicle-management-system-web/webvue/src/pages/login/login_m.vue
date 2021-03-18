@@ -61,14 +61,8 @@ export default {
                 password:md5(this.upwd),
                 tenantId:"eidi-shanghai"
             }
-           
-           
-             console.log(data);
             userApi.login(data,res=>{
-                 console.log("resm",res);
                  if(res.data.code==0){
-                    
-                     
                      this.setCookie("jwttoken",res.data.jwttoken)
                      this.setCookie("username",res.data.data.username)
                       this.$router.push('/home_m');

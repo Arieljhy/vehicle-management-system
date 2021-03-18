@@ -15,8 +15,6 @@ export default {
     }
   },
   created(){
-    
-  // console.log("哈哈哈哈",this.getCookie("jwttoken"));
 
   },
   mounted(){
@@ -56,8 +54,4 @@ export default {
 </script>
 
 <style lang="scss" >
-
-.v-modal{
-
-}
 </style>

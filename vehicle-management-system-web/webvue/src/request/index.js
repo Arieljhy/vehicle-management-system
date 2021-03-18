@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {Loading,Message} from 'element-ui';
-
+axios.defaults.withCredentials = false;
 axios.defaults.headers.post['Content-Type']= "application/x-www-form-urlencoded";
 let loading;
 
@@ -36,6 +36,8 @@ export function tryHideFullScreenLoading(){
    
 }
 
+
+
 //请求前兰姐饿
 axios.interceptors.request.use(
     config =>{
@@ -56,6 +58,23 @@ axios.interceptors.response.use(
         //tryHideFullScreenLoading();
        
         if(response.status === 200){
+            if(response.data.code==101){  //没有token或token已过期，请重新登录
+                Message.warning(response.data.msg);
+                setTimeout(()=>{
+                    var url = window.location.href;
+              
+                    setCookie('jwttoken',0);
+                    if(url.split('/#/')[0].indexOf('_')!=-1){
+                        
+                        window.location.href =`${url.split('/#/')[0]}/#/login_m`
+                    }else{
+                        window.location.href =`${url.split('/#/')[0]}/#/login`
+
+                    }
+
+                },200)
+                
+            }
         
             return Promise.resolve(response);
         }else{
@@ -109,7 +128,7 @@ export default {
         if(jwttoken!=null&&jwttoken!=0&&jwttoken!=-1){
              sheader = jwttoken;
         }
-        console.log("sheader",sheader.length);
+     
   
 
         return axios({
@@ -143,7 +162,7 @@ export default {
              sheader = jwttoken;
              
         }
-        console.log("sheader",sheader.length);
+  
        
 
         return axios.post(
@@ -167,7 +186,7 @@ export default {
     get(url,...options){
         let jwttoken = getCookie("jwttoken");
         let sheader = '';
-        console.log("sheader",sheader.length);
+     
      
         if(jwttoken!=null&&jwttoken!=0&&jwttoken!=-1){
              sheader = jwttoken;
@@ -206,5 +225,76 @@ export default {
                 }
             }
         )
+    },
+    getexcel(url,...options){
+        let jwttoken = getCookie("jwttoken");
+        let sheader = '';
+     
+     
+        if(jwttoken!=null&&jwttoken!=0&&jwttoken!=-1){
+             sheader = jwttoken;
+        }
+
+        let params,done,fail;
+        if(typeof options[0] == 'object'){
+            params = options[0];
+            done = options[1];
+            fail = options[2];
+        }else{
+            params ={};
+            done = options[1];
+            fail = options[2];
+        }
+        return axios({
+            method:'get',
+            url,
+            params,
+            responseType: 'blob',
+            headers:sheader.length!=0?{
+                "X-Requested-With":"XMLHttpRequest",
+                "jwttoken":sheader
+            }:{
+                "X-Requested-With":"XMLHttpRequest"
+            }
+            
+
+        }).then(data=>done(data)).catch(
+            error=>{
+                if(fail){
+                    fail(error);
+                }else{
+                    // Message.error({
+                    //     message:error
+                    // })
+                }
+            }
+        )
+    },
+    delete(urll,data,done,fail){
+        let jwttoken = getCookie("jwttoken");
+        let sheader = '';
+        if(jwttoken!=null&&jwttoken!=0&&jwttoken!=-1){
+             sheader = jwttoken;
+             
+        }
+  
+       let url = urll+'/'+data.id;
+
+        return axios.delete( 
+            url,
+            {
+                headers: 
+                {"jwttoken":sheader.length!=0?sheader:''}
+            }
+        ).then(data=>done(data)).catch(
+            error=>{
+                if(fail){
+                    fail(error);
+                }else{
+                   
+                }
+            }
+        )
+
     }
 }
