@@ -2,7 +2,7 @@ import router from './router';
 import {Message} from "element-ui";
 import userApi from '@/api/user/user'
 router.beforeEach((to, from, next) => {
-    
+ 
   var jwttoken = getCookie("jwttoken");
   if(jwttoken == null&&to.path=='/login'){
     setCookie("jwttoken",-1);
@@ -27,9 +27,22 @@ router.beforeEach((to, from, next) => {
   }
 
   if(jwttoken!=null&&jwttoken!=0&&jwttoken!=-1){
+    // if(sessionStorage.getItem('currentpage')!=null&&sessionStorage.getItem('currentpage').length!=0){
+    //   let cpage = sessionStorage.getItem('currentpage');
+    //   sessionStorage.setItem('currentpage','')
+    //   debugger;
+    //   next(cpage);
+    //  }else{
+    //   next();
+
+    //  }
      next();
      if(to.path=='/login'){
+      
         next('/home');
+
+       
+      
      }
      if(to.path=='/login_m'){
         next('/home_m');

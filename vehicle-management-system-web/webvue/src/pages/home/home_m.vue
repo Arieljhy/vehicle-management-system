@@ -58,11 +58,12 @@ export default {
          .name{
             height:12vh;
             line-height:12vh;
-            font-size:20px;
+            font-size:25px;
             font-weight:600;
         }
         .title{
             font-size:20px;
+             font-size:25px;
             font-weight:600;
         }
     }

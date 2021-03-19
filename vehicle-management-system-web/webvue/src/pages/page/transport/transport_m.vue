@@ -5,7 +5,7 @@
                 
             <div class="title">
                 货运明细
-                <el-button class="add" @click="add=true">添加<i class="iconfont icon-tianjia" style="font-size:10px;font-weight:600;margin-left:2px;"></i></el-button>
+                <el-button class="add" @click="beforeadd">添加<i class="iconfont icon-tianjia" style="font-size:10px;font-weight:600;margin-left:2px;"></i></el-button>
             </div>
       
             <div class="search-part">
@@ -16,6 +16,7 @@
                             </el-form-item>
                            <el-form-item label="时间范围"  class="timerange">
                             <el-date-picker
+                            class="phone"
                             value-format="yyyy-MM-dd"
                                 v-model="start_end_date"
                                 type="daterange"
@@ -37,8 +38,9 @@
                 </el-form>
 
                 <div class="rightbtn">
-                    <el-button @click="search('1')">搜索</el-button>
-                        <el-button @click="search('0')">重置</el-button>
+                     <el-button  class="cz" @click.native="search('0')">重置</el-button>
+                    <el-button @click.native="search('1')">搜索</el-button>
+                       
                 </div>
                 
             </div>
@@ -53,18 +55,6 @@
                         border
                         style="width: 100%">
 
-                        <el-table-column
-              
-                        label="序号"
-                        align="center"
-                        >
-                        <template slot-scope="scope">
-                            <div>
-                                {{scope.$index+1}}
-                            </div>
-                            
-                        </template>
-                    </el-table-column>
 
                         <el-table-column
                         prop="carNum"
@@ -209,7 +199,7 @@
         width="90%"
          >
         <div class="content">
-            <el-form ref="addform"  label-width="80px" :model="add_data" :rules="addrule">
+            <el-form ref="addform"  v-if="add_reset" label-width="80px" :model="add_data" :rules="addrule">
              
                     <el-form-item label="车牌号"  prop="carNum">
                         <el-input v-model="add_data.carNum"></el-input>
@@ -489,6 +479,7 @@ export default {
             tableheight:'200',
             
             add:false,
+            add_reset:true,
             add_data:{
                 carNum:'',
                 billDate:'',
@@ -630,6 +621,31 @@ export default {
         }
     },
     methods:{
+        beforeadd(){
+            this.add_data={
+                carNum:'',
+                billDate:'',
+                oil:'',
+
+                loadingPlace:'',
+                unloadingPlace:'',
+                specs:'550*110',
+
+                ratio:0.38,
+                meters:'',
+                tonnage:'(系数 * 米数)',
+
+                unitPrice:'',
+                money:'(吨位 * 单价)',
+                remark:'',
+
+            }
+            this.add_reset = false;
+            this.$nextTick(()=>{
+                 this.add_reset = true;
+            })
+            this.add=true;
+        },
          excel(){
             transportApi.excelExport(this.searchdata,res=>{
                 const disposition = res.headers['content-disposition'];
@@ -1005,7 +1021,8 @@ export default {
          height:92vh;
         padding: 1vh 5%;
         .title{
-
+ height: 35px;
+  line-height: 35px;
                 width: 100%;
                 padding: 1%;
                 color:rgba(17, 24,49,1);
@@ -1013,8 +1030,12 @@ export default {
                 position: relative;
 
                 margin-bottom: 1vh;
+                font-size: 20px;
               
                 /deep/.el-button{
+                    width: 90px;
+                    height: 35px;
+                    font-size:14px;
                     padding: 5px 10px;
                     position: absolute;
                     right: 2%;
@@ -1044,12 +1065,12 @@ export default {
                     }
                     .el-form-item{
                         width: 100%;
-                        margin-bottom:0;
+                        margin-bottom:10px;
                         .el-form-item__content{
                         width:calc(100% - 100px);
                         .el-input{
                             .el-input__inner{
-                                height: 30px;
+                                height: 40px;
                                 line-height:30px ;
                             } 
                             .el-input__inner:focus {
@@ -1061,20 +1082,20 @@ export default {
                     }
                     .el-form-item.timerange{
                     width: 100%;
-                    margin-bottom:0;
+                    margin-bottom:10px;
                     .el-form-item__content{
                    
                         width:calc(100% - 100px);
                    
                         .el-date-editor.el-range-editor{
-                             height: 32px;
+                             height: 42px;
                               padding: 0 10px;
                             width: 100%;
                             .el-range-input{
 
                         
-                                height: 30px;
-                                line-height:30px ;
+                                height: 40px;
+                                line-height:40px ;
                             } 
                              .el-range-input:focus {
                                 border-color: rgba(17, 24,49,1);
@@ -1094,8 +1115,8 @@ export default {
                            
                             
                             .el-input__inner{
-                                height: 30px;
-                                line-height:30px ;
+                                height: 40px;
+                                line-height:40px ;
                             } 
                             .el-input__inner:focus {
                                 border-color: rgba(17, 24,49,1);
@@ -1107,24 +1128,31 @@ export default {
 
                 }
                 .rightbtn{
-                    width:94%;
+                    width: calc(100% - 20px);
                   
                     text-align: right;
+                        padding-right: 20px;
 
                     
                 
                     .el-button{
+                        width: 95px;
+
                         padding:0px 10px;
                         background-color: rgba(17, 24,49,1);
                         color:#fff;
                         border-color:rgba(17, 24,49,1);
                         margin-top: 2px;
-                        font-size: 10px;
-                        height: 23px;
+                        font-size: 14px;
+                        height: 35px;
                     
 
                     }
-                    .el-button:focus, .el-button:hover {
+                     .el-button.cz{
+                       background-color: #fff;
+                        color:rgba(17, 24,49,1);
+                    }
+                     .el-button:hover {
                         color: rgba(17, 24,49,1);
                         border-color:rgba(17, 24,49,1);
                         background-color: #ecf5ff;
@@ -1134,14 +1162,15 @@ export default {
          .exlcon{
                 width: 100%;
                 margin-bottom: 10px;
-                /deep/.el-button{
-                                height:30px;
+               /deep/.el-button{
+                    width: 90px;
+                                height:35px;
                                         
                                         padding:8px 10px !important;
                                         border-color: rgba(17, 24,49,1);
-                                        background-color: rgba(17, 24,49,1);
-                                        color: #fff;
-                                        font-size: 13px;
+                                        background-color: #fff;
+                                        color: rgba(17, 24,49,1);
+                                        font-size: 14px;
 
                                     }
                                     .el-button:hover{ 
@@ -1173,7 +1202,8 @@ export default {
 
                             thead{
                                  width: 120px !important;;
-                                color:rgba(17, 24,49,1);
+                                // color:rgba(17, 24,49,1);
+                                background-color:rgba(17, 24,49,1);
                                display: flex !important;
                                     flex-direction: row;
                                     overflow:  hidden !important;
@@ -1187,11 +1217,14 @@ export default {
                                      th{
                                          text-align: left;
                                          width: 120px !important;
-                                        padding:11px 0 !important;
-                                        background-color: #eee;
+                                        padding:13px 0 !important;
+                                        // background-color: #eee;
+                                        background-color:rgba(17, 24,49,1);
+                                        color: #fff;
                                         border: 1px solid rgb(142, 144, 153) ;
+                                        border-radius: 3px;
                                     }
-                                    th:nth-child(13){
+                                    th:nth-child(12){
                                         
                                          
                                             height: 77px;
@@ -1207,14 +1240,14 @@ export default {
 
                         }
                         th.is-leaf{
-                            color:rgba(17, 24,49,1);
+                            // color:rgba(17, 24,49,1);
                             padding:2px 0 !important;
-                            background-color: #eee;
+                            // background-color: #eee;
                         }
                        .sbtn{
                             border:none !important;
                             padding: 0;
-                        
+                          font-weight: 600;
                             color:rgba(17, 24,49,1);
                             font-size: 10px;
                             margin:0 8px;
@@ -1224,7 +1257,7 @@ export default {
                         }
                         .sbtn.dele:hover{
                             color: #3a1310;
-                            font-weight: 600;
+                            font-weight: 1000;
                         }
                         .sbtn:hover{
                     
@@ -1252,15 +1285,25 @@ export default {
                                         td{
                                             text-align: left;
                                             width: 120px !important;
-                                            height: 47px;
-                                            padding:11px 0 !important;
+                                            height: 51px;
+                                            padding:13px 0 !important;
+                                            color: #000;
+                                            font-weight:600;
                                             
                                         
                                         }
-                                        td:nth-child(13){
+                                        td:nth-child(12){
+                                            .el-button{
+                                                 font-size: 14px;
+                                                 
+                                                 margin: 0 20px 15px 0;
+                                                 text-decoration: underline;
+
+                                            }
                                         
                                          
                                             height: 77px;
+                                           
                                       
                                             
                                         
@@ -1282,26 +1325,32 @@ export default {
                                 text-align: right;
                                 position: relative;
                                 padding: 2px 0;
+                                margin-bottom: 5px;
                                 .el-pagination__sizes{
                                     position: absolute;
-                                    bottom:-30px;
-                                    right:45%;
+                                    bottom:-35px;
+                                    right: 135px;
+                                     .el-input .el-input__inner{
+                                         font-size: 15px;
+
+                                    }
                                 }
                                 
                                 span{
-                                    font-size: 10px !important;
+                                    font-size: 13px !important;
                                 }
                                 button{
                                     padding: 0 2px;
                                     min-width:25px;
                                 
-                                    
+                                    font-size: 18px;
                                     border-radius: 4px;
                                     margin: auto;
                                 }
                                 .el-pager{
                                     li{
                                         min-width: 32px;
+                                        font-size: 16px;
                                     }
                                 
                                 
@@ -1312,13 +1361,14 @@ export default {
 
                                     position: absolute;
                                     right: 2%;
-                                    bottom: -30px;
+                                    bottom: -35px;
+                                     font-size: 16px;
                                 }
 
                             }
 
                             .tit{
-                                font-size: 10px;
+                                font-size: 14px;
                                 height: 32px;
                                 line-height: 32px;
                                 padding-left: 2%;
@@ -1356,7 +1406,10 @@ export default {
                             .el-form-item{
                                  width: 97%;
                           
-                               margin:15px 0;
+                               margin:4px 0 19px 0;
+                                 .el-form-item__label {
+                                    color: #000;
+                                }
                                 .el-form-item__content{
                                    
                                    
@@ -1368,12 +1421,17 @@ export default {
                                         width: 100%;
 
                                     }
+                                    .el-input.is-disabled .el-input__inner{
+                                        color: #606266;
+                                        
+
+                                    }
                                     .el-input{
                                         width: 100%;
                                         .el-input__inner{
                                             width: 100%;
-                                            height: 30px;
-                                            line-height:30px ;
+                                            height: 40px;
+                                            line-height:40px ;
                                         } 
                                         .el-input__inner:focus {
                                             border-color: rgba(17, 24,49,1);

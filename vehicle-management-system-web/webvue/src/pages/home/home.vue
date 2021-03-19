@@ -46,7 +46,8 @@ export default {
         font-weight:600;
     }
     .title{
-        font-size:40px;
+         
+        font-size:50px;
         font-weight:600;
     }
 }

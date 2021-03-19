@@ -2,7 +2,7 @@
     <div class="management">
         <div class="title">
             货运明细
-            <el-button class="add" @click="add=true">添加<i class="iconfont icon-tianjia" style="font-size:10px;font-weight:600;margin-left:2px;"></i></el-button>
+            <el-button class="add" @click="beforeadd()">添加<i class="iconfont icon-tianjia" style="font-size:10px;font-weight:600;margin-left:2px;"></i></el-button>
         </div>
       
        <div class="search-part">
@@ -38,8 +38,9 @@
            </el-form>
 
            <div class="rightbtn">
-               <el-button @click="search('1')">搜索</el-button>
-                <el-button @click="search('0')">重置</el-button>
+               
+                <el-button class="cz" @click.native="search('0')">重置</el-button>
+                <el-button @click.native="search('1')">搜索</el-button>
            </div>
            
        </div>
@@ -171,6 +172,7 @@
        </div>
         <!-- 添加 弹窗 -->
        <el-dialog
+       
        class="add-dialog"
         title="添加"
         :visible.sync="add"
@@ -178,7 +180,7 @@
         width="70%"
          >
         <div class="content">
-            <el-form ref="addform"  label-width="100px" :model="add_data" :rules="addrule">
+            <el-form ref="addform" v-if="add_reset" label-width="100px" :model="add_data" :rules="addrule">
                <div class="con">
                     <el-form-item label="车牌号"  prop="carNum">
                         <el-input v-model="add_data.carNum"></el-input>
@@ -487,6 +489,7 @@ export default {
                 remark:'',
 
             },
+            add_reset:true,
             addrule: {
                 carNum: [
                     { required: true, message: '请输入车牌号', trigger: 'blur' },
@@ -630,6 +633,7 @@ export default {
         }
     },
     methods:{
+        
          excel(){
             transportApi.excelExport(this.searchdata,res=>{
                 const disposition = res.headers['content-disposition'];
@@ -774,6 +778,31 @@ export default {
 
             }
            
+        },
+        beforeadd(){
+            this.add_data={
+                carNum:'',
+                billDate:'',
+                oil:'',
+
+                loadingPlace:'',
+                unloadingPlace:'',
+                specs:'550*110',
+
+                ratio:0.38,
+                meters:'',
+                tonnage:'(系数 * 米数)',
+
+                unitPrice:'',
+                money:'(吨位 * 单价)',
+                remark:'',
+
+            }
+            this.add_reset = false;
+            this.$nextTick(()=>{
+                 this.add_reset = true;
+            })
+            this.add=true;
         },
         addFun(){
              this.$refs.addform.validate((valid) => {
@@ -967,7 +996,7 @@ export default {
 .management{
     height: 90vh;
     .title{
-
+        font-size: 20px;
         width: 100%;
         padding: 1%;
         color:rgba(17, 24,49,1);
@@ -1116,7 +1145,10 @@ export default {
             display: flex;
      
           
-        
+        .el-button.cz{
+                       background-color: #fff;
+                        color:rgba(17, 24,49,1);
+                    }
             .el-button{
                 display: block;
                 padding:0px 10px;
@@ -1130,7 +1162,7 @@ export default {
               
 
             }
-            .el-button:focus, .el-button:hover {
+             .el-button:hover {
                 color: rgba(17, 24,49,1);
                 border-color:rgba(17, 24,49,1);
                 background-color: #ecf5ff;
@@ -1223,9 +1255,16 @@ export default {
                                  width: 33%;
                           
                                 margin-bottom:0;
+                                .el-form-item__label {
+                                    color: #000;
+                                }
                                 .el-form-item__content{
                                    
-                                   
+                                    .el-input.is-disabled .el-input__inner{
+                                        color: #606266;
+                                        
+
+                                    }
                                   
                                     .el-date-editor.el-input{
 

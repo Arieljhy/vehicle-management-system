@@ -12,7 +12,7 @@
         active-text-color="#fff"
         >
 
-        <RouterLink class="goto"  :to="{path:this._isMobile()?'/home_m':'/home'}"  @click.native="closeshow(`-1`)"> 
+        <RouterLink class="goto"  :to="{path:this._isMobile()?'/home_m':'/home'}"  @click.native="closeshow(`home`)"> 
                     <el-menu-item index="home"> 
                                <span>主页</span>
                     </el-menu-item>
@@ -71,6 +71,7 @@ export default {
     },
     methods:{
         closeshow(name){
+            
             this.defaultActive = name;
             this.$emit("close")
         },
@@ -102,11 +103,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 .menucon{
-   
+    user-select: none;
+   border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
  width: 100%;
-    height:100%;
+   
     border: 1px solid #000;
     background-color: rgba(17, 24,49,1);
+    box-shadow: 0px 3px  5px rgba(17, 24,49,1);
+    
     .title{
         width: 100%;
         height:60px;
@@ -116,8 +121,10 @@ export default {
         // padding: 20px 0;
     }
     /deep/.el-menu{
+        
         background-color: rgba(17, 24,49,1);
         border: none;
+       
         .goto{
             text-decoration: none;
              cursor: pointer !important;
@@ -125,17 +132,23 @@ export default {
         }
         .el-menu-item {
             cursor: pointer !important;
+              border-radius: 4px;
+             
+                color: rgba(255, 255, 255, 7.0);
             
         }
         .el-menu-item.is-active {
-            background-color:#888;
+            background-color:#505163;
+            font-weight: 600;
+             box-shadow: 0px 0px  1px #505163;
             
         }
         .el-menu-item:focus, .el-menu-item:hover {
             outline: 0;
             color: #ecf5ff;
-            background-color:#303133;
+            background-color:#505163;
             cursor: pointer;
+             box-shadow: 0px 0px  5px #505163;
         }
     }
 }

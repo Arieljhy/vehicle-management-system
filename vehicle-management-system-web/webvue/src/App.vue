@@ -26,8 +26,17 @@ export default {
       this.$router.replace("/login");
     }
 
+     window.addEventListener('beforeunload', () => this.beforeunloadHandler())
+
   },
   methods:{
+
+    beforeunloadHandler () {
+          let url = window.location.href.split('/#')[1];
+          sessionStorage.setItem('currentpage',url);
+       
+          
+    },
     _isMobile() {
       let flag = navigator.userAgent.match(
         /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
@@ -49,7 +58,11 @@ export default {
             else
             return null;
         } 
-  }
+  },
+destroyed () {
+   window.removeEventListener('beforeunload', e => this.beforeunloadHandler(e))
+ },
+
 }
 </script>
 

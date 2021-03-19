@@ -27,8 +27,9 @@
            </el-form>
 
            <div class="rightbtn">
-               <el-button @click="search('1')">搜索</el-button>
-                <el-button @click="search('0')">重置</el-button>
+               
+                <el-button class="cz" @click.native="search('0')">重置</el-button>
+                <el-button @click.native="search('1')">搜索</el-button>
            </div>
            
        </div>
@@ -597,7 +598,7 @@ export default {
 .management{
     height: 90vh;
     .title{
-
+ font-size: 20px;
         width: 100%;
         padding: 1%;
         color:rgba(17, 24,49,1);
@@ -708,7 +709,11 @@ export default {
               
 
             }
-            .el-button:focus, .el-button:hover {
+            .el-button.cz{
+                       background-color: #fff;
+                        color:rgba(17, 24,49,1);
+                    }
+            .el-button:hover {
                 color: rgba(17, 24,49,1);
                 border-color:rgba(17, 24,49,1);
                 background-color: #ecf5ff;
@@ -823,11 +828,19 @@ export default {
                                  width: 33%;
                           
                                 margin-bottom:0;
+                                .el-form-item__label {
+                                    color: #000;
+                                }
                                 .el-form-item__content{
                                    
                                    
                                   
                                     .el-date-editor.el-input{
+
+                                    }
+                                     .el-input.is-disabled .el-input__inner{
+                                        color: #606266;
+                                        
 
                                     }
                                     .el-input{

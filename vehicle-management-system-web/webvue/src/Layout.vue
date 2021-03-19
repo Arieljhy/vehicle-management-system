@@ -66,7 +66,7 @@ export default {
        left: 0;
    }
     .app-container{
-        width:85%;
+        width:84.5%;
         height: 100vh;
         position: absolute;
        top: 0;
