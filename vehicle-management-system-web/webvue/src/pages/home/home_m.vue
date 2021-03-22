@@ -42,7 +42,8 @@ export default {
 <style scoped lang="scss">
 .home_m{
     width: 100%;
-    height: 94vh;
+    height: 93vh;
+    user-select: none;
     .container{
         width: 90%;
         background-color: #fff;

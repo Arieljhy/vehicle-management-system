@@ -200,6 +200,7 @@
         :visible.sync="update"
         :modal-append-to-body='false'
         width="90%"
+        :close-on-click-modal="false"
          >
         <div class="content">
             <el-form  label-width="80px" :model="update_data" >
@@ -281,6 +282,7 @@
             :visible.sync="detail"
             :modal-append-to-body='false'
             width="90%"
+            :close-on-click-modal="false"
          >
         <div class="content">
             <el-form  label-width="80px" :model="detail_data" >
@@ -460,10 +462,13 @@ export default {
         search(key){
             if(key == '1'){
                 
-                if(this.start_end_date.length!=0){
+                if(this.start_end_date!=null&&this.start_end_date.length!=0){
                     this.searchdata.startDate = this.start_end_date[0];
                     
                     this.searchdata.endDate = this.start_end_date[1];
+                }else{
+                    delete this.searchdata.startDate;
+                    delete this.searchdata.endDate;
                 }
              
                

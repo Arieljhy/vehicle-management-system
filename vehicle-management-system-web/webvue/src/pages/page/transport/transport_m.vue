@@ -197,6 +197,7 @@
         :visible.sync="add"
         :modal-append-to-body='false'
         width="90%"
+        :close-on-click-modal="false"
          >
         <div class="content">
             <el-form ref="addform"  v-if="add_reset" label-width="80px" :model="add_data" :rules="addrule">
@@ -278,6 +279,7 @@
         :visible.sync="update"
         :modal-append-to-body='false'
         width="90%"
+        :close-on-click-modal="false"
          >
         <div class="content">
             <el-form ref="updateform"  label-width="80px" :model="update_data" :rules="addrule">
@@ -356,6 +358,7 @@
             :visible.sync="detail"
             :modal-append-to-body='false'
             width="90%"
+            :close-on-click-modal="false"
          >
         <div class="content">
             <el-form  label-width="80px" :model="detail_data" >
@@ -618,6 +621,27 @@ export default {
     watch:{
         transport_data(){
             this.tableheight = window.innerHeight/10 * 9 - window.innerHeight/10 * 4.3 +'px'
+        },
+        "add_data.specs"(){
+                this.add_data.tonnage = (Number(this.add_data.ratio)* Number(this.add_data.meters)).toFixed(5);
+                this.add_data.money = (Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
+               
+
+        },
+        'add_data.tonnage'(){
+                 this.add_data.money = (Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
+
+        },
+        "update_data.specs"(){
+                this.update_data.tonnage = (Number(this.update_data.ratio)* Number(this.update_data.meters)).toFixed(5);
+
+                this.update_data.money = (Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
+               
+
+        },
+        'update_data.tonnage'(){
+                 this.update_data.money = (Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
+
         }
     },
     methods:{
@@ -670,10 +694,14 @@ export default {
         search(key){
             if(key == '1'){
                 
-                if(this.start_end_date.length!=0){
+                if(this.start_end_date!=null&&this.start_end_date.length!=0){
                     this.searchdata.startDate = this.start_end_date[0];
                     
                     this.searchdata.endDate = this.start_end_date[1];
+                }
+                else{
+                    delete this.searchdata.startDate;
+                    delete this.searchdata.endDate;
                 }
              
                

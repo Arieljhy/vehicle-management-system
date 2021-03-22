@@ -39,6 +39,7 @@ export default {
 .home{
     height: 90vh;
     padding:2vh 2%;
+    user-select: none;
     .name{
         height:12vh;
         line-height:12vh;

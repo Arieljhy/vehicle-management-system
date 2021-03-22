@@ -16,7 +16,7 @@
                 退出
             </el-button>
         </div>
-         <div style="width:100%;position:fixed;left:0;top:6vh;z-index:1001;" v-show="this._isMobile()">
+         <div style="width:100%;position:fixed;left:0;top:7vh;z-index:1001;" v-show="this._isMobile()">
               <transition  name="fade"  >
                 <Sidebar v-show="show" :phone="true" @close="show=false"></Sidebar>
             </transition>
@@ -92,8 +92,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .phone.header{
-    height: 6vh;
-    line-height: 6vh;
+    height: 7vh;
+    line-height: 7vh;
     background-color: rgba(17, 24,49,1);
     position: fixed;
     top: 0;
@@ -101,13 +101,13 @@ export default {
     z-index: 1001;
     .menubtn{
         width: 20%;
-        height: 6vh;
-        line-height: 6vh;
+        height: 7vh;
+        line-height: 7vh;
         padding-left:3%;
         .btn{
             width:50%;
             height:4vh;
-            margin: 1vh 0 0.5vh 10%;
+            margin: 1.5vh 0 0.5vh 10%;
             line-height: 4vh;
             text-align: center;
             border:1px solid rgba(17, 24,49,1);
@@ -115,7 +115,7 @@ export default {
             //   background-color: #fff;
               background-color: rgba(17, 24,49,1);
             i{
-                font-size: 30px;
+                font-size: 35px;
                color: #fff;
             }
         }
@@ -138,7 +138,10 @@ export default {
        width:76%;
        padding-right: 4%;
        span{
-            font-size:14px;
+            font-size:16px;
+        }
+        .el-button{
+          margin: auto;  font-size: 16px;
         }
     }
 }

@@ -1,6 +1,10 @@
 import http from '../../request';
 
 export default{
+    //wuliu/saveCarCostMonthData
+    saveCarCostMonthData(data,success,fail) {
+        http.postBody('/api/wuliu/saveCarCostMonthData',data,success,fail);
+    },
     //findCarCostList
     findCarCostList(data,success,fail) {
         http.get('/api/wuliu/findCarCostList',data,success,fail);

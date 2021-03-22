@@ -2,6 +2,7 @@
     <div class="management">
        <div class="title">
             账单管理
+            <el-button class="add" @click="beforeadd()">添加<i class="iconfont icon-tianjia" style="font-size:10px;font-weight:600;margin-left:2px;"></i></el-button>
         </div>
       
        <div class="search-part">
@@ -10,7 +11,7 @@
                    <el-form-item class="number" label="车牌号" >
                         <el-input v-model="searchdata.carNum"></el-input>
                     </el-form-item>
-                     <el-form-item label="时间范围"  class="timerange">
+                     <el-form-item label="做账时间"  class="timerange">
                       <el-date-picker
                        value-format="yyyy-MM-dd"
                         v-model="start_end_date"
@@ -54,7 +55,7 @@
                 </el-table-column>
                 <el-table-column
                 prop="monthDate"
-                label="日期"
+                label="做账日"
                  width="120"
                 align="center"
              >
@@ -157,9 +158,9 @@
                     <el-button class="sbtn" @click="godetail(scope.row)">
                         查看
                     </el-button>
-                    <el-button class="sbtn" @click="goupdate(scope.row)">
+                    <!-- <el-button class="sbtn" @click="goupdate(scope.row)">
                         修改
-                    </el-button>
+                    </el-button> -->
                     <el-button class="sbtn dele" style="color:#e33e33" @click="deleted(scope.row)">
                         删除
                     </el-button>
@@ -178,21 +179,99 @@
                 </el-pagination>
             </div>
        </div>
+        <!-- 添加 弹窗 -->
+       <el-dialog
+            class="all-dialog"
+            title="添加"
+            :visible.sync="add"
+            :modal-append-to-body='false'
+            width="70%"
+            :close-on-click-modal="false"
+         >
+        <div class="content">
+            <el-form  label-width="100px" :model="add_data" :rules="addrule" ref="addform">
+               <div class="con">
+                    <el-form-item label="车牌号"  prop="carNum">
+                        <el-input  v-model="add_data.carNum"></el-input>
+                    </el-form-item>
+                    <el-form-item label="做账日" prop="monthDate">
+                         <el-date-picker
+                       value-format="yyyy-MM-dd"
+                        v-model="add_data.monthDate"
+                        type="date"
+                  
+                        placeholder="选择日期"
+                       >
+                        </el-date-picker>
+                        
+                    </el-form-item>
+                   <el-form-item label="工资" prop="salary">
+                        <el-input  v-model="add_data.salary"></el-input>
+                    </el-form-item>
+
+               </div>
+
+               <div class="con">
+                   <el-form-item label="油价"  prop="oilPrice">
+                        <el-input  v-model="add_data.oilPrice"></el-input>
+                    </el-form-item>
+                        
+
+               </div>
+               <div class="fg-title">
+                   <span>修理明细:</span>
+               </div>
+
+             
+
+               <div class="con">
+                   <el-form-item :label="add_data.repairOneRemark" prop="profit">
+                        <el-input  v-model="add_data.repairOnePrice"></el-input>
+                    </el-form-item>
+                        <el-form-item :label="add_data.repairTwoRemark" prop="totalCost">
+                        <el-input  v-model="add_data.repairTwoPrice"></el-input>
+                    </el-form-item>
+                     <el-form-item :label="add_data.repairThreeRemark" prop="totalXiuche">
+                        <el-input  v-model="add_data.repairThreePrice"></el-input>
+                    </el-form-item>
+
+               </div>
+               <div class="con">
+                   <el-form-item :label="add_data.repairFourRemark" prop="profit">
+                        <el-input v-model="add_data.repairFourPrice"></el-input>
+                    </el-form-item>
+                        <el-form-item :label="add_data.repairFiveRemark" prop="totalCost">
+                        <el-input  v-model="add_data.repairFivePrice"></el-input>
+                    </el-form-item>
+                   
+
+               </div>
+                
+           </el-form>
+            <div class="footer">
+               <el-button @click="addFun()" class="btn">确 定</el-button>
+
+           </div>
+        </div>
+        </el-dialog>
         <!-- 修改 弹窗 -->
        <el-dialog
        class="all-dialog"
+       
         title="修改"
         :visible.sync="update"
         :modal-append-to-body='false'
         width="70%"
+        :close-on-click-modal="false"
+        
          >
         <div class="content">
-            <el-form  label-width="100px" :model="update_data" >
+            <el-form ref="updateform" label-width="100px" :model="update_data" :rules="addrule">
                <div class="con">
                     <el-form-item label="车牌号"  prop="carNum">
                         <el-input disabled v-model="update_data.carNum"></el-input>
                     </el-form-item>
-                    <el-form-item label="日期" prop="monthDate">
+                    <el-form-item label="做账日" prop="monthDate">
                          <el-input disabled v-model="update_data.monthDate"></el-input>
                         
                     </el-form-item>
@@ -232,24 +311,28 @@
 
                </div>
 
+                <div class="fg-title">
+                   <span>修理明细:</span>
+               </div>
+
                <div class="con">
                    <el-form-item :label="update_data.repairOneRemark" prop="profit">
-                        <el-input disabled v-model="update_data.repairOnePrice"></el-input>
+                        <el-input  v-model="update_data.repairOnePrice"></el-input>
                     </el-form-item>
                         <el-form-item :label="update_data.repairTwoRemark" prop="totalCost">
-                        <el-input disabled v-model="update_data.repairTwoRemark"></el-input>
+                        <el-input  v-model="update_data.repairTwoRemark"></el-input>
                     </el-form-item>
                      <el-form-item :label="update_data.repairThreeRemark" prop="totalXiuche">
-                        <el-input disabled v-model="update_data.repairThreePrice"></el-input>
+                        <el-input  v-model="update_data.repairThreePrice"></el-input>
                     </el-form-item>
 
                </div>
                <div class="con">
                    <el-form-item :label="update_data.repairFourRemark" prop="profit">
-                        <el-input disabled v-model="update_data.repairFourPrice"></el-input>
+                        <el-input  v-model="update_data.repairFourPrice"></el-input>
                     </el-form-item>
                         <el-form-item :label="update_data.repairFiveRemark" prop="totalCost">
-                        <el-input disabled v-model="update_data.repairFivePrice"></el-input>
+                        <el-input  v-model="update_data.repairFivePrice"></el-input>
                     </el-form-item>
                    
 
@@ -273,6 +356,7 @@
             :visible.sync="detail"
             :modal-append-to-body='false'
             width="70%"
+            :close-on-click-modal="false"
          >
         <div class="content">
             <el-form  label-width="100px" :model="detail_data" >
@@ -280,7 +364,7 @@
                     <el-form-item label="车牌号"  prop="carNum">
                         <el-input disabled v-model="detail_data.carNum"></el-input>
                     </el-form-item>
-                    <el-form-item label="日期" prop="monthDate">
+                    <el-form-item label="做账日" prop="monthDate">
                          <el-input disabled v-model="detail_data.monthDate"></el-input>
                         
                     </el-form-item>
@@ -318,6 +402,10 @@
                         <el-input disabled v-model="detail_data.totalXiuche"></el-input>
                     </el-form-item>
 
+               </div>
+
+                <div class="fg-title">
+                   <span>修理明细:</span>
                </div>
 
                <div class="con">
@@ -366,7 +454,56 @@ export default {
                 carNum:'',
             },
             tableheight:'200',
+            add:false,
+           add_data:{
+                carNum:'',
+                monthDate:'',
+                salary:'',
 
+                oilPrice:'',
+                oilTotalPrice:'',
+                oilTotalPrice:'',
+
+                profit:'',
+                totalCost:'',
+                totalXiuche:'',
+
+                repairOneRemark:'修理一',
+                repairOnePrice:'',
+                repairTwoRemark:'修理二',
+                repairTwoPrice:'',
+                repairThreeRemark:'修理三',
+                repairThreePrice:'',
+                repairFourRemark:'修理四',
+                repairFourPrice:'',
+                repairFiveRemark:'修理五',
+                repairFivePrice:'',
+            },
+             addrule: {
+                carNum: [
+                    { required: true, message: '请输入车牌号', trigger: 'blur' },
+                    // { min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' },
+                    // {
+                    //     required: true,
+                    //     pattern: /^[0-9]+.?[0-9]*$/,
+                    //     message: '请输入数字',
+                    //     trigger: 'input'
+                    // }
+                   
+                ],
+                monthDate: [
+                    { required: true, message: '请输入做账日期', trigger: 'blur' },
+                   
+                ],
+                salary: [
+                    { required: true, message: '请输入工资', trigger: 'blur' },
+                   
+                ],
+                 oilPrice: [
+                    { required: true, message: '请输入油价', trigger: 'blur' },
+                   
+                ],
+            },
             
             detail:false,
             detail_data:{
@@ -425,15 +562,15 @@ export default {
     },
     created(){
         this.init();
-        this.tableheight = window.innerHeight/10 * 9 - 260 +'px'
+        this.tableheight = window.innerHeight/10 * 9 - 275 +'px'
     },
     mounted(){
-        this.tableheight = window.innerHeight/10 * 9 - 260 +'px'
+        this.tableheight = window.innerHeight/10 * 9 - 275 +'px'
 
     }, 
     watch:{
         account_data(){
-            this.tableheight = window.innerHeight/10 * 9 - 260 +'px'
+            this.tableheight = window.innerHeight/10 * 9 - 275 +'px'
         }
     },
     methods:{
@@ -461,10 +598,13 @@ export default {
         search(key){
             if(key == '1'){
                 
-                if(this.start_end_date.length!=0){
+                if(this.start_end_date!=null&&this.start_end_date.length!=0){
                     this.searchdata.startDate = this.start_end_date[0];
                     
                     this.searchdata.endDate = this.start_end_date[1];
+                }else{
+                    delete this.searchdata.startDate;
+                    delete this.searchdata.endDate;
                 }
              
                
@@ -507,6 +647,81 @@ export default {
                 }
             })
         },
+         beforeadd(){
+            this.add_data={
+                carNum:'',
+                monthDate:'',
+                salary:'',
+
+                oilPrice:'',
+                oilTotalPrice:'',
+                oilTotalPrice:'',
+
+                profit:'',
+                totalCost:'',
+                totalXiuche:'',
+
+               repairOneRemark:'修理一',
+                repairOnePrice:'',
+                repairTwoRemark:'修理二',
+                repairTwoPrice:'',
+                repairThreeRemark:'修理三',
+                repairThreePrice:'',
+                repairFourRemark:'修理四',
+                repairFourPrice:'',
+                repairFiveRemark:'修理五',
+                repairFivePrice:'',
+            }
+            this.add_reset = false;
+            this.$nextTick(()=>{
+                 this.add_reset = true;
+            })
+            this.add=true;
+        },
+         addFun(){
+             this.$refs.addform.validate((valid) => {
+                if (valid) {
+                    this.$confirm(`即将生成  ‘${this.add_data.carNum}’  车的  '  ${this.add_data.monthDate.split('-')[0]}-${this.add_data.monthDate.split('-')[1]}  '  的当月账单?`, '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        customClass:'add-confirm'
+                        })
+                        .then(() => {
+                             
+                           let data = this.add_data;
+                            accountApi.saveCarCostMonthData(data,res=>{
+                                
+                                    if(res.data.code==0){
+                                      
+                                   
+                                        this.init();
+                                        this.add = false;
+                                          this.$message.success("添加成功～");
+                                       
+                                    }else{
+                                        this.add = false;
+                                        this.$message.error("添加失败");
+                                        
+
+                                    }   
+                                })
+                            
+                        })
+                        .catch(() => {
+                            this.add = false;
+                            this.$nextTick(()=>{
+                                this.add = true;
+                                })
+                            
+                        })
+                    
+                    } else {
+                        this.$message.warning("请将数据填写正确完整")
+                    }
+                })
+            
+           
+        },
          godetail(row){
             this.detail_data = row;
             this.detail = true;
@@ -516,6 +731,25 @@ export default {
             this.update_data =Object.assign({},row) ;
             this.update = true;
 
+        },
+        updateFun(){
+       
+            this.$refs.updateform.validate((valid) => {
+                if (valid) {
+                    let data = this.update_data;
+                    accountApi.saveCarCostMonthData(data,res=>{
+                     
+                        if(res.data.code==0){
+                            this.$message.success("修改成功～");
+                            this.init();
+                            this.update = false;
+                        }
+                    })
+                } else {
+                    this.$message.warning("请将数据填写正确完整")
+                }
+            })
+           
         },
          deleted(row){
             this.$confirm('确定要删除这条数据吗?', '提示', {
@@ -603,6 +837,22 @@ export default {
         padding: 1%;
         color:rgba(17, 24,49,1);
         font-weight: 600;
+        /deep/.el-button{
+                    padding: 7px 13px;
+                    position: absolute;
+                    right: 2%;
+                    border-color: rgba(17, 24,49,1);
+                    background-color: rgba(17, 24,49,1);
+                                  color: #fff;
+                                  font-size: 14px;
+                }
+                
+                .el-button:hover{ 
+                                
+                    background-color: #fff ;
+                    color: rgba(17, 24,49,1);
+
+                }
     }
     .search-part{
         width: 96%;
@@ -611,7 +861,7 @@ export default {
         margin-bottom: 10px;
          display: flex;
         /deep/.el-form{
-            width: 90%;
+            width: 85%;
             
            .con{
                 display: flex;
@@ -695,17 +945,18 @@ export default {
 
         }
         .rightbtn{
-            width:10%;
+            width:15%;
             display: flex;
         
             .el-button{
-                padding:0px 10px;
+                width: 50%;
+                padding:7px 10px;
                 background-color: rgba(17, 24,49,1);
                 color:#fff;
                 border-color:rgba(17, 24,49,1);
                 margin-top: 52px;
-                font-size: 10px;
-                height: 23px;
+                font-size: 14px;
+                
               
 
             }
@@ -801,6 +1052,15 @@ export default {
                             .tit{
                                 padding:0  5%;
                                 
+                            }
+                            .fg-title{
+                                width: 90%;
+                                padding: 10px 3% 15px 3%;
+                                span{
+                                    color: #111831;
+                                    font-weight: 600;
+
+                                }
                             }
                             .con{
                             

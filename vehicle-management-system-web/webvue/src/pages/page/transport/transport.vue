@@ -178,6 +178,7 @@
         :visible.sync="add"
         :modal-append-to-body='false'
         width="70%"
+        :close-on-click-modal="false"
          >
         <div class="content">
             <el-form ref="addform" v-if="add_reset" label-width="100px" :model="add_data" :rules="addrule">
@@ -263,6 +264,7 @@
         :visible.sync="update"
         :modal-append-to-body='false'
         width="70%"
+        :close-on-click-modal="false"
          >
         <div class="content">
             <el-form ref="updateform"  label-width="100px" :model="update_data" :rules="addrule">
@@ -345,6 +347,7 @@
             :visible.sync="detail"
             :modal-append-to-body='false'
             width="70%"
+            :close-on-click-modal="false"
          >
         <div class="content">
             <el-form  label-width="100px" :model="detail_data" >
@@ -615,6 +618,7 @@ export default {
         },
         "add_data.specs"(){
                 this.add_data.tonnage = (Number(this.add_data.ratio)* Number(this.add_data.meters)).toFixed(5);
+                this.add_data.money = (Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
                
 
         },
@@ -624,6 +628,8 @@ export default {
         },
         "update_data.specs"(){
                 this.update_data.tonnage = (Number(this.update_data.ratio)* Number(this.update_data.meters)).toFixed(5);
+
+                this.update_data.money = (Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
                
 
         },
@@ -656,15 +662,19 @@ export default {
             })
         },
         search(key){
+            console.log("start_end_date",this.start_end_date);
             if(key == '1'){
                 
-                if(this.start_end_date.length!=0){
+                if(this.start_end_date!=null&&this.start_end_date.length!=0){
                     this.searchdata.startDate = this.start_end_date[0];
                     
                     this.searchdata.endDate = this.start_end_date[1];
+                }else{
+                    delete this.searchdata.startDate;
+                    delete this.searchdata.endDate;
                 }
              
-               
+               console.log("this.searchdata",this.searchdata);
                 transportApi.findCarDateList(this.searchdata,res=>{
                    
                     
@@ -1003,13 +1013,15 @@ export default {
         font-weight: 600;
         position: relative;
         /deep/.el-button{
-                    padding: 5px 10px;
+                    padding: 7px 13px;
                     position: absolute;
                     right: 2%;
                     border-color: rgba(17, 24,49,1);
                     background-color: rgba(17, 24,49,1);
                                   color: #fff;
+                                  font-size: 14px;
                 }
+                
                 .el-button:hover{ 
                                 
                     background-color: #fff ;
@@ -1024,7 +1036,7 @@ export default {
         margin-bottom: 10px;
          display: flex;
         /deep/.el-form{
-            width: 90%;
+            width: 85%;
             
             .con{
                 width: 100%;
@@ -1141,7 +1153,7 @@ export default {
 
         }
         .rightbtn{
-            width:10%;
+            width:15%;
             display: flex;
      
           
@@ -1150,15 +1162,16 @@ export default {
                         color:rgba(17, 24,49,1);
                     }
             .el-button{
+                width: 50%;
                 display: block;
-                padding:0px 10px;
+                padding:5px 10px;
                 background-color: rgba(17, 24,49,1);
                 color:#fff;
                 border-color:rgba(17, 24,49,1);
          
-                font-size: 10px;
-                height: 23px;
+                
                margin-top: 50px;
+               font-size: 14px;
               
 
             }

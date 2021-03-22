@@ -84,7 +84,7 @@ export default {
         position: fixed;
         left: 0;
         bottom: 0;
-        height:94vh;
+        height:93vh;
         overflow-x: hidden;
         overflow-y: auto;
     }
