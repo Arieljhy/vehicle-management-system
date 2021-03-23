@@ -7,6 +7,104 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <style>
+      .el-picker-panel.el-date-range-picker .el-date-table td.start-date span,.el-picker-panel.el-date-range-picker .el-date-table td.end-date span{
+  color:  #fff !important;
+       background-color:  rgba(17, 24,49,1) !important;
+        font-weight: 600;
+      }
+      .el-picker-panel.el-date-range-picker .el-date-table td.today span{
+        color:  #e33e33 !important;
+       
+        font-weight: 600;
+      }
+      .el-picker-panel.el-date-range-picker .el-date-table td.start-date.today span,.el-picker-panel.el-date-range-picker .el-date-table td.end-date.today span{
+        color:  #fff !important;
+       background-color:  rgba(17, 24,49,1) !important;
+        font-weight: 600;
+      }
+
+
+
+     .el-picker-panel.el-date-range-picker .el-month-table td.start-date div a, .el-picker-panel.el-date-range-picker .el-month-table td.end-date div a{
+        /* color:  #e33e33 !important; */
+        color:  #fff !important;
+       background-color:  rgba(17, 24,49,1) !important;
+        font-weight: 600;
+      }
+      .el-picker-panel.el-date-range-picker .el-month-table td.today div a{
+        color:  #e33e33 !important;
+        font-weight: 600;
+      }
+      .el-picker-panel.el-date-range-picker .el-month-table td.start-date.today div a,.el-picker-panel.el-date-range-picker .el-month-table td.end-date.today div a{
+        color:  #fff !important;
+       background-color:  rgba(17, 24,49,1) !important;
+        font-weight: 600;
+      }
+
+
+
+
+
+
+
+
+
+.el-picker-panel .el-date-table td.current span{
+  color:  #fff !important;
+       background-color:  rgba(17, 24,49,1) !important;
+        font-weight: 600;
+      }
+      .el-picker-panel .el-date-table td.today span{
+        color:  #e33e33 !important;
+        font-weight: 600;
+      }
+      .el-picker-panel .el-date-table td.current.today span{
+        color:  #fff !important;
+       background-color:  rgba(17, 24,49,1) !important;
+        font-weight: 600;
+      }
+
+
+
+     .el-picker-panel .el-month-table td.current div a{
+        /* color:  #e33e33 !important; */
+        color:  #fff !important;
+       background-color:  rgba(17, 24,49,1) !important;
+        font-weight: 600;
+      }
+      .el-picker-panel .el-month-table td.today div a{
+        color:  #e33e33 !important;
+        font-weight: 600;
+      }
+      .el-picker-panel .el-month-table td.current.today div a{
+        color:  #fff !important;
+       background-color:  rgba(17, 24,49,1) !important;
+        font-weight: 600;
+      }
+
+
+
+      .el-picker-panel.el-date-range-picker.el-popper{
+        left:53% !important;
+      }
+      .el-date-picker{
+        left:10% !important;
+
+      }
+      .el-date-picker.add-popper{
+        left:45% !important;
+
+      }
+
+
+
+
+      .el-loading-spinner .path{
+        stroke: #e33e33 !important;
+      }
+      .el-loading-spinner .el-loading-text {
+    color: #e33e33 !important;
+    }
      .el-message-box__wrapper .el-message-box .el-message-box__btns .el-button--primary{
         color: #FFF;
         background-color: rgba(17, 24,49,1);

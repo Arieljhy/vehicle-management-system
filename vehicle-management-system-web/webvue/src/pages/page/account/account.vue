@@ -11,14 +11,15 @@
                    <el-form-item class="number" label="车牌号" >
                         <el-input v-model="searchdata.carNum"></el-input>
                     </el-form-item>
-                     <el-form-item label="做账时间"  class="timerange">
+                     <el-form-item label="月份"  class="timerange">
                       <el-date-picker
-                       value-format="yyyy-MM-dd"
-                        v-model="start_end_date"
-                        type="daterange"
+                       value-format="yyyy-MM"
+                        v-model="start_end_month"
+                        :picker-options="pickerOptions"
+                        type="monthrange"
                         range-separator="至"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期">
+                        start-placeholder="开始月"
+                        end-placeholder="结束月">
                         </el-date-picker>
                     </el-form-item>
 
@@ -54,12 +55,29 @@
                 >
                 </el-table-column>
                 <el-table-column
-                prop="monthDate"
-                label="做账日"
+              
+                label="月份"
                  width="120"
                 align="center"
              >
+             <template slot-scope="scope">
+                 <div>
+                     {{new Date(scope.row.monthDate).getFullYear()+'-'+(new Date(scope.row.monthDate).getMonth()+1)}}
+
+                 </div>
+             </template>
                 </el-table-column>
+                <!-- <el-table-column
+                prop="createDate"
+                label="出账日"
+
+                 width="120"
+                align="center"
+                
+            
+                >
+                </el-table-column> -->
+                
                 <el-table-column
                 prop="oilPrice"
                 label="油价（元）"
@@ -132,7 +150,7 @@
                 
                 <el-table-column
                 prop="salary"
-                label="工资（千元）"
+                label="工资（元）"
                  width="120"
                 align="center">
                 </el-table-column>
@@ -194,13 +212,14 @@
                     <el-form-item label="车牌号"  prop="carNum">
                         <el-input  v-model="add_data.carNum"></el-input>
                     </el-form-item>
-                    <el-form-item label="做账日" prop="monthDate">
+                     <el-form-item label="月份" prop="monthDate">
                          <el-date-picker
                        value-format="yyyy-MM-dd"
                         v-model="add_data.monthDate"
-                        type="date"
-                  
-                        placeholder="选择日期"
+                        type="month"
+                        :picker-options="pickerOptions"
+                        placeholder="选择月份"
+                        popper-class="add-popper"
                        >
                         </el-date-picker>
                         
@@ -215,6 +234,10 @@
                    <el-form-item label="油价"  prop="oilPrice">
                         <el-input  v-model="add_data.oilPrice"></el-input>
                     </el-form-item>
+                    <!-- <el-form-item label="出账日" >
+                        <el-input disabled v-model="createDate"></el-input>
+                    </el-form-item> -->
+                    
                         
 
                </div>
@@ -255,7 +278,7 @@
         </div>
         </el-dialog>
         <!-- 修改 弹窗 -->
-       <el-dialog
+       <!-- <el-dialog
        class="all-dialog"
        
         title="修改"
@@ -271,7 +294,7 @@
                     <el-form-item label="车牌号"  prop="carNum">
                         <el-input disabled v-model="update_data.carNum"></el-input>
                     </el-form-item>
-                    <el-form-item label="做账日" prop="monthDate">
+                    <el-form-item label="月份" prop="monthDate">
                          <el-input disabled v-model="update_data.monthDate"></el-input>
                         
                     </el-form-item>
@@ -347,7 +370,7 @@
 
            </div>
         </div>
-        </el-dialog>
+        </el-dialog> -->
 
         <!-- 详情 弹窗 -->
        <el-dialog
@@ -364,7 +387,7 @@
                     <el-form-item label="车牌号"  prop="carNum">
                         <el-input disabled v-model="detail_data.carNum"></el-input>
                     </el-form-item>
-                    <el-form-item label="做账日" prop="monthDate">
+                    <el-form-item label="月份" prop="monthDate">
                          <el-input disabled v-model="detail_data.monthDate"></el-input>
                         
                     </el-form-item>
@@ -449,11 +472,35 @@ export default {
             total:0,
             account_data:[],
             account_data_part:[],
-            start_end_date:[],
+            start_end_month:[],
+          
+            pickerOptions:{
+                disabledDate: time => {
+                   
+                        const date = new Date()
+                        const year = date.getFullYear()
+                        let month = date.getMonth() + 1
+                        if (month >= 1 && month <= 9) {
+                            month = '0' + month
+                        }
+                        const currentdate = new Date( year.toString() + '-' + month.toString() );
+                        const timeyear = time.getFullYear()
+                        let timemonth = time.getMonth() + 1
+                        if (timemonth >= 1 && timemonth <= 9) {
+                            timemonth = '0' + timemonth
+                        }
+                        const timedate = new Date( timeyear.toString() + '-' + timemonth.toString() );
+                        return currentdate < timedate
+                    }
+                
+
+            },
+           
             searchdata:{
                 carNum:'',
             },
             tableheight:'200',
+            createDate:new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate(),
             add:false,
            add_data:{
                 carNum:'',
@@ -492,7 +539,7 @@ export default {
                    
                 ],
                 monthDate: [
-                    { required: true, message: '请输入做账日期', trigger: 'blur' },
+                    { required: true, message: '请输入出账月份', trigger: 'blur' },
                    
                 ],
                 salary: [
@@ -574,6 +621,47 @@ export default {
         }
     },
     methods:{
+        //是否是闰年
+        isLeapYear:function(year){
+            if(year/4 == 0 && year/100 != 0){
+                return true ;
+            } else if (year/400 == 0){
+                return true ;
+            } else{
+                return false ;
+            }},
+
+        //根据年月得到天数
+        getDayNumByYearMonth:function (year,month){
+            switch (month) {
+                case 1:
+                    return 31;
+                case 3:
+                    return 31;
+                case 5:
+                    return 31;
+                case 7:
+                    return 31;
+                case 8:
+                    return 31;
+                case 10:
+                    return 31;
+                case 12:
+                    return 31;
+                
+                case 4:
+                    return 30;
+                case 6:
+                    return 30;
+                case 9:
+                    return 30;
+                case 11:
+                    return 30;
+                
+                case 2:
+                    return this.isLeapYear(year) ? 29 : 28;
+            }
+        },
         excel(){
             accountApi.excelExport(this.searchdata,res=>{
                 const disposition = res.headers['content-disposition'];
@@ -597,15 +685,20 @@ export default {
         },
         search(key){
             if(key == '1'){
-                
-                if(this.start_end_date!=null&&this.start_end_date.length!=0){
-                    this.searchdata.startDate = this.start_end_date[0];
+                 if(this.start_end_month!=null&&this.start_end_month.length!=0){
                     
-                    this.searchdata.endDate = this.start_end_date[1];
+                    this.searchdata.startDate = this.start_end_month[0]+'-1';
+                     let day= this.getDayNumByYearMonth(new Date(this.start_end_month[1]).getFullYear(),new Date(this.start_end_month[1]).getMonth()+1)
+                    this.searchdata.endDate = this.start_end_month[1]+'-'+day;
+                    
                 }else{
                     delete this.searchdata.startDate;
                     delete this.searchdata.endDate;
                 }
+
+             
+                console.log("this.searchdata",this.searchdata);
+                
              
                
                 accountApi.findCarCostList(this.searchdata,res=>{
@@ -622,7 +715,7 @@ export default {
                     carNum:''
 
                 }
-                this.start_end_date = '';
+                this.start_end_month = [];
                
 
                 accountApi.findCarCostList({},res=>{
@@ -700,7 +793,7 @@ export default {
                                        
                                     }else{
                                         this.add = false;
-                                        this.$message.error("添加失败");
+                                        this.$message.error(res.data.msg);
                                         
 
                                     }   
@@ -724,33 +817,34 @@ export default {
         },
          godetail(row){
             this.detail_data = row;
+            this.detail_data.monthDate = new Date(row.monthDate).getFullYear()+'-'+(new Date(row.monthDate).getMonth()+1)
             this.detail = true;
 
         },
-        goupdate(row){
-            this.update_data =Object.assign({},row) ;
-            this.update = true;
+        // goupdate(row){
+        //     this.update_data =Object.assign({},row) ;
+        //     this.update = true;
 
-        },
-        updateFun(){
+        // },
+        // updateFun(){
        
-            this.$refs.updateform.validate((valid) => {
-                if (valid) {
-                    let data = this.update_data;
-                    accountApi.saveCarCostMonthData(data,res=>{
+        //     this.$refs.updateform.validate((valid) => {
+        //         if (valid) {
+        //             let data = this.update_data;
+        //             accountApi.saveCarCostMonthData(data,res=>{
                      
-                        if(res.data.code==0){
-                            this.$message.success("修改成功～");
-                            this.init();
-                            this.update = false;
-                        }
-                    })
-                } else {
-                    this.$message.warning("请将数据填写正确完整")
-                }
-            })
+        //                 if(res.data.code==0){
+        //                     this.$message.success("修改成功～");
+        //                     this.init();
+        //                     this.update = false;
+        //                 }
+        //             })
+        //         } else {
+        //             this.$message.warning("请将数据填写正确完整")
+        //         }
+        //     })
            
-        },
+        // },
          deleted(row){
             this.$confirm('确定要删除这条数据吗?', '提示', {
                 confirmButtonText: '确定',
@@ -840,7 +934,7 @@ export default {
         /deep/.el-button{
                     padding: 7px 13px;
                     position: absolute;
-                    right: 2%;
+                    right: 2.5%;
                     border-color: rgba(17, 24,49,1);
                     background-color: rgba(17, 24,49,1);
                                   color: #fff;
@@ -1099,7 +1193,7 @@ export default {
 
                                     }
                                      .el-input.is-disabled .el-input__inner{
-                                        color: #606266;
+                                        color: #000;
                                         
 
                                     }

@@ -5,6 +5,7 @@
                
        <div class="title">
             账单管理
+            <el-button class="add" @click="beforeadd">添加<i class="iconfont icon-tianjia" style="font-size:10px;font-weight:600;margin-left:2px;"></i></el-button>
         </div>
       
        <div class="search-part">
@@ -13,14 +14,27 @@
                     <el-form-item label="车牌号" >
                         <el-input v-model="searchdata.carNum"></el-input>
                     </el-form-item>
-                    <el-form-item label="时间范围"  class="timerange">
+                  
+                    <el-form-item label="开始月份"  class="timerange">
                       <el-date-picker
-                       value-format="yyyy-MM-dd"
-                        v-model="start_end_date"
-                        type="daterange"
-                        range-separator="至"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期">
+                       value-format="yyyy-MM"
+                        v-model="start_date"
+                        type="month"
+                        :picker-options="pickerOptionss"
+                        placeholder="开始月"
+                      >
+                        </el-date-picker>
+                    </el-form-item>
+
+                     <el-form-item label="结束月份"  class="timerange">
+                      <el-date-picker
+                       value-format="yyyy-MM"
+                        v-model="end_date"
+                        type="month"
+                        :picker-options="pickerOptionse"
+            
+                        placeholder="结束月"
+                      >
                         </el-date-picker>
                     </el-form-item>
                 
@@ -55,11 +69,17 @@
                 >
                 </el-table-column>
                 <el-table-column
-                prop="monthDate"
+               
                 label="月份"
                  width="120"
                 align="center"
              >
+             <template slot-scope="scope">
+                 <div>
+                     {{new Date(scope.row.monthDate).getFullYear()+'-'+(new Date(scope.row.monthDate).getMonth()+1)}}
+
+                 </div>
+             </template>
                 </el-table-column>
                 <el-table-column
                 prop="oilPrice"
@@ -133,7 +153,7 @@
                 
                 <el-table-column
                 prop="salary"
-                label="工资（千元）"
+                label="工资（元）"
                  width="120"
                 align="center">
                 </el-table-column>
@@ -159,9 +179,9 @@
                    <el-button class="sbtn" @click="godetail(scope.row)">
                         查看
                     </el-button>
-                    <el-button class="sbtn" @click="goupdate(scope.row)">
+                    <!-- <el-button class="sbtn" @click="goupdate(scope.row)">
                         修改
-                    </el-button>
+                    </el-button> -->
                     <el-button class="sbtn dele" style="color:#e33e33" @click="deleted(scope.row)">
                         删除
                     </el-button>
@@ -175,7 +195,7 @@
                         @current-change="handleCurrentChange"
                         :current-page="currentPage"
                 
-                    :page-size="5"
+                    :page-size="10"
                         :page-sizes="[5, 10, 15, 20]"
                         layout=" sizes,prev, pager, next, jumper"
                         :total="total">
@@ -193,8 +213,85 @@
             </div>
 
         </div>
-         <!-- 修改 弹窗 -->
+         <!-- 添加 弹窗 -->
        <el-dialog
+            class="all-dialog"
+            title="添加"
+            :visible.sync="add"
+            :modal-append-to-body='false'
+            width="90%"
+            :close-on-click-modal="false"
+         >
+        <div class="content">
+            <el-form  label-width="80px" :model="add_data" :rules="addrule" ref="addform">
+           
+                    <el-form-item label="车牌号"  prop="carNum">
+                        <el-input  v-model="add_data.carNum"></el-input>
+                    </el-form-item>
+                    <el-form-item label="月份" prop="monthDate">
+                         <el-date-picker
+                       value-format="yyyy-MM-dd"
+                        v-model="add_data.monthDate"
+                        type="month"
+                  :picker-options="pickerOptions"
+                        placeholder="选择月份"
+                       >
+                        </el-date-picker>
+                        
+                    </el-form-item>
+                   <el-form-item label="工资" prop="salary">
+                        <el-input  v-model="add_data.salary"></el-input>
+                    </el-form-item>
+
+         
+
+                   <el-form-item label="油价"  prop="oilPrice">
+                        <el-input  v-model="add_data.oilPrice"></el-input>
+                    </el-form-item>
+                    <!-- <el-form-item label="出账日"  >
+                        <el-input disabled v-model="createDate"></el-input>
+                    </el-form-item> -->
+                    
+                        
+
+              
+               <div class="fg-title">
+                   <span>修理明细:</span>
+               </div>
+
+             
+
+            
+                   <el-form-item :label="add_data.repairOneRemark" prop="profit">
+                        <el-input  v-model="add_data.repairOnePrice"></el-input>
+                    </el-form-item>
+                        <el-form-item :label="add_data.repairTwoRemark" prop="totalCost">
+                        <el-input  v-model="add_data.repairTwoPrice"></el-input>
+                    </el-form-item>
+                     <el-form-item :label="add_data.repairThreeRemark" prop="totalXiuche">
+                        <el-input  v-model="add_data.repairThreePrice"></el-input>
+                    </el-form-item>
+
+               
+                   <el-form-item :label="add_data.repairFourRemark" prop="profit">
+                        <el-input v-model="add_data.repairFourPrice"></el-input>
+                    </el-form-item>
+                        <el-form-item :label="add_data.repairFiveRemark" prop="totalCost">
+                        <el-input  v-model="add_data.repairFivePrice"></el-input>
+                    </el-form-item>
+                   
+
+        
+                
+           </el-form>
+            <div class="footer">
+               <el-button @click="addFun()" class="btn">确 定</el-button>
+
+           </div>
+        </div>
+        </el-dialog>
+         <!-- 修改 弹窗 -->
+       <!-- <el-dialog
        class="all-dialog"
         title="修改"
         :visible.sync="update"
@@ -273,7 +370,7 @@
 
            </div>
         </div>
-        </el-dialog>
+        </el-dialog> -->
 
         <!-- 详情 弹窗 -->
        <el-dialog
@@ -290,7 +387,7 @@
                     <el-form-item label="车牌号"  prop="carNum">
                         <el-input disabled v-model="detail_data.carNum"></el-input>
                     </el-form-item>
-                    <el-form-item label="日期" prop="monthDate">
+                    <el-form-item label="月份" prop="monthDate">
                          <el-input disabled v-model="detail_data.monthDate"></el-input>
                         
                     </el-form-item>
@@ -359,18 +456,189 @@ export default {
     data(){
         return{
             
-            pagesize:5,
+            pagesize:10,
             currentPage: 1,
             total:0,
             account_data:[],
             account_data_part:[],
             start_end_date:[],
+            start_date:'',
+            end_date:'',
+            pickerOptions:{
+                disabledDate: time => {
+                   
+                        const date = new Date()
+                        const year = date.getFullYear()
+                        let month = date.getMonth() + 1
+                        if (month >= 1 && month <= 9) {
+                            month = '0' + month
+                        }
+                        const currentdate = new Date( year.toString() + '-' + month.toString() );
+                        const timeyear = time.getFullYear()
+                        let timemonth = time.getMonth() + 1
+                        if (timemonth >= 1 && timemonth <= 9) {
+                            timemonth = '0' + timemonth
+                        }
+                        const timedate = new Date( timeyear.toString() + '-' + timemonth.toString() );
+                        return currentdate < timedate
+                    }
+                
+
+            },
+            pickerOptionss:{
+                disabledDate: time => {
+                    if (this.end_date) {
+                        
+                        const date = new Date(this.end_date)
+                        const year = date.getFullYear()
+                        
+                        let month = date.getMonth() + 1
+
+                     
+                        if (month >= 1 && month <= 9) {
+                            month = '0' + month
+                        }
+                        const currentdate = new Date(year.toString() + '-' + month.toString() );
+                        const timeyear = time.getFullYear()
+                        let timemonth = time.getMonth() + 1
+                        if (timemonth >= 1 && timemonth <= 9) {
+                            timemonth = '0' + timemonth
+                        }
+                        const timedate = new Date( timeyear.toString() + '-' + timemonth.toString() );
+                        return currentdate < timedate
+                    } else {
+                        const date = new Date()
+                        const year = date.getFullYear()
+                        let month = date.getMonth() + 1
+                        if (month >= 1 && month <= 9) {
+                            month = '0' + month
+                        }
+                        const currentdate = new Date( year.toString() + '-' + month.toString() );
+                        const timeyear = time.getFullYear()
+                        let timemonth = time.getMonth() + 1
+                        if (timemonth >= 1 && timemonth <= 9) {
+                            timemonth = '0' + timemonth
+                        }
+                        const timedate = new Date( timeyear.toString() + '-' + timemonth.toString() );
+                        return currentdate < timedate
+                    }
+                }
+
+            },
+            pickerOptionse:{
+                disabledDate: time => {
+                    if (this.start_date) {
+                        
+                        const date = new Date(this.start_date)
+                        const year = date.getFullYear()
+                        let month = date.getMonth() + 1
+                        if (month >= 1 && month <= 9) {
+                            month = '0' + month
+                        }
+                        const currentdate = new Date( year.toString() +'-'+ month.toString())
+
+                        const timeyear = time.getFullYear()
+                        let timemonth = time.getMonth() + 1
+                        if (timemonth >= 1 && timemonth <= 9) {
+                            timemonth = '0' + timemonth
+                        }
+                        const timedate = new Date(timeyear.toString() +'-'+timemonth.toString())
+
+
+                        const date1 = new Date()
+                        const year1 = date1.getFullYear()
+                        let month1 = date1.getMonth() + 1
+                        if (month1 >= 1 && month1 <= 9) {
+                            month1 = '0' + month1
+                        }
+                        const currentdate1 =new Date( year1.toString()+'-'+month1.toString())
+                        
+                        // const timeyear1 = time.getFullYear()
+                        // let timemonth1= time.getMonth() + 1
+                        // if (timemonth1 >= 1 && timemonth1 <= 9) {
+                        //     timemonth1 = '0' + timemonth1
+                        // }
+                        // const timedate1 = timeyear1.toString() + timemonth1.toString()
+                      
+                   
+
+                        return  currentdate >timedate ||timedate > currentdate1
+                    } else {
+                        const date = new Date()
+                        const year = date.getFullYear()
+                        let month = date.getMonth() + 1
+                        if (month >= 1 && month <= 9) {
+                            month = '0' + month
+                        }
+                        const currentdate = new Date( year.toString() +'-'+ month.toString());
+                        const timeyear = time.getFullYear()
+                        let timemonth = time.getMonth() + 1
+                        if (timemonth >= 1 && timemonth <= 9) {
+                            timemonth = '0' + timemonth
+                        }
+                        const timedate = new Date( timeyear.toString() +'-'+ timemonth.toString() );
+                        return currentdate < timedate
+                    }
+                }
+
+            },
             searchdata:{
                 carNum:'',
             },
             tableheight:'200',
+            createDate:new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate(),
+            add:false,
 
-            
+            add_data:{
+           
+                carNum:'',
+                monthDate:'',
+                salary:'',
+
+                oilPrice:'',
+                oilTotalPrice:'',
+                oilTotalPrice:'',
+
+                profit:'',
+                totalCost:'',
+                totalXiuche:'',
+
+                repairOneRemark:'修理一',
+                repairOnePrice:'',
+                repairTwoRemark:'修理二',
+                repairTwoPrice:'',
+                repairThreeRemark:'修理三',
+                repairThreePrice:'',
+                repairFourRemark:'修理四',
+                repairFourPrice:'',
+                repairFiveRemark:'修理五',
+                repairFivePrice:'',
+            },
+             addrule: {
+                carNum: [
+                    { required: true, message: '请输入车牌号', trigger: 'blur' },
+                    // { min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' },
+                    // {
+                    //     required: true,
+                    //     pattern: /^[0-9]+.?[0-9]*$/,
+                    //     message: '请输入数字',
+                    //     trigger: 'input'
+                    // }
+                   
+                ],
+                monthDate: [
+                    { required: true, message: '请输入要出账的月份', trigger: 'blur' },
+                   
+                ],
+                salary: [
+                    { required: true, message: '请输入工资', trigger: 'blur' },
+                   
+                ],
+                 oilPrice: [
+                    { required: true, message: '请输入油价', trigger: 'blur' },
+                   
+                ],
+            },
             detail:false,
             detail_data:{
                 carNum:'',
@@ -427,6 +695,7 @@ export default {
     created(){
         this.init();
          this.tableheight = window.innerHeight/10 * 9 - window.innerHeight/10 * 3.3 +'px'
+          
     },
     mounted(){
         this.tableheight = window.innerHeight/10 * 9 - window.innerHeight/10 * 3.3 +'px'
@@ -438,6 +707,48 @@ export default {
         }
     },
     methods:{
+
+        //是否是闰年
+        isLeapYear:function(year){
+            if(year/4 == 0 && year/100 != 0){
+                return true ;
+            } else if (year/400 == 0){
+                return true ;
+            } else{
+                return false ;
+            }},
+
+        //根据年月得到天数
+        getDayNumByYearMonth:function (year,month){
+            switch (month) {
+                case 1:
+                    return 31;
+                case 3:
+                    return 31;
+                case 5:
+                    return 31;
+                case 7:
+                    return 31;
+                case 8:
+                    return 31;
+                case 10:
+                    return 31;
+                case 12:
+                    return 31;
+                
+                case 4:
+                    return 30;
+                case 6:
+                    return 30;
+                case 9:
+                    return 30;
+                case 11:
+                    return 30;
+                
+                case 2:
+                    return this.isLeapYear(year) ? 29 : 28;
+            }
+        },
         excel(){
             accountApi.excelExport(this.searchdata,res=>{
                 const disposition = res.headers['content-disposition'];
@@ -461,15 +772,26 @@ export default {
         },
         search(key){
             if(key == '1'){
+              
                 
-                if(this.start_end_date!=null&&this.start_end_date.length!=0){
-                    this.searchdata.startDate = this.start_end_date[0];
+                if(this.start_date!=null&&this.start_date.length!=0){
                     
-                    this.searchdata.endDate = this.start_end_date[1];
+                    this.searchdata.startDate = this.start_date+'-1';
+                    
                 }else{
                     delete this.searchdata.startDate;
                     delete this.searchdata.endDate;
                 }
+
+                if(this.end_date!=null&&this.end_date.length!=0){
+                    let day= this.getDayNumByYearMonth(new Date(this.end_date).getFullYear(),new Date(this.end_date).getMonth()+1)
+                    this.searchdata.endDate = this.end_date+'-'+day;
+                }else{
+                    delete this.searchdata.startDate;
+                    delete this.searchdata.endDate;
+                }
+                console.log("this.searchdata",this.searchdata);
+              
              
                
                 accountApi.findCarCostList(this.searchdata,res=>{
@@ -486,7 +808,8 @@ export default {
                     carNum:''
 
                 }
-                this.start_end_date = '';
+                this.start_date = '';
+                this.end_date = '';
                
 
                 accountApi.findCarCostList({},res=>{
@@ -502,6 +825,8 @@ export default {
 
         },
         init(){
+            
+        
             let data = {}
             accountApi.findCarCostList(data,res=>{
                 if(res.data.code == 0){
@@ -511,16 +836,102 @@ export default {
                 }
             })
         },
+        beforeadd(){
+            this.add_data={
+                carNum:'',
+                monthDate:'',
+                salary:'',
+                
+
+                oilPrice:'',
+                oilTotalPrice:'',
+                oilTotalPrice:'',
+
+                profit:'',
+                totalCost:'',
+                totalXiuche:'',
+
+               repairOneRemark:'修理一',
+                repairOnePrice:'',
+                repairTwoRemark:'修理二',
+                repairTwoPrice:'',
+                repairThreeRemark:'修理三',
+                repairThreePrice:'',
+                repairFourRemark:'修理四',
+                repairFourPrice:'',
+                repairFiveRemark:'修理五',
+                repairFivePrice:'',
+            }
+            this.add_reset = false;
+            this.$nextTick(()=>{
+                 this.add_reset = true;
+            })
+            this.add=true;
+        },
+         addFun(){
+             this.$refs.addform.validate((valid) => {
+                if (valid) {
+                    this.$MessageBox({
+                        title: '提示',
+                        message: `即将生成  ‘${this.add_data.carNum}’  车的  '  ${this.add_data.monthDate.split('-')[0]}-${this.add_data.monthDate.split('-')[1]}  '  的当月账单?`,
+                        showCancelButton: true
+                    }).then(action => { 
+                        if (action == 'confirm') {     //确认的回调
+                        
+                           let data = this.add_data;
+                            accountApi.saveCarCostMonthData(data,res=>{
+                                
+                                    if(res.data.code==0){
+                                      
+                                   
+                                        this.init();
+                                        this.add = false;
+                                        
+                                          this.$toast({
+                                                message: '添加成功～',
+                                                position: 'middle',
+                                                duration: 1000
+                                        });
+                                       
+                                    }else{
+                                        this.add = false;
+                                        this.$toast({
+                                            message: res.data.msg,
+                                            position: 'middle',
+                                            duration: 1000
+                                    });
+                                       
+                                        
+
+                                    }   
+                                })
+                        }
+                    });
+                   
+                    
+                    } else {
+                        this.$toast({
+                                    message: '请将数据填写正确完整',
+                                    position: 'middle',
+                                    duration: 1000
+                            });
+                        
+                    }
+                })
+            
+           
+        },
          godetail(row){
             this.detail_data = row;
+               this.detail_data.monthDate = new Date(row.monthDate).getFullYear()+'-'+(new Date(row.monthDate).getMonth()+1)
             this.detail = true;
 
         },
-        goupdate(row){
-            this.update_data =Object.assign({},row) ;
-            this.update = true;
+        // goupdate(row){
+        //     this.update_data =Object.assign({},row) ;
+        //     this.update = true;
 
-        },
+        // },
          deleted(row){
               this.$MessageBox({
                 title: '提示',
@@ -605,9 +1016,11 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+
 .management{
     width: 100%;
-    height: 94vh;
+    height: 93vh;
+    border:1px solid transparent;
     .container{
         width: 90%;
         background-color: #fff;
@@ -618,7 +1031,8 @@ export default {
         overflow-x: hidden;
         overflow-y: auto;
          height:92vh;
-        padding: 1vh 5%;
+        padding: 0 5%;
+        margin:1vh 0 ;
 
         .title{
             font-size: 20px;
@@ -628,7 +1042,24 @@ export default {
                 padding: 1%;
                 color:rgba(17, 24,49,1);
                 font-weight: 600;
-                margin-bottom: 1vh;
+                margin: 1vh 0;
+                /deep/.el-button{
+                    width: 90px;
+                    height: 35px;
+                    font-size:14px;
+                    padding: 5px 10px;
+                    position: absolute;
+                    right: 5%;
+                    border-color: rgba(17, 24,49,1);
+                    background-color: rgba(17, 24,49,1);
+                                  color: #fff;
+                }
+                .el-button:hover{ 
+                                
+                    background-color: #fff ;
+                    color: rgba(17, 24,49,1);
+
+                }
             }
             .search-part{
                 width: 96%;
@@ -667,9 +1098,9 @@ export default {
                    
                         width:calc(100% - 100px);
                    
-                        .el-date-editor.el-range-editor{
+                        .el-date-editor{
                              height: 42px;
-                              padding: 0 10px;
+                         
                             width: 100%;
                             .el-range-input{
 
@@ -986,7 +1417,7 @@ export default {
 
                                     } 
                                     .el-input.is-disabled .el-input__inner{
-                                        color: #606266;
+                                        color: #000;
                                         
 
                                     }

@@ -4,23 +4,28 @@ axios.defaults.withCredentials = false;
 axios.defaults.headers.post['Content-Type']= "application/x-www-form-urlencoded";
 let loading;
 
-function startLoading(){
+export function startLoading(){
     loading = Loading.service({
         lock:true,
-        text:'loading...',
-        target:document.querySelector(".loading-area")
-    })
+        text:'加载中...',
+        target:document.querySelector(".loading-area"),
+        background:'rgba(255,255,255,0.7)'
+    });
 
 }
 
-function endLoading(){
+export function endLoading(){
+
+
     loading.close();
+
+   
 }
 
 let needLoadingRequestCount = 0;
 
 export function showFullScreenLoading(){
-    if(needLoadingRequestCount = 0){
+    if(needLoadingRequestCount == 0){
         startLoading();
     }
     needLoadingRequestCount++;
@@ -41,12 +46,12 @@ export function tryHideFullScreenLoading(){
 //请求前兰姐饿
 axios.interceptors.request.use(
     config =>{
-        //showFullScreenLoading();
+        showFullScreenLoading();
         return config;
     },
     error =>{
         console.warn(error);
-        // tryHideFullScreenLoading();
+         tryHideFullScreenLoading();
         return Promise.reject("请求数据失败！")
     }
 )
@@ -55,13 +60,13 @@ axios.interceptors.response.use(
    
     response=>{
     
-        //tryHideFullScreenLoading();
+        tryHideFullScreenLoading();
        
         if(response.status === 200){
             if(response.data.code==101){  //没有token或token已过期，请重新登录
                 Message.warning(response.data.msg);
                 setTimeout(()=>{
-                    var url = window.location.href;
+                    let url = window.location.href;
               
                     setCookie('jwttoken',0);
                     if(url.split('/#/')[0].indexOf('_')!=-1){
@@ -84,11 +89,25 @@ axios.interceptors.response.use(
 
     },
     error=>{
-        // tryHideFullScreenLoading();
+         tryHideFullScreenLoading();
         switch (error.response.status){
             case 403:
-                window.location.href = "http://www.baidu.com"
-                return;
+                Message.warning('无权限');
+                setTimeout(()=>{
+                    let url = window.location.href;
+              
+                    setCookie('jwttoken',0);
+                    if(url.split('/#/')[0].indexOf('_')!=-1){
+                        
+                        window.location.href =`${url.split('/#/')[0]}/#/login_m`
+                    }else{
+                        window.location.href =`${url.split('/#/')[0]}/#/login`
+
+                    }
+
+                },200)
+               
+               
             case 404:
                 return Promise.reject("404接口不存在")
             case  500:

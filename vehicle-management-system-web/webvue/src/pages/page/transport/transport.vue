@@ -14,6 +14,7 @@
                      <el-form-item label="时间范围"  class="timerange">
                       <el-date-picker
                        value-format="yyyy-MM-dd"
+                       :picker-options="pickerOptions"
                         v-model="start_end_date"
                         type="daterange"
                         range-separator="至"
@@ -189,9 +190,11 @@
                     <el-form-item label="拉货日期" prop="billDate">
                         <!-- <el-input v-model="add_data.billDate"></el-input> -->
                          <el-date-picker
+                         popper-class="add-popper"
                             v-model="add_data.billDate"
                             type="date"
                             placeholder="选择日期"
+                            :picker-options="pickerOptions"
                              value-format="yyyy-MM-dd">
                         </el-date-picker>
                     </el-form-item>
@@ -427,6 +430,15 @@ import transportApi from '@/api/transport/transport';
 export default {
     data(){
         return{
+             pickerOptions:{
+                disabledDate: time => {
+                   
+                        const date = new Date()
+                        return time > date
+                    }
+                
+
+            },
             pagesize:10,
             currentPage: 1,
             total:0,
@@ -1274,7 +1286,7 @@ export default {
                                 .el-form-item__content{
                                    
                                     .el-input.is-disabled .el-input__inner{
-                                        color: #606266;
+                                        color: #000;
                                         
 
                                     }

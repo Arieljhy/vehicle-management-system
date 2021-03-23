@@ -54,7 +54,8 @@ export default {
         overflow-x: hidden;
         overflow-y: auto;
  height:92vh;
-        padding: 1vh 5%;
+        padding: 0 5%;
+        margin:1vh 0 ;
 
          .name{
             height:12vh;

@@ -14,15 +14,26 @@
                             <el-form-item label="车牌号" >
                                 <el-input v-model="searchdata.carNum"></el-input>
                             </el-form-item>
-                           <el-form-item label="时间范围"  class="timerange">
+                           <el-form-item label="开始日期"  class="timerange">
                             <el-date-picker
-                            class="phone"
-                            value-format="yyyy-MM-dd"
-                                v-model="start_end_date"
-                                type="daterange"
-                                range-separator="至"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期">
+                                class="phone"
+                                value-format="yyyy-MM-dd"
+                                v-model="start_date"
+                                type="date"
+                                placeholder="开始日期"
+                                :picker-options="pickerOptionss"
+                               >
+                                </el-date-picker>
+                            </el-form-item>
+                             <el-form-item label="结束日期"  class="timerange">
+                            <el-date-picker
+                                class="phone"
+                                value-format="yyyy-MM-dd"
+                                v-model="end_date"
+                                type="date"
+                                :picker-options="pickerOptionse"
+                                
+                                placeholder="结束日期">
                                 </el-date-picker>
                             </el-form-item>
                         <el-form-item label="装货地" >
@@ -169,7 +180,7 @@
                         @current-change="handleCurrentChange"
                         :current-page="currentPage"
                 
-                        :page-size="5"
+                        :page-size="10"
                         :page-sizes="[5, 10, 15, 20]"
                         layout=" sizes,prev, pager, next, jumper"
                         :total="total">
@@ -211,6 +222,7 @@
                             v-model="add_data.billDate"
                             type="date"
                             placeholder="选择日期"
+                            :picker-options="pickerOptions"
                              value-format="yyyy-MM-dd">
                         </el-date-picker>
                     </el-form-item>
@@ -435,12 +447,52 @@ import transportApi from '@/api/transport/transport';
 export default {
     data(){
         return{
-            pagesize:5,
+              pickerOptions:{
+                disabledDate: time => {
+                   
+                        const date = new Date()
+                        return time > date
+                    }
+                
+
+            },
+            pickerOptionss:{
+                disabledDate: time => {
+                    if (this.end_date) {
+                        
+                        const date = new Date(this.end_date)
+                        
+                        return date < time
+                    } else {
+                        const date = new Date()
+                        return time > date
+                    }
+                }
+
+            },
+            pickerOptionse:{
+                disabledDate: time => {
+                    if (this.start_date) {
+                        
+                        const date = new Date(new Date(this.start_date).getTime() - 24 * 60 * 60 * 1000)
+                        const date1 = new Date()
+
+                        return  date >time ||time> date1
+                    } else {
+                        const date = new Date()
+                        return time > date
+                    }
+                }
+
+            },
+            pagesize:10,
             currentPage: 1,
             total:0,
          
 
             start_end_date:[],
+            start_date:'',
+            end_date:'',
             specs_options: [{
                 value: '300*70',
                 label: '300*70 (0.131)'
@@ -694,10 +746,17 @@ export default {
         search(key){
             if(key == '1'){
                 
-                if(this.start_end_date!=null&&this.start_end_date.length!=0){
-                    this.searchdata.startDate = this.start_end_date[0];
+                if(this.start_date!=null&&this.start_date.length!=0){
+                    this.searchdata.startDate = this.start_date;
+                }
+                else{
+                    delete this.searchdata.startDate;
+                    delete this.searchdata.endDate;
+                }
+                if(this.end_date!=null&&this.end_date.length!=0){
+                   
                     
-                    this.searchdata.endDate = this.start_end_date[1];
+                    this.searchdata.endDate = this.end_date;
                 }
                 else{
                     delete this.searchdata.startDate;
@@ -724,7 +783,8 @@ export default {
                     unloadingPlace:''
 
                 }
-                this.start_end_date = '';
+                this.start_date = '';
+                 this.end_date = '';
                
 
                 transportApi.findCarDateList({},res=>{
@@ -1036,7 +1096,7 @@ export default {
 <style scoped lang="scss">
 .management{
     width: 100%;
-    height: 94vh;
+    height: 93vh;
     .container{
         width: 90%;
         background-color: #fff;
@@ -1047,17 +1107,18 @@ export default {
         overflow-x: hidden;
         overflow-y: auto;
          height:92vh;
-        padding: 1vh 5%;
+        padding: 0 5%;
+        margin:1vh 0 ;
         .title{
- height: 35px;
-  line-height: 35px;
+                height: 35px;
+                line-height: 35px;
                 width: 100%;
                 padding: 1%;
                 color:rgba(17, 24,49,1);
                 font-weight: 600;
                 position: relative;
 
-                margin-bottom: 1vh;
+                 margin: 1vh 0;
                 font-size: 20px;
               
                 /deep/.el-button{
@@ -1115,9 +1176,9 @@ export default {
                    
                         width:calc(100% - 100px);
                    
-                        .el-date-editor.el-range-editor{
+                        .el-date-editor{
                              height: 42px;
-                              padding: 0 10px;
+                            
                             width: 100%;
                             .el-range-input{
 
@@ -1450,7 +1511,7 @@ export default {
 
                                     }
                                     .el-input.is-disabled .el-input__inner{
-                                        color: #606266;
+                                        color: #000;
                                         
 
                                     }
