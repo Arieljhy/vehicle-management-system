@@ -223,7 +223,7 @@
             :close-on-click-modal="false"
          >
         <div class="content">
-            <el-form  label-width="80px" :model="add_data" :rules="addrule" ref="addform">
+            <el-form  label-width="80px" v-if="add_reset"  :model="add_data" :rules="addrule" ref="addform">
            
                     <el-form-item label="车牌号"  prop="carNum">
                         <el-input  v-model="add_data.carNum"></el-input>
@@ -588,7 +588,7 @@ export default {
             tableheight:'200',
             createDate:new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate(),
             add:false,
-
+ add_reset:true,
             add_data:{
            
                 carNum:'',
