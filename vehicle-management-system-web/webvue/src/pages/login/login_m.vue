@@ -33,6 +33,16 @@ export default {
             username:"",
             upwd:""
         }
+    },created () {
+        var _self = this
+ 
+        document.onkeydown = function(e) {
+        var key = window.event.keyCode
+    
+        if (key === 13) {
+            _self.login()
+        }
+        }
     },
     methods:{
          login(){ 
@@ -100,7 +110,16 @@ export default {
             else
             return null;
         }  
-    }
+    },
+    beforeDestroy() {
+        document.onkeydown = function(e) {
+        var key = window.event.keyCode
+    
+        if (key === 13) {
+    
+        }
+        }
+    },
 }
 </script>
 <style lang="scss" scoped>

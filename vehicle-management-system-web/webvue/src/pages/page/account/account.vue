@@ -108,38 +108,41 @@
                  <el-table-column
                
                     label="修理信息"
-                     width="120"
+                     width="220"
                 align="center">
                     <template slot-scope="scope">
-                    <div class="cont">
+                    <div class="cont xlxx">
                          <div class="item">
-                            
-                            <div class="r">{{scope.row.repairOneRemark}}({{scope.row.repairOnePrice}}元)</div>
-                            
+                            <el-tooltip popper-class="atooltip" effect="dark" :content="scope.row.repairOneRemark" placement="top">
+                            <div class="r"><span class="xh">1、</span><span class="price">({{scope.row.repairOnePrice}}元)</span>---{{scope.row.repairOneRemark}}</div>
+                            </el-tooltip>
                         </div>
 
                          <div class="item">
-              
-                            <div class="r">{{scope.row.repairTwoRemark}}({{scope.row.repairTwoPrice}}元)</div>
-                            
+              <el-tooltip popper-class="atooltip" effect="dark" :content="scope.row.repairTwoRemark" placement="top">
+                            <div class="r"><span class="xh">2、</span><span class="price">({{scope.row.repairTwoPrice}}元)</span>---{{scope.row.repairTwoRemark}}</div>
+                            </el-tooltip>
                         </div>
 
                          <div class="item">
-                     
-                            <div class="r">{{scope.row.repairThreeRemark}}({{scope.row.repairThreePrice}}元)</div>
-                            
+                     <el-tooltip popper-class="atooltip" effect="dark" :content="scope.row.repairThreeRemark" placement="top">
+                            <div class="r"><span class="xh">3、</span><span class="price">({{scope.row.repairThreePrice}}元)</span>---{{scope.row.repairThreeRemark}}</div>
+                            </el-tooltip>
                         </div>
 
                          <div class="item">
+                              <el-tooltip popper-class="atooltip" effect="dark" :content="scope.row.repairFourRemark" placement="top">
+                                <div class="r"><span class="xh">4、</span><span class="price">({{scope.row.repairFourPrice}}元)</span>---{{scope.row.repairFourRemark}}</div>
+                            </el-tooltip>
                          
-                            <div class="r">{{scope.row.repairFourRemark}}({{scope.row.repairFourPrice}}元)</div>
+                           
                             
                         </div>
 
                         <div class="item"> 
-                          
-                            <div class="r">{{scope.row.repairFiveRemark}}({{scope.row.repairFivePrice}}元)</div>
-                            
+                          <el-tooltip popper-class="atooltip" effect="dark" :content="scope.row.repairFiveRemark" placement="top">
+                            <div class="r"><span class="xh">5、</span><span class="price">({{scope.row.repairFivePrice}}元)</span>---{{scope.row.repairFiveRemark}}</div>
+                            </el-tooltip>
                         </div>
                        
                     </div>
@@ -199,7 +202,7 @@
        </div>
         <!-- 添加 弹窗 -->
        <el-dialog
-            class="all-dialog"
+            class="all-dialog  add"
             title="添加"
             :visible.sync="add"
             :modal-append-to-body='false'
@@ -247,23 +250,55 @@
 
              
 
-               <div class="con">
-                   <el-form-item :label="add_data.repairOneRemark" prop="profit">
+               <div class="conxl">
+                   <el-form-item label="1、" class="left">
+                       <el-input type="textarea" v-model="add_data.repairOneRemark"></el-input>
+                    
+                    </el-form-item>
+                    <el-form-item label="价格" class="right">
+                       
                         <el-input  v-model="add_data.repairOnePrice"></el-input>
                     </el-form-item>
-                        <el-form-item :label="add_data.repairTwoRemark" prop="totalCost">
+                </div>
+               <div class="conxl">
+                    <el-form-item label="2、" class="left">
+                            <el-input type="textarea"  v-model="add_data.repairTwoRemark"></el-input>
+                      
+                    </el-form-item>
+                     <el-form-item label="价格" class="right">
+                     
                         <el-input  v-model="add_data.repairTwoPrice"></el-input>
                     </el-form-item>
-                     <el-form-item :label="add_data.repairThreeRemark" prop="totalXiuche">
+                </div>
+               <div class="conxl">
+                     <el-form-item label="3、" class="left">
+                         <el-input type="textarea"  v-model="add_data.repairThreeRemark"></el-input>
+                        
+                    </el-form-item>
+                     <el-form-item label="价格" class="right">
+                         
                         <el-input  v-model="add_data.repairThreePrice"></el-input>
                     </el-form-item>
 
                </div>
-               <div class="con">
-                   <el-form-item :label="add_data.repairFourRemark" prop="profit">
+               <div class="conxl">
+                   <el-form-item label="4、" class="left">
+                        <el-input type="textarea"  v-model="add_data.repairFourRemark"></el-input>
+                       
+                    </el-form-item>
+                     <el-form-item label="价格" class="right">
+                       
                         <el-input v-model="add_data.repairFourPrice"></el-input>
                     </el-form-item>
-                        <el-form-item :label="add_data.repairFiveRemark" prop="totalCost">
+                </div>
+               <div class="conxl">
+                        <el-form-item label="5、" class="left">
+                             <el-input type="textarea"  v-model="add_data.repairFiveRemark"></el-input>
+                       
+                    </el-form-item>
+
+                    <el-form-item label="价格" class="right">
+                            
                         <el-input  v-model="add_data.repairFivePrice"></el-input>
                     </el-form-item>
                    
@@ -277,104 +312,12 @@
            </div>
         </div>
         </el-dialog>
-        <!-- 修改 弹窗 -->
-       <!-- <el-dialog
-       class="all-dialog"
-       
-        title="修改"
-        :visible.sync="update"
-        :modal-append-to-body='false'
-        width="70%"
-        :close-on-click-modal="false"
-        
-         >
-        <div class="content">
-            <el-form ref="updateform" label-width="100px" :model="update_data" :rules="addrule">
-               <div class="con">
-                    <el-form-item label="车牌号"  prop="carNum">
-                        <el-input disabled v-model="update_data.carNum"></el-input>
-                    </el-form-item>
-                    <el-form-item label="月份" prop="monthDate">
-                         <el-input disabled v-model="update_data.monthDate"></el-input>
-                        
-                    </el-form-item>
-                   <el-form-item label="工资" prop="salary">
-                        <el-input  v-model="update_data.salary"></el-input>
-                    </el-form-item>
 
-               </div>
-
-               <div class="con">
-                   <el-form-item label="油价"  prop="oilPrice">
-                        <el-input  v-model="update_data.oilPrice"></el-input>
-                    </el-form-item>
-                        <el-form-item label="总油耗" prop="oilTotalPrice">
-                        <el-input disabled v-model="update_data.oilTotalPrice"></el-input>
-                    </el-form-item>
-                   
-                    <el-form-item label="总油费" prop="oilTotalPrice">
-
-                          <el-input v-model="update_data.oilTotalPrice" disabled >
-                            
-                        </el-input>
-                    </el-form-item>
-
-               </div>
-             
-               <div class="con">
-                   <el-form-item label="利润" prop="profit">
-                        <el-input disabled v-model="update_data.profit"></el-input>
-                    </el-form-item>
-                        <el-form-item label="总花费" prop="totalCost">
-                        <el-input disabled v-model="update_data.totalCost"></el-input>
-                    </el-form-item>
-                     <el-form-item label=" 总修理费" prop="totalXiuche">
-                        <el-input disabled v-model="update_data.totalXiuche"></el-input>
-                    </el-form-item>
-
-               </div>
-
-                <div class="fg-title">
-                   <span>修理明细:</span>
-               </div>
-
-               <div class="con">
-                   <el-form-item :label="update_data.repairOneRemark" prop="profit">
-                        <el-input  v-model="update_data.repairOnePrice"></el-input>
-                    </el-form-item>
-                        <el-form-item :label="update_data.repairTwoRemark" prop="totalCost">
-                        <el-input  v-model="update_data.repairTwoRemark"></el-input>
-                    </el-form-item>
-                     <el-form-item :label="update_data.repairThreeRemark" prop="totalXiuche">
-                        <el-input  v-model="update_data.repairThreePrice"></el-input>
-                    </el-form-item>
-
-               </div>
-               <div class="con">
-                   <el-form-item :label="update_data.repairFourRemark" prop="profit">
-                        <el-input  v-model="update_data.repairFourPrice"></el-input>
-                    </el-form-item>
-                        <el-form-item :label="update_data.repairFiveRemark" prop="totalCost">
-                        <el-input  v-model="update_data.repairFivePrice"></el-input>
-                    </el-form-item>
-                   
-
-               </div>
-                
-               
-              
-                
-           </el-form>
-           <div class="footer">
-               <el-button @click="updateFun()" class="btn">确 定</el-button>
-
-           </div>
-        </div>
-        </el-dialog> -->
+     
 
         <!-- 详情 弹窗 -->
        <el-dialog
-            class="all-dialog"
+            class="all-dialog add"
             title="详情"
             :visible.sync="detail"
             :modal-append-to-body='false'
@@ -431,23 +374,57 @@
                    <span>修理明细:</span>
                </div>
 
-               <div class="con">
-                   <el-form-item :label="detail_data.repairOneRemark" prop="profit">
-                        <el-input disabled v-model="detail_data.repairOnePrice"></el-input>
+             
+
+               <div class="conxl">
+                   <el-form-item label="1、" class="left">
+                       <el-input disabled type="textarea" v-model="detail_data.repairOneRemark"></el-input>
+                    
                     </el-form-item>
-                        <el-form-item :label="detail_data.repairTwoRemark" prop="totalCost">
-                        <el-input disabled v-model="detail_data.repairTwoRemark"></el-input>
+                    <el-form-item label="价格" class="right">
+                       
+                        <el-input  disabled v-model="detail_data.repairOnePrice"></el-input>
                     </el-form-item>
-                     <el-form-item :label="detail_data.repairThreeRemark" prop="totalXiuche">
-                        <el-input disabled v-model="detail_data.repairThreePrice"></el-input>
+                </div>
+               <div class="conxl">
+                    <el-form-item label="2、" class="left">
+                            <el-input disabled type="textarea"  v-model="detail_data.repairTwoRemark"></el-input>
+                      
+                    </el-form-item>
+                     <el-form-item label="价格" class="right">
+                     
+                        <el-input disabled  v-model="detail_data.repairTwoPrice"></el-input>
+                    </el-form-item>
+                </div>
+               <div class="conxl">
+                     <el-form-item label="3、" class="left">
+                         <el-input  disabled type="textarea"  v-model="detail_data.repairThreeRemark"></el-input>
+                        
+                    </el-form-item>
+                     <el-form-item label="价格" class="right">
+                         
+                        <el-input disabled  v-model="detail_data.repairThreePrice"></el-input>
                     </el-form-item>
 
                </div>
-               <div class="con">
-                   <el-form-item :label="detail_data.repairFourRemark" prop="profit">
+               <div class="conxl">
+                   <el-form-item label="4、" class="left">
+                        <el-input disabled type="textarea"  v-model="detail_data.repairFourRemark"></el-input>
+                       
+                    </el-form-item>
+                     <el-form-item label="价格" class="right">
+                       
                         <el-input disabled v-model="detail_data.repairFourPrice"></el-input>
                     </el-form-item>
-                        <el-form-item :label="detail_data.repairFiveRemark" prop="totalCost">
+                </div>
+               <div class="conxl">
+                        <el-form-item label="5、" class="left">
+                             <el-input disabled type="textarea"  v-model="detail_data.repairFiveRemark"></el-input>
+                       
+                    </el-form-item>
+
+                    <el-form-item label="价格" class="right">
+                            
                         <el-input disabled v-model="detail_data.repairFivePrice"></el-input>
                     </el-form-item>
                    
@@ -516,15 +493,15 @@ export default {
                 totalCost:'',
                 totalXiuche:'',
 
-                repairOneRemark:'修理一',
+                repairOneRemark:'',
                 repairOnePrice:'',
-                repairTwoRemark:'修理二',
+                repairTwoRemark:'',
                 repairTwoPrice:'',
-                repairThreeRemark:'修理三',
+                repairThreeRemark:'',
                 repairThreePrice:'',
-                repairFourRemark:'修理四',
+                repairFourRemark:'',
                 repairFourPrice:'',
-                repairFiveRemark:'修理五',
+                repairFiveRemark:'',
                 repairFivePrice:'',
             },
              addrule: {
@@ -755,15 +732,15 @@ export default {
                 totalCost:'',
                 totalXiuche:'',
 
-               repairOneRemark:'修理一',
+               repairOneRemark:'',
                 repairOnePrice:'',
-                repairTwoRemark:'修理二',
+                repairTwoRemark:'',
                 repairTwoPrice:'',
-                repairThreeRemark:'修理三',
+                repairThreeRemark:'',
                 repairThreePrice:'',
-                repairFourRemark:'修理四',
+                repairFourRemark:'',
                 repairFourPrice:'',
-                repairFiveRemark:'修理五',
+                repairFiveRemark:'',
                 repairFivePrice:'',
             }
             this.add_reset = false;
@@ -1088,6 +1065,25 @@ export default {
     }
     .content{
        /deep/ .el-table{
+           .xlxx{
+                width: 100%;
+               .item{
+                   width: 100%;
+                   text-align: left !important;margin-bottom:10px;
+                   .r{
+                       overflow: hidden;
+                       max-height: 50px;
+                       display:-webkit-box;            //将对象作为弹性伸缩盒子模型显示。
+
+-webkit-box-orient:vertical;    //从上到下垂直排列子元素（设置伸缩盒子的子元素排列方式）
+
+-webkit-line-clamp:2;   
+                       .xh{
+                           color: rgba(17, 24,49,1) !important;
+                       }
+                   }
+               }
+           }
             .el-table__header-wrapper{
                 table{
                     thead{
@@ -1138,8 +1134,21 @@ export default {
     }
     
 }
-/deep/.el-dialog__wrapper.all-dialog{
+    /deep/.el-dialog__wrapper.all-dialog.add{
         .el-dialog{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left:-460px !important;
+            margin-top:-355px !important;
+                
+        }
+
+    }
+/deep/.el-dialog__wrapper.all-dialog{
+   
+        .el-dialog{
+            
             .el-dialog__body{
                     .content{
                         .el-form{
@@ -1174,6 +1183,95 @@ export default {
 
                                         }
                                         .p{
+
+                                        }
+                                    }
+                                }
+                            }
+                            .conxl{
+                                width: 94%;
+                                margin:0 2% 0 4%;
+                                display: flex;
+                                margin-bottom: 1vh;
+                                line-height: 50px;
+                                border-bottom: 1px dotted #eee;
+                                padding-bottom: 1vh;
+                                .el-form-item.left{
+
+                                    width: 67%;
+                                    margin-bottom:0;
+                                    .el-form-item__label {
+                                        color: #000;
+                                        width: 60px !important;
+                                    }
+                                    .el-form-item__content{
+                                            margin-left: 60px !important;
+                                    
+                                    
+                                    .el-textarea {
+                                       .el-textarea__inner{
+                                                width: 100%;
+                                                height: 50px !important;
+                                                
+                                            } 
+                                            .el-textarea__inner:focus {
+                                                border-color: rgba(17, 24,49,1);
+                                            }
+                                    }
+                                    .el-textarea__inner{
+                                                color: #000;
+                                                height: 50px !important;
+                                    }
+                                        .el-input.is-disabled .el-input__inner{
+                                            color: #000;
+                                        }
+                                        .el-input{
+                                            width: 100%;
+                                            .el-input__inner{
+                                                width: 100%;
+                                                height: 30px;
+                                                line-height:30px ;
+                                            } 
+                                            .el-input__inner:focus {
+                                                border-color: rgba(17, 24,49,1);
+                                            }
+
+                                        }
+                                    }
+                                }
+                                 .el-form-item.right{
+                                    width: 33%;
+                                    margin-bottom:0;
+                                     line-height: 50px;
+                                    .el-form-item__label {
+                                        color: #000;
+                                        margin-top: 14px;
+                                        margin-bottom: auto;
+                                    }
+                                    .el-form-item__content{
+                           
+                             margin-top: 14px;
+                                        margin-bottom: auto;
+                                    
+                                    
+                                        .el-date-editor.el-input{
+
+                                        }
+                                        .el-input.is-disabled .el-input__inner{
+                                            color: #000;
+                                            
+
+                                        }
+                                        .el-input{
+                                            width: 100%;
+                                            .el-input__inner{
+                                                width: 100%;
+                                                height: 30px;
+                                                line-height:30px ;
+                                            } 
+                                            .el-input__inner:focus {
+                                                border-color: rgba(17, 24,49,1);
+                                            }
 
                                         }
                                     }
