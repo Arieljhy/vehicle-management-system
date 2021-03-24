@@ -58,7 +58,7 @@ export default {
 
    .sidebar-container{
        width:14.5%;
-       height: 100vh;
+       height: 99vh;
        
       background-color: rgba(17, 24,49,1);
        position: absolute;
@@ -67,7 +67,7 @@ export default {
    }
     .app-container{
         width:84.5%;
-        height: 100vh;
+        height: 99vh;
         position: absolute;
        top: 0;
        right: 0;
@@ -77,14 +77,14 @@ export default {
 }
 .layout_m{
     width: 100%;
-    height: 100vh;
+    height: 90vh;
     .container{
         width: 100%;
         background-color: #fff;
         position: fixed;
         left: 0;
         bottom: 0;
-        height:93vh;
+        height:92vh;
         overflow-x: hidden;
         overflow-y: auto;
     }

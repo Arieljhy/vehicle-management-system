@@ -67,6 +67,13 @@
                  </div>
              </template>
                 </el-table-column>
+
+                 <el-table-column
+                prop="totalCost"
+                label="总运费(元)"
+                 width="120"
+                align="center">
+                </el-table-column>
                 <!-- <el-table-column
                 prop="createDate"
                 label="出账日"
@@ -80,30 +87,25 @@
                 
                 <el-table-column
                 prop="oilPrice"
-                label="油价（元）"
+                label="油价(元)"
                  width="120"
                 align="center">
                 </el-table-column>
                 <el-table-column
                 prop="oilTotal"
-                label="总油耗（L）"
+                label="总油耗(L)"
                  width="120"
                 align="center">
                 </el-table-column>
 
                 <el-table-column
                 prop="oilTotalPrice"
-                label="总油费（元）"
+                label="总油费(元)"
                  width="120"
                 align="center">
                 </el-table-column>
 
-                <el-table-column
-                prop="profit"
-                label="利润（元）"
-                 width="120"
-                align="center">
-                </el-table-column>
+               
 
                  <el-table-column
                
@@ -112,36 +114,36 @@
                 align="center">
                     <template slot-scope="scope">
                     <div class="cont xlxx">
-                         <div class="item">
+                         <div class="item" v-if="scope.row.repairOneRemark.length!=0">
                             <el-tooltip popper-class="atooltip" effect="dark" :content="scope.row.repairOneRemark" placement="top">
-                            <div class="r"><span class="xh">1、</span><span class="price">({{scope.row.repairOnePrice}}元)</span>---{{scope.row.repairOneRemark}}</div>
+                            <div class="r"><span class="xh">1、</span><span class="price">{{scope.row.repairOnePrice}}元</span>：{{scope.row.repairOneRemark}}</div>
                             </el-tooltip>
                         </div>
 
-                         <div class="item">
+                         <div class="item" v-if="scope.row.repairTwoRemark.length!=0">
               <el-tooltip popper-class="atooltip" effect="dark" :content="scope.row.repairTwoRemark" placement="top">
-                            <div class="r"><span class="xh">2、</span><span class="price">({{scope.row.repairTwoPrice}}元)</span>---{{scope.row.repairTwoRemark}}</div>
+                            <div class="r"><span class="xh">2、</span><span class="price">{{scope.row.repairTwoPrice}}元</span>：{{scope.row.repairTwoRemark}}</div>
                             </el-tooltip>
                         </div>
 
-                         <div class="item">
+                         <div class="item" v-if="scope.row.repairThreeRemark.length!=0">
                      <el-tooltip popper-class="atooltip" effect="dark" :content="scope.row.repairThreeRemark" placement="top">
-                            <div class="r"><span class="xh">3、</span><span class="price">({{scope.row.repairThreePrice}}元)</span>---{{scope.row.repairThreeRemark}}</div>
+                            <div class="r"><span class="xh">3、</span><span class="price">{{scope.row.repairThreePrice}}元</span>：{{scope.row.repairThreeRemark}}</div>
                             </el-tooltip>
                         </div>
 
-                         <div class="item">
+                         <div class="item" v-if="scope.row.repairFourRemark.length!=0">
                               <el-tooltip popper-class="atooltip" effect="dark" :content="scope.row.repairFourRemark" placement="top">
-                                <div class="r"><span class="xh">4、</span><span class="price">({{scope.row.repairFourPrice}}元)</span>---{{scope.row.repairFourRemark}}</div>
+                                <div class="r"><span class="xh">4、</span><span class="price">{{scope.row.repairFourPrice}}元</span>：{{scope.row.repairFourRemark}}</div>
                             </el-tooltip>
                          
                            
                             
                         </div>
 
-                        <div class="item"> 
+                        <div class="item" v-if="scope.row.repairFiveRemark.length!=0"> 
                           <el-tooltip popper-class="atooltip" effect="dark" :content="scope.row.repairFiveRemark" placement="top">
-                            <div class="r"><span class="xh">5、</span><span class="price">({{scope.row.repairFivePrice}}元)</span>---{{scope.row.repairFiveRemark}}</div>
+                            <div class="r"><span class="xh">5、</span><span class="price">{{scope.row.repairFivePrice}}元</span>：{{scope.row.repairFiveRemark}}</div>
                             </el-tooltip>
                         </div>
                        
@@ -151,21 +153,24 @@
                 </el-table-column>
 
                 
-                <el-table-column
-                prop="salary"
-                label="工资（元）"
-                 width="120"
-                align="center">
-                </el-table-column>
-                 <el-table-column
-                prop="totalCost"
-                label="总花费"
-                 width="120"
-                align="center">
-                </el-table-column>
+               
+                
                  <el-table-column
                 prop="totalXiuche"
-                label="总修理费（元）"
+                label="总修理费(元)"
+                 width="120"
+                align="center">
+                </el-table-column>
+                 <el-table-column
+                prop="salary"
+                label="工资(元)"
+                 width="120"
+                align="center">
+                </el-table-column>
+
+                 <el-table-column
+                prop="profit"
+                label="利润(元)"
                  width="120"
                 align="center">
                 </el-table-column>
@@ -227,14 +232,14 @@
                         </el-date-picker>
                         
                     </el-form-item>
-                   <el-form-item label="工资" prop="salary">
+                   <el-form-item label="工资(元)" prop="salary">
                         <el-input  v-model="add_data.salary"></el-input>
                     </el-form-item>
 
                </div>
 
                <div class="con">
-                   <el-form-item label="油价"  prop="oilPrice">
+                   <el-form-item label="油价(元)"  prop="oilPrice">
                         <el-input  v-model="add_data.oilPrice"></el-input>
                     </el-form-item>
                     <!-- <el-form-item label="出账日" >
@@ -255,7 +260,7 @@
                        <el-input type="textarea" v-model="add_data.repairOneRemark"></el-input>
                     
                     </el-form-item>
-                    <el-form-item label="价格" class="right">
+                    <el-form-item label="价格(元)" class="right">
                        
                         <el-input  v-model="add_data.repairOnePrice"></el-input>
                     </el-form-item>
@@ -265,7 +270,7 @@
                             <el-input type="textarea"  v-model="add_data.repairTwoRemark"></el-input>
                       
                     </el-form-item>
-                     <el-form-item label="价格" class="right">
+                     <el-form-item label="价格(元)" class="right">
                      
                         <el-input  v-model="add_data.repairTwoPrice"></el-input>
                     </el-form-item>
@@ -275,7 +280,7 @@
                          <el-input type="textarea"  v-model="add_data.repairThreeRemark"></el-input>
                         
                     </el-form-item>
-                     <el-form-item label="价格" class="right">
+                     <el-form-item label="价格(元)" class="right">
                          
                         <el-input  v-model="add_data.repairThreePrice"></el-input>
                     </el-form-item>
@@ -286,7 +291,7 @@
                         <el-input type="textarea"  v-model="add_data.repairFourRemark"></el-input>
                        
                     </el-form-item>
-                     <el-form-item label="价格" class="right">
+                     <el-form-item label="价格(元)" class="right">
                        
                         <el-input v-model="add_data.repairFourPrice"></el-input>
                     </el-form-item>
@@ -297,7 +302,7 @@
                        
                     </el-form-item>
 
-                    <el-form-item label="价格" class="right">
+                    <el-form-item label="价格(元)" class="right">
                             
                         <el-input  v-model="add_data.repairFivePrice"></el-input>
                     </el-form-item>
@@ -334,21 +339,21 @@
                          <el-input disabled v-model="detail_data.monthDate"></el-input>
                         
                     </el-form-item>
-                   <el-form-item label="工资" prop="salary">
+                   <el-form-item label="工资(元)" prop="salary">
                         <el-input disabled v-model="detail_data.salary"></el-input>
                     </el-form-item>
 
                </div>
 
                <div class="con">
-                   <el-form-item label="油价"  prop="oilPrice">
+                   <el-form-item label="油价(元)"  prop="oilPrice">
                         <el-input disabled v-model="detail_data.oilPrice"></el-input>
                     </el-form-item>
-                        <el-form-item label="总油耗" prop="oilTotalPrice">
+                        <el-form-item label="总油耗(L)" prop="oilTotalPrice">
                         <el-input disabled v-model="detail_data.oilTotalPrice"></el-input>
                     </el-form-item>
                    
-                    <el-form-item label="总油费" prop="oilTotalPrice">
+                    <el-form-item label="总油费(元)" prop="oilTotalPrice">
 
                           <el-input v-model="detail_data.oilTotalPrice" disabled >
                             
@@ -358,13 +363,13 @@
                </div>
              
                <div class="con">
-                   <el-form-item label="利润" prop="profit">
+                   <el-form-item label="利润(元)" prop="profit">
                         <el-input disabled v-model="detail_data.profit"></el-input>
                     </el-form-item>
-                        <el-form-item label="总花费" prop="totalCost">
+                        <el-form-item label="总运费(元)" prop="totalCost">
                         <el-input disabled v-model="detail_data.totalCost"></el-input>
                     </el-form-item>
-                     <el-form-item label=" 总修理费" prop="totalXiuche">
+                     <el-form-item label="总修理费(元)" prop="totalXiuche">
                         <el-input disabled v-model="detail_data.totalXiuche"></el-input>
                     </el-form-item>
 
@@ -381,7 +386,7 @@
                        <el-input disabled type="textarea" v-model="detail_data.repairOneRemark"></el-input>
                     
                     </el-form-item>
-                    <el-form-item label="价格" class="right">
+                    <el-form-item label="价格(元)" class="right">
                        
                         <el-input  disabled v-model="detail_data.repairOnePrice"></el-input>
                     </el-form-item>
@@ -391,7 +396,7 @@
                             <el-input disabled type="textarea"  v-model="detail_data.repairTwoRemark"></el-input>
                       
                     </el-form-item>
-                     <el-form-item label="价格" class="right">
+                     <el-form-item label="价格(元)" class="right">
                      
                         <el-input disabled  v-model="detail_data.repairTwoPrice"></el-input>
                     </el-form-item>
@@ -401,7 +406,7 @@
                          <el-input  disabled type="textarea"  v-model="detail_data.repairThreeRemark"></el-input>
                         
                     </el-form-item>
-                     <el-form-item label="价格" class="right">
+                     <el-form-item label="价格(元)" class="right">
                          
                         <el-input disabled  v-model="detail_data.repairThreePrice"></el-input>
                     </el-form-item>
@@ -412,7 +417,7 @@
                         <el-input disabled type="textarea"  v-model="detail_data.repairFourRemark"></el-input>
                        
                     </el-form-item>
-                     <el-form-item label="价格" class="right">
+                     <el-form-item label="价格(元)" class="right">
                        
                         <el-input disabled v-model="detail_data.repairFourPrice"></el-input>
                     </el-form-item>
@@ -423,7 +428,7 @@
                        
                     </el-form-item>
 
-                    <el-form-item label="价格" class="right">
+                    <el-form-item label="价格(元)" class="right">
                             
                         <el-input disabled v-model="detail_data.repairFivePrice"></el-input>
                     </el-form-item>
@@ -796,6 +801,31 @@ export default {
          godetail(row){
             this.detail_data = row;
             this.detail_data.monthDate = new Date(row.monthDate).getFullYear()+'-'+(new Date(row.monthDate).getMonth()+1)
+            if(row.repairOneRemark.length==0){
+                   this.detail_data.repairOnePrice='';
+                   this.detail_data.repairOneRemark='';
+
+               }
+               if(row.repairTwoRemark.length==0){
+                   this.detail_data.repairTwoPrice='';
+                   this.detail_data.repairTwoRemark='';
+
+               }
+               if(row.repairThreeRemark.length==0){
+                   this.detail_data.repairThreePrice='';
+                   this.detail_data.repairThreeRemark='';
+
+               }
+               if(row.repairFourRemark.length==0){
+                   this.detail_data.repairFourPrice='';
+                   this.detail_data.repairFourRemark='';
+
+               }
+               if(row.repairFiveRemark.length==0){
+                   this.detail_data.repairFivePrice='';
+                   this.detail_data.repairFiveRemark='';
+
+               }
             this.detail = true;
 
         },
@@ -912,7 +942,7 @@ export default {
         /deep/.el-button{
                     padding: 7px 13px;
                     position: absolute;
-                    right: 2.5%;
+                    right: 2.1%;
                     border-color: rgba(17, 24,49,1);
                     background-color: rgba(17, 24,49,1);
                                   color: #fff;
@@ -1026,7 +1056,7 @@ export default {
                 background-color: rgba(17, 24,49,1);
                 color:#fff;
                 border-color:rgba(17, 24,49,1);
-                margin-top: 52px;
+                margin-top: 51px;
                 font-size: 14px;
                 
               
@@ -1065,9 +1095,39 @@ export default {
     }
     .content{
        /deep/ .el-table{
+            .el-table__fixed-body-wrapper{
+               height: 425px !important;
+           }
+           .el-table__fixed-right{
+               right: 7px !important;
+                //    height: 468px !important;
+              
+           }
+            // 滚动条的宽度
+            .el-table__body-wrapper::-webkit-scrollbar {
+                width: 7px; // 横向滚动条
+                height: 7px; // 纵向滚动条 必写
+            }
+            // 滚动条的滑块
+            .el-table__body-wrapper::-webkit-scrollbar-thumb {
+                background-color: #ddd;
+                border-radius: 4px;
+            }
            .xlxx{
                 width: 100%;
+                .item:hover{
+                    color: rgba(17, 24,49,1) ;
+                    font-weight: bold;
+                  
+                }
+                 .item:hover .r .price{
+                        color: #e33e33  !important;
+                        font-weight: bold;
+
+                }
                .item{
+
+                   cursor: pointer;
                    width: 100%;
                    text-align: left !important;margin-bottom:10px;
                    .r{
@@ -1106,7 +1166,7 @@ export default {
            .sbtn{
                 border:none !important;
                 padding: 0;
-               
+               font-weight: 800;
                  color:rgba(17, 24,49,1);
                 font-size: 10px;
                 margin:0 8px;
@@ -1116,11 +1176,17 @@ export default {
             }
             .sbtn.dele:hover{
                 color: #3a1310;
-                font-weight: 600;
+                font-weight: 800;
             }
-            .sbtn:hover{
+            .sbtn:hover {
            
-               color: #409eee;
+            
+              
+               font-weight: 800;
+               text-decoration: underline;
+
+           
+               
                
             }
         }

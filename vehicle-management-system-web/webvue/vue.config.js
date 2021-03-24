@@ -65,7 +65,7 @@ module.exports  = {
     // webpack-dev-server 相关配置
   devServer: {
     // 设置主机地址
-    host: '127.0.0.1',
+    host: '172.29.201.80',
     // 设置默认端口
     port: 8080,
     // 设置代理

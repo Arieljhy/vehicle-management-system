@@ -47,8 +47,12 @@ export default {
     height: 93vh;
 
      border: 1px solid #eee;
+     /deep/.el-scrollbar__bar.is-vertical{
+         width: 0;
+     }
      
     .app-main-container{
+        height: 93vh;
        background-color:#fff;
         padding: 0 25px 0;
     }

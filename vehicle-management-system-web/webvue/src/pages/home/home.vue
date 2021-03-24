@@ -37,7 +37,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .home{
-    height: 90vh;
+    height: 89vh;
     padding:2vh 2%;
     user-select: none;
     .name{

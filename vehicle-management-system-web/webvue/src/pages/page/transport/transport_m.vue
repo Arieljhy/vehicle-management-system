@@ -78,10 +78,17 @@
                         </el-table-column>
                         <el-table-column
                         prop="billDate"
-                        label="运输时间"
+                        label="时间"
                         width="120"
                         align="center"
                     >
+                        </el-table-column>
+                         <el-table-column
+                        prop="oil"
+                        label="油耗(L)"
+                        width="120"
+                        align="center"
+                        >
                         </el-table-column>
 
                         <el-table-column
@@ -98,10 +105,41 @@
                         align="center"
                         >
                         </el-table-column>
+
+                         <el-table-column
+                        prop="specs"
+                        label="规格"
+                        width="120"
+                        align="center"
+                        >
+                        </el-table-column>
                     
                         <el-table-column
                         prop="meters"
-                        label="里程"
+                        label="米数"
+                        width="120"
+                        align="center"
+                        >
+                        </el-table-column>
+
+                         <el-table-column
+                        prop="ratio"
+                        label="系数"
+                        width="120"
+                        align="center"
+                        >
+                        </el-table-column>
+
+                         <el-table-column
+                        prop="tonnage"
+                        label="吨位(吨)"
+                        width="120"
+                        align="center"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                        prop="unitPrice"
+                        label="单价(元)"
                         width="120"
                         align="center"
                         >
@@ -114,43 +152,19 @@
                         align="center"
                         >
                         </el-table-column>
-
                         <el-table-column
-                        prop="oil"
-                        label="油耗（L）"
+                        prop="remark"
+                        label="备注"
                         width="120"
                         align="center"
                         >
                         </el-table-column>
 
-                        <el-table-column
-                        prop="ratio"
-                        label="比率(%)"
-                        width="120"
-                        align="center"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                        prop="specs"
-                        label="规格"
-                        width="120"
-                        align="center"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                        prop="tonnage"
-                        label="吨位（吨）"
-                        width="120"
-                        align="center"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                        prop="unitPrice"
-                        label="单价（元）"
-                        width="120"
-                        align="center"
-                        >
-                        </el-table-column>
+                       
+
+                       
+                       
+                       
 
                         
                         <el-table-column
@@ -207,7 +221,7 @@
         title="添加"
         :visible.sync="add"
         :modal-append-to-body='false'
-        width="90%"
+        width="93%"
         :close-on-click-modal="false"
          >
         <div class="content">
@@ -226,7 +240,7 @@
                              value-format="yyyy-MM-dd">
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="油耗"  prop="oil">
+                    <el-form-item label="油耗(L)"  prop="oil">
                         <el-input v-model="add_data.oil"></el-input>
                     </el-form-item>
 
@@ -258,18 +272,18 @@
                         <el-form-item label="米数" prop="meters" >
                         <el-input @input="tonnage()"  v-model="add_data.meters"></el-input>
                     </el-form-item>
-                     <el-form-item label="吨位" prop="tonnage">
+                     <el-form-item label="吨位(吨)" prop="tonnage">
                         <el-input :readonly="true" :disabled="true" v-model="add_data.tonnage" ></el-input>
                     </el-form-item>
 
              
-                   <el-form-item label="单价" prop="unitPrice">
+                   <el-form-item label="单价(元)" prop="unitPrice">
                         <el-input @input="getmoney()"  v-model="add_data.unitPrice"></el-input>
                     </el-form-item>
-                        <el-form-item label="运费" prop="money">
+                        <el-form-item label="运费(元)" prop="money">
                         <el-input disabled v-model="add_data.money"></el-input>
                     </el-form-item>
-                     <el-form-item label=" 备注" prop="remark">
+                     <el-form-item label="备注" prop="remark">
                         <el-input v-model="add_data.remark"></el-input>
                     </el-form-item>
 
@@ -290,7 +304,7 @@
         title="修改"
         :visible.sync="update"
         :modal-append-to-body='false'
-        width="90%"
+        width="93%"
         :close-on-click-modal="false"
          >
         <div class="content">
@@ -307,7 +321,7 @@
                              value-format="yyyy-MM-dd">
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="油耗"  prop="oil">
+                    <el-form-item label="油耗(L)"  prop="oil">
                         <el-input v-model="update_data.oil"></el-input>
                     </el-form-item>
 
@@ -337,18 +351,18 @@
                         <el-form-item label="米数" prop="meters" >
                         <el-input @input="tonnage_update()"  v-model="update_data.meters"></el-input>
                     </el-form-item>
-                     <el-form-item label="吨位" prop="tonnage">
+                     <el-form-item label="吨位(吨)" prop="tonnage">
                         <el-input :readonly="true" :disabled="true" v-model="update_data.tonnage" ></el-input>
                     </el-form-item>
 
               
-                   <el-form-item label="单价" prop="unitPrice">
+                   <el-form-item label="单价(元)" prop="unitPrice">
                         <el-input @input="getmoney_update()"  v-model="update_data.unitPrice"></el-input>
                     </el-form-item>
-                        <el-form-item label="运费" prop="money">
+                        <el-form-item label="运费(元)" prop="money">
                         <el-input disabled v-model="update_data.money"></el-input>
                     </el-form-item>
-                     <el-form-item label=" 备注" prop="remark">
+                     <el-form-item label="备注" prop="remark">
                         <el-input v-model="update_data.remark"></el-input>
                     </el-form-item>
 
@@ -369,7 +383,7 @@
             title="详情"
             :visible.sync="detail"
             :modal-append-to-body='false'
-            width="90%"
+            width="93%"
             :close-on-click-modal="false"
          >
         <div class="content">
@@ -387,7 +401,7 @@
                              value-format="yyyy-MM-dd">
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="油耗"  prop="oil">
+                    <el-form-item label="油耗(L)"  prop="oil">
                         <el-input disabled v-model="detail_data.oil"></el-input>
                     </el-form-item>
 
@@ -417,18 +431,18 @@
                         <el-form-item label="米数" prop="meters" >
                         <el-input  disabled  v-model="detail_data.meters"></el-input>
                     </el-form-item>
-                     <el-form-item label="吨位" prop="tonnage">
+                     <el-form-item label="吨位(吨)" prop="tonnage">
                         <el-input disabled v-model="detail_data.tonnage" ></el-input>
                     </el-form-item>
 
               
-                   <el-form-item label="单价" prop="unitPrice">
+                   <el-form-item label="单价(元)" prop="unitPrice">
                         <el-input disabled v-model="detail_data.unitPrice"></el-input>
                     </el-form-item>
-                        <el-form-item label="运费" prop="money">
+                        <el-form-item label="运费(元)" prop="money">
                         <el-input disabled v-model="detail_data.money"></el-input>
                     </el-form-item>
-                     <el-form-item label=" 备注" prop="remark">
+                     <el-form-item label="备注" prop="remark">
                         <el-input disabled v-model="detail_data.remark"></el-input>
                     </el-form-item>
 
@@ -1313,7 +1327,7 @@ export default {
                                         border: 1px solid rgb(142, 144, 153) ;
                                         border-radius: 3px;
                                     }
-                                    th:nth-child(12){
+                                    th:nth-child(13){
                                         
                                          
                                             height: 77px;
@@ -1336,7 +1350,7 @@ export default {
                        .sbtn{
                             border:none !important;
                             padding: 0;
-                          font-weight: 600;
+                          font-weight: 800;
                             color:rgba(17, 24,49,1);
                             font-size: 10px;
                             margin:0 8px;
@@ -1350,7 +1364,8 @@ export default {
                         }
                         .sbtn:hover{
                     
-                        color: #409eee;
+                         font-weight: 800;
+               text-decoration: underline;
                         
                         }
 
@@ -1381,7 +1396,7 @@ export default {
                                             
                                         
                                         }
-                                        td:nth-child(12){
+                                        td:nth-child(13){
                                             .el-button{
                                                  font-size: 14px;
                                                  
