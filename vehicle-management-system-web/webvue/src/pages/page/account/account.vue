@@ -1096,16 +1096,16 @@ export default {
     .content{
        /deep/ .el-table{
             .el-table__fixed{
-                 height: 434px !important;
+                height: calc(90vh - 275px) !important;
                .el-table__fixed-body-wrapper{
-                   height:399px !important;
+                   height:calc(90vh - 311px)  !important;
                }
            }
            .el-table__fixed-right{
-                height: 434px !important;
+                height: calc(90vh - 275px) !important;
                right: 6px !important;
                .el-table__fixed-body-wrapper{
-                   height:399px !important;
+                   height:calc(90vh - 311px)  !important;
                }
            }
       

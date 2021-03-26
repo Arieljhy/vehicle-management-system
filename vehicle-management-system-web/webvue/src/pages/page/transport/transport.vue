@@ -1231,17 +1231,17 @@ export default {
     .content{
        /deep/ .el-table{
            .el-table__fixed{
-                  height: 439px !important;
+                   height: calc(90vh - 270px) !important;
                .el-table__fixed-body-wrapper{
-                   height:404px !important;
+                   height:calc(90vh - 311px)  !important;
                }
            }
            .el-table__fixed-right{
-                height: 439px !important;
+                 height: calc(90vh - 270px) !important;
               
                right: 6px !important;
                .el-table__fixed-body-wrapper{
-                   height:404px !important;
+                   height:calc(90vh - 311px)  !important;
                }
            }
      
