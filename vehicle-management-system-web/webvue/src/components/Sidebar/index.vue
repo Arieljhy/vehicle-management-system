@@ -54,19 +54,30 @@
 import userApi from '@/api/user/user'
 export default {
     name:'sidebar',
-    props:['phone'],
+
     data(){
         return{
             defaultActive:'home',
-            menus:[]
+            menus:[],
+          
         }
     },
-    created(){
+    created(){ 
+       
+
+
+        
 
     },
-    mounted(){
-
-        this.listmenu();
+     mounted(){
+         if(this.$route.fullPath!='/'){
+            
+    
+            this.listmenu();
+        
+        }
+       
+            
 
     },
     methods:{
@@ -84,7 +95,7 @@ export default {
     listmenu(){
             this.menus=[];
             userApi.listmenu({},res=>{
-            
+      
                 if(res.status == 200){
                     let data = [];
                     for(let i=0;i<res.data.data.length;i++){
@@ -96,6 +107,7 @@ export default {
                     
                 }
             })
+     
         }
 
     }

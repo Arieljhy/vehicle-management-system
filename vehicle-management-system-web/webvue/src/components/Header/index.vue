@@ -16,9 +16,9 @@
                 退出
             </el-button>
         </div>
-         <div style="width:100%;position:fixed;left:0;top:7vh;z-index:1001;" v-show="this._isMobile()">
+         <div style="width:100%;position:fixed;left:0;top:7vh;z-index:1001;" v-if="this._isMobile()">
               <transition  name="fade"  >
-                <Sidebar v-show="show" :phone="true" @close="show=false"></Sidebar>
+                <Sidebar v-show="show"  @close="show=false"></Sidebar>
             </transition>
 
         </div>

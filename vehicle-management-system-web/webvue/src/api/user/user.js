@@ -7,6 +7,7 @@ export default{
     },
     //展示菜单列表
     listmenu(data,success,fail){
+    
         http.get("/api/sys/menu/list",data,success,fail);
     }
     

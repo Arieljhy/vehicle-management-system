@@ -680,7 +680,7 @@ export default {
                 }
 
              
-                console.log("this.searchdata",this.searchdata);
+             
                 
              
                
@@ -1095,14 +1095,20 @@ export default {
     }
     .content{
        /deep/ .el-table{
-            .el-table__fixed-body-wrapper{
-               height: 425px !important;
+            .el-table__fixed{
+                 height: 434px !important;
+               .el-table__fixed-body-wrapper{
+                   height:399px !important;
+               }
            }
            .el-table__fixed-right{
-               right: 7px !important;
-                //    height: 468px !important;
-              
+                height: 434px !important;
+               right: 6px !important;
+               .el-table__fixed-body-wrapper{
+                   height:399px !important;
+               }
            }
+      
             // 滚动条的宽度
             .el-table__body-wrapper::-webkit-scrollbar {
                 width: 7px; // 横向滚动条

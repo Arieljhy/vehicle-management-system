@@ -288,9 +288,12 @@
                     </el-form-item>
                     <el-form-item label="拉货日期" prop="billDate">
                          <el-date-picker
+
+                         popper-class="add-popper"
                             v-model="update_data.billDate"
                             type="date"
                             placeholder="选择日期"
+                            :picker-options="pickerOptions"
                              value-format="yyyy-MM-dd">
                         </el-date-picker>
                     </el-form-item>
@@ -685,7 +688,7 @@ export default {
             })
         },
         search(key){
-            console.log("start_end_date",this.start_end_date);
+           
             if(key == '1'){
                 
                 if(this.start_end_date!=null&&this.start_end_date.length!=0){
@@ -697,7 +700,7 @@ export default {
                     delete this.searchdata.endDate;
                 }
              
-               console.log("this.searchdata",this.searchdata);
+            
                 transportApi.findCarDateList(this.searchdata,res=>{
                    
                     
@@ -1227,14 +1230,21 @@ export default {
     }
     .content{
        /deep/ .el-table{
-           .el-table__fixed-body-wrapper{
-               height: 432px !important;
+           .el-table__fixed{
+                  height: 439px !important;
+               .el-table__fixed-body-wrapper{
+                   height:404px !important;
+               }
            }
            .el-table__fixed-right{
-               right: 7px !important;
-                //    height: 468px !important;
+                height: 439px !important;
               
+               right: 6px !important;
+               .el-table__fixed-body-wrapper{
+                   height:404px !important;
+               }
            }
+     
             // 滚动条的宽度
             .el-table__body-wrapper::-webkit-scrollbar {
                 width: 7px; // 横向滚动条

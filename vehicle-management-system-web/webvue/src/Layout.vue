@@ -1,8 +1,9 @@
 <template>
-<div>
-     <div class="app-wrapper" v-if="!isMobile()">
+<div >
+    <div v-if="ifmenu">
+        <div class="app-wrapper" v-if="!isMobile()">
        
-            <Sidebar class="sidebar-container"  :phone="false"></Sidebar>
+            <Sidebar   class="sidebar-container" ></Sidebar>
             
             <div class="app-container">
                 <Header/>
@@ -19,6 +20,9 @@
         
         
     </div>
+
+    </div>
+     
 </div>
    
 </template>
@@ -33,10 +37,17 @@ export default {
     },
     data(){
         return{
-
+            
+            ifmenu:false
         }
     },
-    created(){},
+    created(){
+    
+        if(this.$route.fullPath!='/'){
+            this.ifmenu = true;
+        }
+       
+    },
     mounted(){},
     methods:{
         isMobile(){
