@@ -52,7 +52,7 @@
             </div>
        <div class="content">
            <el-table
-                :data="account_data"
+                :data="account_data_part"
                
                 border
                 style="width: 100%">
@@ -119,25 +119,25 @@
                 align="center">
                     <template slot-scope="scope">
                     <div class="cont xlxx">
-                         <div class="item" v-if="scope.row.repairOneRemark.length!=0">
+                         <div class="item" v-if="scope.row.repairOneRemark!=null&&scope.row.repairOneRemark.length!=0">
                             <el-tooltip popper-class="atooltip"  effect="dark" :content="scope.row.repairOneRemark" placement="top">
                             <div class="r"><span class="xh">1、</span><span class="price">{{scope.row.repairOnePrice}}元</span>：{{scope.row.repairOneRemark}}</div>
                             </el-tooltip>
                         </div>
 
-                         <div class="item" v-if="scope.row.repairTwoRemark.length!=0">
+                         <div class="item" v-if="scope.row.repairTwoRemark!=null&&scope.row.repairTwoRemark.length!=0">
               <el-tooltip popper-class="atooltip"  effect="dark" :content="scope.row.repairTwoRemark" placement="top">
                             <div class="r"><span class="xh">2、</span><span class="price">{{scope.row.repairTwoPrice}}元</span>：{{scope.row.repairTwoRemark}}</div>
                             </el-tooltip>
                         </div>
 
-                         <div class="item" v-if="scope.row.repairThreeRemark.length!=0">
+                         <div class="item" v-if="scope.row.repairThreeRemark!=null&&scope.row.repairThreeRemark.length!=0">
                      <el-tooltip popper-class="atooltip"  effect="dark" :content="scope.row.repairThreeRemark" placement="top">
                             <div class="r"><span class="xh">3、</span><span class="price">{{scope.row.repairThreePrice}}元</span>：{{scope.row.repairThreeRemark}}</div>
                             </el-tooltip>
                         </div>
 
-                         <div class="item" v-if="scope.row.repairFourRemark.length!=0">
+                         <div class="item" v-if="scope.row.repairFourRemark!=null&&scope.row.repairFourRemark.length!=0">
                               <el-tooltip popper-class="atooltip"  effect="dark" :content="scope.row.repairFourRemark" placement="top">
                                 <div class="r"><span class="xh">4、</span><span class="price">{{scope.row.repairFourPrice}}元</span>：{{scope.row.repairFourRemark}}</div>
                             </el-tooltip>
@@ -146,7 +146,7 @@
                             
                         </div>
 
-                        <div class="item" v-if="scope.row.repairFiveRemark.length!=0"> 
+                        <div class="item" v-if="scope.row.repairFiveRemark!=null&&scope.row.repairFiveRemark.length!=0"> 
                           <el-tooltip popper-class="atooltip"  effect="dark" :content="scope.row.repairFiveRemark" placement="top">
                             <div class="r"><span class="xh">5、</span><span class="price">{{scope.row.repairFivePrice}}元</span>：{{scope.row.repairFiveRemark}}</div>
                             </el-tooltip>
@@ -816,7 +816,9 @@ export default {
              
                
                 accountApi.findCarCostList(this.searchdata,res=>{
+                 
                     if(res.data.code == 0){
+                      
                         this.account_data = res.data.data.rows;
                         this.total = res.data.data.total;
                         this.handleCurrentChange(1); 
@@ -834,7 +836,7 @@ export default {
                
 
                 accountApi.findCarCostList({},res=>{
-                  
+                
                     
                     if(res.data.code == 0){
                         this.account_data = res.data.data.rows;
@@ -850,6 +852,7 @@ export default {
         
             let data = {}
             accountApi.findCarCostList(data,res=>{
+             
                 if(res.data.code == 0){
                     this.total = res.data.data.total;
                     this.account_data = res.data.data.rows;
@@ -1033,6 +1036,7 @@ export default {
             let i = 0 ;
              this.account_data_part=[];
            
+           debugger;
             if(this.currentPage == Math.floor(this.account_data.length/this.pagesize)+1){
            
                 while(i < this.account_data.length % this.pagesize){
