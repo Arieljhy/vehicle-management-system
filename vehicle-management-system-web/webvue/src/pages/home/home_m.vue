@@ -60,12 +60,12 @@ export default {
          .name{
             height:12vh;
             line-height:12vh;
-            font-size:25px;
+            font-size:25Px;
             font-weight:600;
         }
         .title{
-            font-size:20px;
-             font-size:25px;
+            font-size:20Px;
+             font-size:25Px;
             font-weight:600;
         }
     }

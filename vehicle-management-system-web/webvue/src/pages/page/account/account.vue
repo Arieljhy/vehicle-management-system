@@ -6,7 +6,7 @@
         </div>
       
        <div class="search-part">
-           <el-form  label-width="120px" :model="searchdata">
+           <el-form  label-width="100px" :model="searchdata">
                <div class="con">
                    <el-form-item class="number" label="车牌号" >
                         <el-input v-model="searchdata.carNum"></el-input>
@@ -592,15 +592,15 @@ export default {
     },
     created(){
         this.init();
-        this.tableheight = window.innerHeight/10 * 9 - 275 +'px'
+        this.tableheight = window.innerHeight/10 * 9.3 - 320 +'px'
     },
     mounted(){
-        this.tableheight = window.innerHeight/10 * 9 - 275 +'px'
+        this.tableheight = window.innerHeight/10 * 9.3 - 320 +'px'
 
     }, 
     watch:{
         account_data(){
-            this.tableheight = window.innerHeight/10 * 9 - 275 +'px'
+            this.tableheight = window.innerHeight/10 * 9.3 - 320 +'px'
         }
     },
     methods:{
@@ -932,7 +932,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .management{
-    height: 90vh;
+    height: 93vh;
     .title{
  font-size: 20px;
         width: 100%;
@@ -946,7 +946,7 @@ export default {
                     border-color: rgba(17, 24,49,1);
                     background-color: rgba(17, 24,49,1);
                                   color: #fff;
-                                  font-size: 14px;
+                                  font-size: 0.1rem;
                 }
                 
                 .el-button:hover{ 
@@ -969,6 +969,7 @@ export default {
                 display: flex;
                 .el-form-item.number{
                     width: 45%;
+                     margin-top: 10px !important;
                     margin-bottom:0;
                     .el-form-item__content{
                    
@@ -1000,6 +1001,7 @@ export default {
                 .el-form-item.timerange{
                     width: 45%;
                     margin-bottom:0;
+                    margin-top: 10px !important;
                     .el-form-item__content{
                    
                         width:calc(100% - 100px);
@@ -1011,8 +1013,8 @@ export default {
                             .el-range-input{
 
                         
-                                height: 30px;
-                                line-height:30px ;
+                                height: 0.1rem;
+                                line-height:0.1rem ;
                             } 
                              .el-range-input:focus {
                                 border-color: rgba(17, 24,49,1);
@@ -1049,6 +1051,7 @@ export default {
         .rightbtn{
             width:15%;
             display: flex;
+            margin-bottom: 5px;
         
             .el-button{
                 width: 50%;
@@ -1058,6 +1061,7 @@ export default {
                 border-color:rgba(17, 24,49,1);
                 margin-top: 51px;
                 font-size: 14px;
+                 height: 0.24rem;
                 
               
 
@@ -1083,7 +1087,7 @@ export default {
                                  border-color: rgba(17, 24,49,1);
                                   background-color: rgba(17, 24,49,1);
                                   color: #fff;
-                                  font-size: 13px;
+                                  font-size: 0.1rem;
 
                             }
                             .el-button:hover{ 
@@ -1096,16 +1100,59 @@ export default {
     .content{
        /deep/ .el-table{
             .el-table__fixed{
-                height: calc(90vh - 275px) !important;
+            
+                 height: calc(93vh - 270px) !important;
+                 .el-table__fixed-body-wrapper::after{
+                                  content: '\00A0';
+                                 
+                             
+                                  
+                                 height: 10px !important;
+
+                    }
                .el-table__fixed-body-wrapper{
-                   height:calc(90vh - 311px)  !important;
+                //    height: calc(90vh - 330px) !important;
+                 height: calc(93vh - 270px) !important;
+               
+                  table{
+                      tbody{
+                         tr:last-child{
+                            
+                              
+
+                          }
+                         
+                          
+                      }
+                      
+
+
+                  }
                }
            }
            .el-table__fixed-right{
-                height: calc(90vh - 275px) !important;
+                // height: calc(90vh - 235px) !important;
+                 height: calc(93vh - 270px) !important;
                right: 6px !important;
+               .el-table__fixed-body-wrapper::after{
+                                  content: '\00A0';
+                                 height: 10px !important;
+
+                    }
                .el-table__fixed-body-wrapper{
-                   height:calc(90vh - 311px)  !important;
+                    // height: calc(90vh - 330px) !important;
+                     height: calc(93vh - 270px) !important;
+               
+                  table{
+                      tbody{
+                          tr:last-child{
+                          
+                              
+                              
+
+                          }
+                      }
+                  }
                }
            }
       
@@ -1121,9 +1168,11 @@ export default {
             }
            .xlxx{
                 width: 100%;
+                
                 .item:hover{
                     color: rgba(17, 24,49,1) ;
                     font-weight: bold;
+
                   
                 }
                  .item:hover .r .price{
@@ -1132,6 +1181,7 @@ export default {
 
                 }
                .item{
+                   
 
                    cursor: pointer;
                    width: 100%;
@@ -1206,23 +1256,44 @@ export default {
     }
     
 }
+/deep/.el-dialog__wrapper.all-dialog.add::-webkit-scrollbar{
+    width: 10px;
+
+}
+ /deep/.el-dialog__wrapper.all-dialog.add::-webkit-scrollbar-thumb{
+   background: #bfbfbf;
+   border-radius:10px;
+ }
     /deep/.el-dialog__wrapper.all-dialog.add{
+        
+       overflow: auto;
+      
         .el-dialog{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            margin-left:-460px !important;
-            margin-top:-355px !important;
+             
+     margin-top: 75px!important;
+            // position: absolute;
+            // top: 50%;
+            // left: 50%;
+            // margin-left:-460px !important;
+            // margin-top:-47vh !important;
                 
         }
 
     }
 /deep/.el-dialog__wrapper.all-dialog{
+    
+
    
-        .el-dialog{
+        .el-dialog{ 
+            overflow: auto;
+            
             
             .el-dialog__body{
+                    padding: 0rem 0.1rem 15px 0.1rem;
+            
                     .content{
+
+                      
                         .el-form{
                             width: 100%;
                             .tit{
@@ -1231,9 +1302,10 @@ export default {
                             }
                             .fg-title{
                                 width: 90%;
-                                padding: 10px 3% 15px 3%;
+                                padding: 0.5vh 3% 0.5vh 3%;
                                 span{
                                     color: #111831;
+                                    font-size: 0.1rem;
                                     font-weight: 600;
 
                                 }
@@ -1241,15 +1313,19 @@ export default {
                             .con{
                             
                                 display: flex !important;
-                                margin-bottom: 2vh;
-                                
+                                margin-bottom: 0.1rem;
+                                 .el-form-item__label {
+                                        color: #000;
+                                     
+                                        font-size: 0.1rem;
+                                    }
                                 .allrepair{
                                      width: 100%;
                                     padding: 0 5% 0 15%;
                                     .item{
                                         width: 100%;
                                         display: flex;
-                                        margin-bottom: 10px;
+                                        margin-bottom: 0.5vh;
                                         .t{
                                             margin-right: 10%;
 
@@ -1262,9 +1338,9 @@ export default {
                             }
                             .conxl{
                                 width: 94%;
-                                margin:0 2% 0 4%;
+                                margin:0 2% 0px 4%;
                                 display: flex;
-                                margin-bottom: 1vh;
+                                margin-bottom: 0.5vh;
                                 line-height: 50px;
                                 border-bottom: 1px dotted #eee;
                                 padding-bottom: 1vh;
@@ -1275,6 +1351,7 @@ export default {
                                     .el-form-item__label {
                                         color: #000;
                                         width: 60px !important;
+                                        font-size: 0.1rem;
                                     }
                                     .el-form-item__content{
                                             margin-left: 60px !important;
@@ -1319,6 +1396,7 @@ export default {
                                         color: #000;
                                         margin-top: 14px;
                                         margin-bottom: auto;
+                                        font-size: 0.1rem;
                                     }
                                     .el-form-item__content{
                            
@@ -1355,6 +1433,9 @@ export default {
                                 margin-bottom:0;
                                 .el-form-item__label {
                                     color: #000;
+                                  
+                                        font-size: 0.1rem;
+                                    
                                 }
                                 .el-form-item__content{
                                    
@@ -1386,7 +1467,7 @@ export default {
                         }
                         .footer{
                             width: 98%;
-                            padding: 20px  1%;
+                            padding: 15px  1%;
                             text-align: right;
 
                             .el-button{
@@ -1396,6 +1477,7 @@ export default {
                                  border-color: rgba(17, 24,49,1);
                                   background-color: rgba(17, 24,49,1);
                                   color: #fff;
+                                  font-size: 0.1rem;
 
                             }
                             .el-button:hover{ 

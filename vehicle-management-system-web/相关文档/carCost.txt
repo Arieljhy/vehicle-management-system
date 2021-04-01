@@ -1,0 +1,158 @@
+/wuliu/saveOrUpdateCarData
+{
+    "id":"16",
+    "carNum": "2564",
+    "billDate": "2020-11-01",
+    "loadingPlace": "巨野",
+    "unloadingPlace": "盒子",
+    "specs": "规格",
+    "meters": "55.33334",
+    "ratio": "0.33336",
+    "tonnage": "0.33333",
+    "unitPrice":"5.44444",
+    "money": "22.3333"
+}
+
+
+/wuliu/delCarDate/7
+
+
+wuliu/findCarDateDetil/12
+
+
+{
+    "msg": "操作成功",
+    "code": 0,
+    "data": {
+        "id": 12,
+        "carNum": "5555",
+        "billDate": "2020-11-23",
+        "loadingPlace": "巨野11",
+        "unloadingPlace": "盒子222",
+        "specs": "规格333",
+        "oil": 5.55,
+        "remark": null,
+        "meters": 100.0,
+        "ratio": 1.0,
+        "tonnage": 100.0,
+        "unitPrice": 1.0,
+        "money": 100.0,
+        "createDate": null,
+        "updateDate": null,
+        "createUser": null,
+        "updateUser": null
+    }
+}
+
+
+
+3个必传的 前端控制一下
+/wuliu/findCarDateList?carNum=5555&startDate=2020-11-01&endDate=2020-12-31&limit=10&offset=1&loadingPlace=巨野&unloadingPlace=盒子222
+//loadingPlace unloadingPlace 是非必传
+
+
+{
+    "msg": "操作成功",
+    "code": 0,
+    "data": {
+        "total": 4,
+        "rows": [
+            {
+                "id": 13,
+                "carNum": "5555",
+                "billDate": "2020-12-12",
+                "loadingPlace": "巨野11",
+                "unloadingPlace": "盒子222",
+                "specs": "规格333",
+                "oil": 5.55,
+                "remark": null,
+                "meters": 100.0,
+                "ratio": 1.0,
+                "tonnage": 100.0,
+                "unitPrice": 1.0,
+                "money": 100.0,
+                "createDate": null,
+                "updateDate": null,
+                "createUser": null,
+                "updateUser": null,
+                "startDate": null,
+                "endDate": null
+            }
+        ]
+    }
+}
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------
+
+
+
+
+/wuliu/saveCarCostMonthData
+
+{
+    "carNum": "5555",
+    "monthDate": "2020-12-11",
+    "oilPrice":101.11,
+    "salary":"8",
+    "repairOnePrice":2.5,
+    "repairOneRemark":"修车一",
+    "repairTwoPrice":2.0,
+    "repairTwoRemark":"修车二",
+    "repairThreePrice":2.3,
+     "repairThreeRemark":"修车三",
+    "repairFourPrice":3.3,
+     "repairFourRemark":"修车四",
+    "repairFivePrice":5.6,
+     "repairFiveRemark":"修车五"
+   
+}
+
+
+/wuliu/delCarCostDate/7
+
+
+
+
+3个必传的 前端控制一下
+/wuliu/findCarCostList?carNum=5555&startDate=2020-11-01&endDate=2020-12-31&limit=10&offset=1
+
+
+{
+    "msg": "操作成功",
+    "code": 0,
+    "data": {
+        "total": 0,
+        "rows": [
+            {
+                "id": 8,
+                "monthDate": "2020-12-11",
+                "carNum": "5555",
+                "totalCost": 300.0,
+                "oilTotal": 16.67,
+                "oilPrice": 101.11,
+                "oilTotalPrice": 1685.5,
+                "salary": 8.0,
+                "repairOnePrice": 2.5,
+                "repairOneRemark": "修车一",
+                "repairTwoPrice": 2.0,
+                "repairTwoRemark": "修车二",
+                "repairThreePrice": 2.3,
+                "repairThreeRemark": "修车三",
+                "repairFourPrice": 3.3,
+                "repairFourRemark": "修车四",
+                "repairFivePrice": 5.6,
+                "repairFiveRemark": "修车五",
+                "profit": -696.6,
+                "totalXiuche": 15.7,
+                "totalMoney": null,
+                "totalOil": null
+            }
+        ]
+    }
+}

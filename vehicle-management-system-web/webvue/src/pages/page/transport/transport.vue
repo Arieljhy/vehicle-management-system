@@ -98,7 +98,7 @@
                 <el-table-column
                 prop="specs"
                 label="规格"
-                width="120"
+                width="150"
                 align="center"
                 >
                 </el-table-column>
@@ -146,7 +146,7 @@
                  <el-table-column
                 prop="remark"
                 label="备注"
-                width="120"
+                width="130"
                 align="center"
                 >
                 </el-table-column>
@@ -224,15 +224,22 @@
                     </el-form-item>
                    
                         <el-form-item label="规格" prop="specs">
-                        <!-- <el-input v-model="add_data.specs" disabled></el-input> -->
+                       
 
-                          <el-select v-model="add_data.specs" @change="specs_change" placeholder="请选择">
+                         <el-select v-model="add_data.specs" placeholder="请选择"
+                         @change="specs_change"
+                         >
+                               <el-option-group
+                            v-for="group in specs_options"
+                            :key="group.label"
+                            :label="group.label">
                             <el-option
-                            v-for="item in specs_options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                                v-for="item in group.options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
                             </el-option>
+                            </el-option-group>
                         </el-select>
                     </el-form-item>
 
@@ -254,7 +261,7 @@
                         <el-input @input="getmoney()"  v-model="add_data.unitPrice"></el-input>
                     </el-form-item>
                         <el-form-item label="运费(元)" prop="money">
-                        <el-input disabled v-model="add_data.money"></el-input>
+                        <el-input disabled v-model="add_data.money" placeholder="(吨位 * 单价)"></el-input>
                     </el-form-item>
                      <el-form-item label=" 备注" prop="remark">
                         <el-input v-model="add_data.remark"></el-input>
@@ -312,13 +319,22 @@
                     </el-form-item>
                    
                         <el-form-item label="规格" prop="specs">
-                          <el-select v-model="update_data.specs" @change="specs_change_update" placeholder="请选择">
+                         
+
+                        <el-select v-model="update_data.specs" placeholder="请选择"
+                         @change="specs_change_update"
+                         >
+                               <el-option-group
+                            v-for="group in specs_options"
+                            :key="group.label"
+                            :label="group.label">
                             <el-option
-                            v-for="item in specs_options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                                v-for="item in group.options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
                             </el-option>
+                            </el-option-group>
                         </el-select>
                     </el-form-item>
 
@@ -397,13 +413,21 @@
                    
                         <el-form-item label="规格" prop="specs">
 
-                          <el-select v-model="detail_data.specs" disabled >
+                         
+
+                        <el-select v-model="detail_data.specs" disabled
+                         >
+                               <el-option-group
+                            v-for="group in specs_options"
+                            :key="group.label"
+                            :label="group.label">
                             <el-option
-                            v-for="item in specs_options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                                v-for="item in group.options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
                             </el-option>
+                            </el-option-group>
                         </el-select>
                     </el-form-item>
 
@@ -459,36 +483,257 @@ export default {
          
 
             start_end_date:[],
-            specs_options: [{
+            specs_options: [
+            {
+                label: '--基本型号--',
+                options: [
+                    // 300 *
+                {
                 value: '300*70',
-                label: '300*70 (0.131)'
-                }, {
-                value: '400*60',
+                label: '300*70'
+                }, 
+                // 400 * 
+                {
+                value: '400*60(0.15)',
                 label: '400*60 (0.15)'
-                }, {
-                value: '488*300',
-                label: '488*300 (0.129)'
-                }, {
+                }, 
+                {
+                value: '400*60(0.16)',
+                label: '400*60 (0.16)'
+                }, 
+                {
+                value: '400*70',
+                label: '400*70'
+                }, 
+                {
+                value: '400*95',
+                label: '400*95'
+                }, 
+                // //488 *
+                // {
+                // value: '488*300',
+                // label: '488*300'
+                // }, 
+                
+                //500 * 
+                {
+                value: '500*65(基本型号)',
+                label: '500*65 (基本型号)'
+                }
+                ,
+                 {
                 value: '500*100',
-                label: '500*100 (0.314)'
-                }, {
+                label: '500*100'
+                }, 
+                {
+                value: '500*125',
+                label: '500*125'
+                },
+                {
+                value: '500*310',
+                label: '500*310'
+                },
+
+                //550 *
+
+                 {
+                value: '550*70',
+                label: '550*70'
+                }, 
+                {
+                value: '550*100(基本型号)',
+                label: '550*100 (基本型号)'
+                }
+                ,
+                {
                 value: '550*110',
-                label: '550*110 (0.38)'
+                label: '550*110'
+                },
+                 {
+                value: '550*310',
+                label: '550*310'
                 },
                 {
                 value: '550*350',
-                label: '550*350 (0.516)'
-                }, {
+                label: '550*350'
+                }, 
+                
+
+                // 600 *
+
+                {
+                value: '600*70',
+                label: '600*70'
+                },
+                {
+                value: '600*100',
+                label: '600*100'
+                },
+                {
                 value: '600*110',
-                label: '600*110 (0.423)'
-                }, {
+                label: '600*110'
+                },
+                {
+                value: '600*130',
+                label: '600*130'
+                }, 
+                {
+                value: '600*360',
+                label: '600*360'
+                },
+                {
+                value: '600*400',
+                label: '600*400'
+                },
+                {
+                value: '600*410',
+                label: '600*410'
+                },
+                
+
+
+                // 700 *
+                {
                 value: '700*110',
-                label: '700*110 (0.51)'
-                }, {
+                label: '700*110'
+                }, 
+                
+
+
+                // 800 *
+                {
                 value: '800*110',
-                label: '800*110 (0.596)'
+                label: '800*110'
+                },
+                {
+                value: '800*130(0.605)',
+                label: '800*130 (0.605)'
+                },
+                {
+                value: '800*130(0.684)',
+                label: '800*130 (0.684)'
                 }
-            ],
+                ]
+            }, 
+            {
+                label: '--竹节桩--',
+                options: [
+                    // 400 * 
+                {
+                value: '400*37(60)',
+                label: '400*37 (60)'
+                }, 
+                {
+                value: '400*37(95)',
+                label: '400*37 (95)'
+                }, 
+                {
+                value: '400*65(竹节)',
+                label: '400*65 (竹节)'
+                }, 
+                //500 * 
+                {
+                value: '500*65(竹节)',
+                label: '500*65 (竹节)'
+                }
+                ,
+                 {
+                value: '500*110(台州)',
+                label: '500*110 (台州)'
+                }, 
+                {
+                value: '500*460(100)',
+                label: '500*460 (100)'
+                },
+                //550 *
+
+                 {
+                value: '550*100(竹节)',
+                label: '550*100 (竹节)'
+                }, 
+
+
+                // 600 *
+
+                {
+                value: '600*100(台州)',
+                label: '600*100 (台州)'
+                },
+                {
+                value: '600*110(台州)',
+                label: '600*110 (台州)'
+                },
+                {
+                value: '600*120',
+                label: '600*120'
+                },
+                {
+                value: '600*560(100)',
+                label: '600*560 (100)'
+                }, 
+                {
+                value: '600*560(110)',
+                label: '600*560 (110)'
+                },
+
+                 // 650 *
+                {
+                value: '650*120',
+                label: '650*120'
+                }, 
+                 // 望达小方庄
+                {
+                value: '望达小方庄',
+                label: '望达小方庄'
+                }
+                ]
+            },
+            {
+                label: '--型钢规格--',
+                options: [
+                    // 3 * 
+                {
+                value: '3*9',
+                label: '3*9'
+                }, 
+                // 4 * 
+                {
+                value: '4*12',
+                label: '4*12'
+                }, 
+                {
+                value: '4*15',
+                label: '4*15'
+                }, 
+                // 6 * 
+                {
+                value: '6*15',
+                label: '6*15'
+                }, 
+                {
+                value: '6*18',
+                label: '6*18'
+                }, 
+                //488 *
+                {
+                value: '488*300',
+                label: '488*300'
+                }, 
+                
+                //500 * 
+                {
+                value: '500*200',
+                label: '500*200'
+                }
+                ,
+                //700 * 
+                 {
+                value: '700*300',
+                label: '700*300'
+                }, 
+                ]
+            }],
+          
             transport_data:[],
             transport_data_part:[],
             searchdata:{
@@ -507,9 +752,9 @@ export default {
 
                 loadingPlace:'',
                 unloadingPlace:'',
-                specs:'550*110',
+                specs:'',
 
-                ratio:0.38,
+                ratio:'',
                 meters:'',
                 tonnage:'(系数 * 米数)',
 
@@ -548,7 +793,7 @@ export default {
                    
                 ],
                 specs: [
-                    { required: false, message: '请输入规格', trigger: 'blur' },
+                    { required: true, message: '请输入规格', trigger: 'blur' },
                    
                 ],
                 ratio: [
@@ -581,7 +826,7 @@ export default {
                    
                 ],
                 money: [
-                    { required: true, message: '请输入运费', trigger: 'blur' },
+                    { required: false, message: '请输入运费', trigger: 'blur' },
                    
                 ],
 
@@ -600,7 +845,7 @@ export default {
                 unloadingPlace:'',
                 specs:'',
 
-                ratio:'0.38',
+                ratio:'',
                 meters:'',
                 tonnage:'',
 
@@ -618,7 +863,7 @@ export default {
                 unloadingPlace:'',
                 specs:'',
 
-                ratio:'0.38',
+                ratio:'',
                 meters:'',
                 tonnage:'',
 
@@ -632,35 +877,35 @@ export default {
     },
     created(){
         this.init();
-        this.tableheight = window.innerHeight/10 * 9 - 270 +'px'
+        this.tableheight = window.innerHeight/10 * 9.3 - 320 +'px'
     },
     mounted(){
-        this.tableheight = window.innerHeight/10 * 9 - 270 +'px'
+        this.tableheight = window.innerHeight/10 * 9.3 - 320+'px'
 
     },
     watch:{
         transport_data(){
-            this.tableheight = window.innerHeight/10 * 9 - 270 +'px'
+            this.tableheight = window.innerHeight/10 * 9.3 - 320 +'px'
         },
         "add_data.specs"(){
-                this.add_data.tonnage = (Number(this.add_data.ratio)* Number(this.add_data.meters)).toFixed(5);
-                this.add_data.money = (Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
+                this.add_data.tonnage = isNaN((Number(this.add_data.ratio)* Number(this.add_data.meters)))?'(系数 * 米数)':(Number(this.add_data.ratio)* Number(this.add_data.meters)).toFixed(5);
+                this.add_data.money = isNaN((Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)))?'(吨位 * 单价)':(Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
                
 
         },
         'add_data.tonnage'(){
-                 this.add_data.money = (Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
+                 this.add_data.money = isNaN((Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)))?'正在计算...':(Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
 
         },
         "update_data.specs"(){
-                this.update_data.tonnage = (Number(this.update_data.ratio)* Number(this.update_data.meters)).toFixed(5);
+                this.update_data.tonnage = isNaN((Number(this.update_data.ratio)* Number(this.update_data.meters)))?'(系数 * 米数)':(Number(this.update_data.ratio)* Number(this.update_data.meters)).toFixed(5);
 
-                this.update_data.money = (Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
+                this.update_data.money = isNaN((Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)))?"(吨位 * 单价)":(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
                
 
         },
         'update_data.tonnage'(){
-                 this.update_data.money = (Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
+                 this.update_data.money = isNaN((Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)))?"正在计算...":(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
 
         }
     },
@@ -736,81 +981,445 @@ export default {
 
         },
         specs_change(val){
-          
+          // 300 *
             if(val=='300*70'){
                 this.add_data.ratio = 0.131;
 
             }
-            if(val=='400*60'){
+
+            // 400 *
+            if(val=='400*60(0.15)'){
                 this.add_data.ratio = 0.15;
 
             }
-            if(val=='488*300'){
-                this.add_data.ratio = 0.129;
+            if(val=='400*60(0.16)'){
+                this.add_data.ratio = 0.16;
+
+            }
+            if(val=='400*70'){
+                this.add_data.ratio = 0.191;
+
+            }
+             if(val=='400*95'){
+                this.add_data.ratio = 0.228;
+
+            }
+            // //488* 
+            // if(val=='488*300'){
+            //     this.add_data.ratio = 0.129;
+
+            // }
+            // 500 *
+            if(val=='500*65(基本型号)'){
+                this.add_data.ratio = 0.222;
 
             }
             if(val=='500*100'){
                 this.add_data.ratio = 0.314;
 
             }
+            if(val=='500*125'){
+                this.add_data.ratio = 0.368;
+
+            }
+            if(val=='500*310'){
+                this.add_data.ratio = 0.436;
+
+            }
+
+            //550 *
+            if(val=='550*70'){
+                this.add_data.ratio = 0.264;
+
+            }
+            if(val=='550*100(基本型号)'){
+                this.add_data.ratio = 0.353;
+
+            }
+
             if(val=='550*110'){
                 this.add_data.ratio = 0.38;
+
+            }
+            if(val=='550*310'){
+                this.add_data.ratio = 0.568;
 
             }
             if(val=='550*350'){
                 this.add_data.ratio = 0.516;
 
             }
+
+            //600 *
+             if(val=='600*70'){
+                this.add_data.ratio = 0.291;
+
+            }
+             if(val=='600*100'){
+                this.add_data.ratio = 0.393;
+
+            }
             if(val=='600*110'){
                 this.add_data.ratio = 0.423;
 
             }
+             if(val=='600*130'){
+                this.add_data.ratio = 0.48;
+
+            }
+             if(val=='600*360'){
+                this.add_data.ratio = 0.646;
+
+            }
+             if(val=='600*400'){
+                this.add_data.ratio = 0.606;
+
+            }
+             if(val=='600*410'){
+                this.add_data.ratio = 0.57;
+
+            }
+            // 700 *
             if(val=='700*110'){
                 this.add_data.ratio = 0.51;
 
             }
+
+            //800*
             if(val=='800*110'){
                 this.add_data.ratio = 0.596;
 
             }
-           
+             if(val=='800*130(0.605)'){
+                this.add_data.ratio = 0.605;
+
+            }
+            if(val=='800*130(0.684)'){
+                this.add_data.ratio = 0.684;
+
+            }
+
+//////////////////////////////竹节桩
+             // 400 *
+            if(val=='400*37(60)'){
+                this.add_data.ratio = 0.15;
+
+            }
+            if(val=='400*37(95)'){
+                this.add_data.ratio = 0.21;
+
+            }
+            if(val=='400*65'){
+                this.add_data.ratio = 0.21;
+
+            }
+
+             // 500 *
+            if(val=='500*65(竹节)'){
+                this.add_data.ratio = 0.209;
+
+            }
+            if(val=='500*110(台州)'){
+                this.add_data.ratio = 0.3;
+
+            }
+            if(val=='500*460(100)'){
+                this.add_data.ratio = 0.289;
+
+            }
+              //550 *
+            if(val=='550*100(竹节)'){
+                this.add_data.ratio = 0.37;
+
+            }
+             //600 *
+             if(val=='600*100(台州)'){
+                this.add_data.ratio = 0.365;
+
+            }
+             if(val=='600*110(台州)'){
+                this.add_data.ratio = 0.392;
+
+            }
+            if(val=='600*120'){
+                this.add_data.ratio = 0.42;
+
+            }
+             if(val=='600*560(100)'){
+                this.add_data.ratio = 0.365;
+
+            }
+             if(val=='600*560(110)'){
+                this.add_data.ratio = 0.412;
+
+            }
+             // 650 *
+            if(val=='650*120'){
+                this.add_data.ratio = 0.45;
+
+            }
+             // 望达小方庄
+            if(val=='望达小方庄'){
+                this.add_data.ratio = 0.234;
+
+            }
+//////////////////////////型钢规格
+ if(val=='3*9'){
+                this.add_data.ratio = 0.54;
+
+            }
+            if(val=='4*12'){
+                this.add_data.ratio = 0.9132;
+
+            }
+             if(val=='4*15'){
+                this.add_data.ratio = 1.1415;
+
+            }
+             if(val=='6*15'){
+                this.add_data.ratio = 1.59;
+
+            }
+             if(val=='6*18'){
+                this.add_data.ratio = 1.903;
+
+            }
+
+              //488* 
+            if(val=='488*300'){
+                this.add_data.ratio = 0.129;
+
+            }
+              //500* 
+            if(val=='500*200'){
+                this.add_data.ratio = 0.0896;
+
+            }
+              //700* 
+            if(val=='700*300'){
+                this.add_data.ratio = 0.185;
+
+            }
         },
         specs_change_update(val){
           
+             // 300 *
             if(val=='300*70'){
                 this.update_data.ratio = 0.131;
 
             }
-            if(val=='400*60'){
+
+            // 400 *
+            if(val=='400*60(0.15)'){
                 this.update_data.ratio = 0.15;
 
             }
-            if(val=='488*300'){
-                this.update_data.ratio = 0.129;
+            if(val=='400*60(0.16)'){
+                this.update_data.ratio = 0.16;
+
+            }
+            if(val=='400*70'){
+                this.update_data.ratio = 0.191;
+
+            }
+             if(val=='400*95'){
+                this.update_data.ratio = 0.228;
+
+            }
+            // //488* 
+            // if(val=='488*300'){
+            //     this.add_data.ratio = 0.129;
+
+            // }
+            // 500 *
+            if(val=='500*65(基本型号)'){
+                this.update_data.ratio = 0.222;
 
             }
             if(val=='500*100'){
                 this.update_data.ratio = 0.314;
 
             }
+            if(val=='500*125'){
+                this.update_data.ratio = 0.368;
+
+            }
+            if(val=='500*310'){
+                this.update_data.ratio = 0.436;
+
+            }
+
+            //550 *
+            if(val=='550*70'){
+                this.update_data.ratio = 0.264;
+
+            }
+            if(val=='550*100(基本型号)'){
+                this.update_data.ratio = 0.353;
+
+            }
+
             if(val=='550*110'){
                 this.update_data.ratio = 0.38;
+
+            }
+            if(val=='550*310'){
+                this.update_data.ratio = 0.568;
 
             }
             if(val=='550*350'){
                 this.update_data.ratio = 0.516;
 
             }
+
+            //600 *
+             if(val=='600*70'){
+                this.update_data.ratio = 0.291;
+
+            }
+             if(val=='600*100'){
+                this.update_data.ratio = 0.393;
+
+            }
             if(val=='600*110'){
                 this.update_data.ratio = 0.423;
 
             }
+             if(val=='600*130'){
+                this.update_data.ratio = 0.48;
+
+            }
+             if(val=='600*360'){
+                this.update_data.ratio = 0.646;
+
+            }
+             if(val=='600*400'){
+                this.update_data.ratio = 0.606;
+
+            }
+             if(val=='600*410'){
+                this.update_data.ratio = 0.57;
+
+            }
+            // 700 *
             if(val=='700*110'){
                 this.update_data.ratio = 0.51;
 
             }
+
+            //800*
             if(val=='800*110'){
                 this.update_data.ratio = 0.596;
+
+            }
+             if(val=='800*130(0.605)'){
+                this.update_data.ratio = 0.605;
+
+            }
+            if(val=='800*130(0.684)'){
+                this.update_data.ratio = 0.684;
+
+            }
+
+//////////////////////////////竹节桩
+             // 400 *
+            if(val=='400*37(60)'){
+                this.update_data.ratio = 0.15;
+
+            }
+            if(val=='400*37(95)'){
+                this.update_data.ratio = 0.21;
+
+            }
+            if(val=='400*65'){
+                this.update_data.ratio = 0.21;
+
+            }
+
+             // 500 *
+            if(val=='500*65(竹节)'){
+                this.update_data.ratio = 0.209;
+
+            }
+            if(val=='500*110(台州)'){
+                this.update_data.ratio = 0.3;
+
+            }
+            if(val=='500*460(100)'){
+                this.update_data.ratio = 0.289;
+
+            }
+              //550 *
+            if(val=='550*100(竹节)'){
+                this.update_data.ratio = 0.37;
+
+            }
+             //600 *
+             if(val=='600*100(台州)'){
+                this.update_data.ratio = 0.365;
+
+            }
+             if(val=='600*110(台州)'){
+                this.update_data.ratio = 0.392;
+
+            }
+            if(val=='600*120'){
+                this.update_data.ratio = 0.42;
+
+            }
+             if(val=='600*560(100)'){
+                this.update_data.ratio = 0.365;
+
+            }
+             if(val=='600*560(110)'){
+                this.update_data.ratio = 0.412;
+
+            }
+             // 650 *
+            if(val=='650*120'){
+                this.update_data.ratio = 0.45;
+
+            }
+             // 望达小方庄
+            if(val=='望达小方庄'){
+                this.update_data.ratio = 0.234;
+
+            }
+//////////////////////////型钢规格
+ if(val=='3*9'){
+                this.update_data.ratio = 0.54;
+
+            }
+            if(val=='4*12'){
+                this.update_data.ratio = 0.9132;
+
+            }
+             if(val=='4*15'){
+                this.update_data.ratio = 1.1415;
+
+            }
+             if(val=='6*15'){
+                this.update_data.ratio = 1.59;
+
+            }
+             if(val=='6*18'){
+                this.update_data.ratio = 1.903;
+
+            }
+
+              //488* 
+            if(val=='488*300'){
+                this.update_data.ratio = 0.129;
+
+            }
+              //500* 
+            if(val=='500*200'){
+                this.update_data.ratio = 0.0896;
+
+            }
+              //700* 
+            if(val=='700*300'){
+                this.update_data.ratio = 0.185;
 
             }
            
@@ -823,9 +1432,9 @@ export default {
 
                 loadingPlace:'',
                 unloadingPlace:'',
-                specs:'550*110',
+                specs:'',
 
-                ratio:0.38,
+                ratio:'',
                 meters:'',
                 tonnage:'(系数 * 米数)',
 
@@ -836,6 +1445,24 @@ export default {
             }
             this.add_reset = false;
             this.$nextTick(()=>{
+                this.add_data={
+                carNum:'',
+                billDate:'',
+                oil:'',
+
+                loadingPlace:'',
+                unloadingPlace:'',
+                specs:'',
+
+                ratio:'',
+                meters:'',
+                tonnage:'(系数 * 米数)',
+
+                unitPrice:'',
+                money:'(吨位 * 单价)',
+                remark:'',
+
+            }
                  this.add_reset = true;
             })
             this.add=true;
@@ -1030,7 +1657,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .management{
-    height: 90vh;
+    height: 93vh;
     .title{
         font-size: 20px;
         width: 100%;
@@ -1041,11 +1668,11 @@ export default {
         /deep/.el-button{
                     padding: 7px 13px;
                     position: absolute;
-                    right: 2%;
+                    right: 1.75%;
                     border-color: rgba(17, 24,49,1);
                     background-color: rgba(17, 24,49,1);
                                   color: #fff;
-                                  font-size: 14px;
+                                  font-size: 0.1rem;
                 }
                 
                 .el-button:hover{ 
@@ -1069,7 +1696,8 @@ export default {
                 display: flex;
                 .el-form-item{
                  width: 45%;
-                margin-bottom:0;
+                margin-top: 10px !important;
+                margin-bottom: 0px;
                 .el-form-item__content{
                     width:calc(100% - 100px);
                     .el-date-editor{
@@ -1077,8 +1705,7 @@ export default {
                         .el-input__inner{
 
                         
-                            height: 30px;
-                            line-height:30px ;
+                          
                         } 
 
                     }
@@ -1142,8 +1769,8 @@ export default {
                             .el-range-input{
 
                         
-                                height: 30px;
-                                line-height:30px ;
+                                height: 0.1rem;
+                                line-height:0.1rem ;
                             } 
                              .el-range-input:focus {
                                 border-color: rgba(17, 24,49,1);
@@ -1195,9 +1822,10 @@ export default {
                 color:#fff;
                 border-color:rgba(17, 24,49,1);
          
-                
+              height: 0.24rem;
                margin-top: 50px;
-               font-size: 14px;
+                font-size: 14px;
+             
               
 
             }
@@ -1218,7 +1846,7 @@ export default {
                                  border-color: rgba(17, 24,49,1);
                                   background-color: rgba(17, 24,49,1);
                                   color: #fff;
-                                  font-size: 13px;
+                                  font-size: 0.1rem;
 
                             }
                             .el-button:hover{ 
@@ -1231,17 +1859,52 @@ export default {
     .content{
        /deep/ .el-table{
            .el-table__fixed{
-                   height: calc(90vh - 270px) !important;
+              
+                     height: calc(93vh - 270px) !important;
+                   
                .el-table__fixed-body-wrapper{
-                   height:calc(90vh - 311px)  !important;
+                  height:calc(93vh - 270px)  !important;
+               
+                  table{
+                      tbody{
+                          tr:last-child{
+                              td:first-child{
+                                  display: block;
+                                  margin-bottom: 5px !important;
+
+                              }
+                              
+
+                          }
+                      }
+                  }
                }
+           
+
            }
            .el-table__fixed-right{
-                 height: calc(90vh - 270px) !important;
+                   height: calc(93vh - 270px) !important;
               
                right: 6px !important;
-               .el-table__fixed-body-wrapper{
-                   height:calc(90vh - 311px)  !important;
+            //    .el-table__fixed-body-wrapper{
+            //        height:calc(90vh - 276px)  !important;
+            //    }
+             .el-table__fixed-body-wrapper{
+                 height:calc(93vh - 270px)  !important;
+               
+                  table{
+                      tbody{
+                          tr:last-child{
+                              td:last-child{
+                               display: block;
+                                  margin-bottom: 5px !important;
+
+                              }
+                              
+
+                          }
+                      }
+                  }
                }
            }
      
@@ -1324,6 +1987,10 @@ export default {
                                     color: #000;
                                 }
                                 .el-form-item__content{
+                                    .el-select{
+                                        width: 100%;
+                                       
+                                    }
                                    
                                     .el-input.is-disabled .el-input__inner{
                                         color: #000;

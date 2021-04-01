@@ -2,7 +2,7 @@
     <div class="logincon_m"> 
         <div class="alltit">
             <span class="logo-regin">
-            车辆信息管控平台</span>
+            车辆信息管理平台</span>
         </div> 
         <div class="login"> 
             <div class="tittle">
@@ -125,10 +125,10 @@ export default {
 <style lang="scss" scoped>
 .logincon_m{
     width: 100%;
-    height: 99vh;
+    height: 100vh;
     background: #243663 url(../../assets/images/Login_bg.jpg) no-repeat center;
     background-position: 80% 80%;
-    border-radius: 4px;
+    border-radius: 4Px;
     
     .alltit{
         
@@ -138,7 +138,7 @@ export default {
         line-height: 19vh;
         
         span{
-            font-size: 25px;
+            font-size: 25Px;
             color: #fff;
         }
 
@@ -153,9 +153,9 @@ export default {
         top:50%;
         margin-top:-23vh;
         margin-left:-45%;
-        border-radius: 4px;
+        border-radius: 4Px;
         .tittle{
-                font-size: 20px;
+                font-size: 20Px;
                 color: #858585;
                 text-align: center;
                 height: 14vh;
@@ -168,35 +168,38 @@ export default {
             /deep/.el-input{
                 margin-bottom: 3%;
                 .el-input__inner{
-                height: 40px;
-                border: 1px solid #e4e7eb;
+                height: 40Px;
+                border: 1Px solid #e4e7eb;
                  background: #fcfcfc;
-                line-height: 40px;
-               padding: 0 14px 0 23px;
+                line-height: 40Px;
+               padding: 0 14Px 0 23Px;
              
               
-                border-radius: 3px;
+                border-radius: 3Px;
                 margin-bottom: 1vh;
                     color: #858584;
                     }
                 .el-input__prefix{
-                    height: 40px;
-                    line-height: 40px;
+                    height: 40Px;
+                    line-height: 40Px;
                     color: #858585;
+                    i{
+                        font-size: 16Px;
+                    }
 
                 }
             }
             .loginbtn.el-button{
                  margin-top: 5vh;
-                    height: 42px;
-                line-height: 42px;
+                    height: 42Px;
+                line-height: 42Px;
                 text-align: center;
                 display: block;
                 border: 0;
-                border-radius: 2px;
+                border-radius: 2Px;
                 width: 100%;
                 color: #fff;
-                font-size: 18px;
+                font-size: 18Px;
                 cursor: pointer;
                 // background: -webkit-linear-gradient(left, #17afe8, #2a84ff);
                 background: -webkit-linear-gradient(left, rgb(29, 40, 78), rgb(27, 40, 83));
@@ -222,19 +225,19 @@ export default {
 }
 .head{
    width: 100%;
-    height: 50px;
-    line-height: 45px;
+    height: 50Px;
+    line-height: 45Px;
     background-color: #fe5929;
-    border-radius: 3px;
-    margin-bottom: 20px;
-    font-size: 16px;
+    border-radius: 3Px;
+    margin-bottom: 20Px;
+    font-size: 16Px;
 }
 #login_btn{
     width:100%;
-    height:50px;
+    height:50Px;
     background-color:rgba(224, 222, 222,.2);
     border: none;
-    font-size:18px;
+    font-size:18Px;
 }
     
 </style>

@@ -7,6 +7,19 @@ function resolve (dir) {
 }
 
 const vuxLoader = require('vux-loader')
+
+
+
+// 引入等比适配插件
+const px2rem = require('postcss-px2rem-exclude')
+ 
+// 配置基本大小
+const postcss = px2rem({
+  // 基准大小 baseSize，需要和rem.js中相同
+  remUnit: 127,
+  exclude : /node_modules/i||/static/i
+})
+
 module.exports  = {
   
     lintOnSave:false,
@@ -42,6 +55,16 @@ module.exports  = {
           .set('@', resolve('src'))
           .set('style', resolve('src/assets/style'))
   },
+  css: {
+    loaderOptions: {
+       
+        postcss: {
+            plugins: [
+              postcss
+            ]
+          }
+    },
+},
   //   configureWebpack: config => {
   //     require('vux-loader').merge(config, {
   //         options: {},

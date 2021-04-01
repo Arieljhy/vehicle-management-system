@@ -5,11 +5,11 @@
                 
             <div class="title">
                 货运明细
-                <el-button class="add" @click="beforeadd">添加<i class="iconfont icon-tianjia" style="font-size:10px;font-weight:600;margin-left:2px;"></i></el-button>
+                <el-button class="add" @click="beforeadd">添加<i class="iconfont icon-tianjia" style="font-size:10Px;font-weight:600;margin-left:2Px;"></i></el-button>
             </div>
       
             <div class="search-part">
-                <el-form  label-width="80px" :model="searchdata">
+                <el-form  label-width="80Px" :model="searchdata">
                     
                             <el-form-item label="车牌号" >
                                 <el-input v-model="searchdata.carNum"></el-input>
@@ -225,7 +225,7 @@
         :close-on-click-modal="false"
          >
         <div class="content">
-            <el-form ref="addform"  v-if="add_reset" label-width="80px" :model="add_data" :rules="addrule">
+            <el-form ref="addform"  v-if="add_reset" label-width="80Px" :model="add_data" :rules="addrule">
              
                     <el-form-item label="车牌号"  prop="carNum">
                         <el-input v-model="add_data.carNum"></el-input>
@@ -255,13 +255,21 @@
                         <el-form-item label="规格" prop="specs">
                         <!-- <el-input v-model="add_data.specs" disabled></el-input> -->
 
-                          <el-select v-model="add_data.specs" @change="specs_change" placeholder="请选择">
+                         
+                         <el-select v-model="add_data.specs" placeholder="请选择"
+                         @change="specs_change"
+                         >
+                               <el-option-group
+                            v-for="group in specs_options"
+                            :key="group.label"
+                            :label="group.label">
                             <el-option
-                            v-for="item in specs_options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                                v-for="item in group.options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
                             </el-option>
+                            </el-option-group>
                         </el-select>
                     </el-form-item>
 
@@ -308,7 +316,7 @@
         :close-on-click-modal="false"
          >
         <div class="content">
-            <el-form ref="updateform"  label-width="80px" :model="update_data" :rules="addrule">
+            <el-form ref="updateform"  label-width="80Px" :model="update_data" :rules="addrule">
              
                     <el-form-item label="车牌号"  prop="carNum">
                         <el-input disabled v-model="update_data.carNum"></el-input>
@@ -334,13 +342,20 @@
                     </el-form-item>
                    
                         <el-form-item label="规格" prop="specs">
-                          <el-select v-model="update_data.specs" @change="specs_change_update" placeholder="请选择">
+                         <el-select v-model="update_data.specs" placeholder="请选择"
+                         @change="specs_change_update"
+                         >
+                               <el-option-group
+                            v-for="group in specs_options"
+                            :key="group.label"
+                            :label="group.label">
                             <el-option
-                            v-for="item in specs_options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                                v-for="item in group.options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
                             </el-option>
+                            </el-option-group>
                         </el-select>
                     </el-form-item>
 
@@ -387,7 +402,7 @@
             :close-on-click-modal="false"
          >
         <div class="content">
-            <el-form  label-width="80px" :model="detail_data" >
+            <el-form  label-width="80Px" :model="detail_data" >
          
                     <el-form-item label="车牌号"  prop="carNum">
                         <el-input disabled v-model="detail_data.carNum"></el-input>
@@ -414,13 +429,19 @@
                    
                         <el-form-item label="规格" prop="specs">
 
-                          <el-select v-model="detail_data.specs" disabled >
+                        <el-select v-model="detail_data.specs" disabled
+                         >
+                               <el-option-group
+                            v-for="group in specs_options"
+                            :key="group.label"
+                            :label="group.label">
                             <el-option
-                            v-for="item in specs_options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                                v-for="item in group.options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
                             </el-option>
+                            </el-option-group>
                         </el-select>
                     </el-form-item>
 
@@ -507,36 +528,256 @@ export default {
             start_end_date:[],
             start_date:'',
             end_date:'',
-            specs_options: [{
+            specs_options: [
+            {
+                label: '--基本型号--',
+                options: [
+                    // 300 *
+                {
                 value: '300*70',
-                label: '300*70 (0.131)'
-                }, {
-                value: '400*60',
+                label: '300*70'
+                }, 
+                // 400 * 
+                {
+                value: '400*60(0.15)',
                 label: '400*60 (0.15)'
-                }, {
-                value: '488*300',
-                label: '488*300 (0.129)'
-                }, {
+                }, 
+                {
+                value: '400*60(0.16)',
+                label: '400*60 (0.16)'
+                }, 
+                {
+                value: '400*70',
+                label: '400*70'
+                }, 
+                {
+                value: '400*95',
+                label: '400*95'
+                }, 
+                // //488 *
+                // {
+                // value: '488*300',
+                // label: '488*300'
+                // }, 
+                
+                //500 * 
+                {
+                value: '500*65(基本型号)',
+                label: '500*65 (基本型号)'
+                }
+                ,
+                 {
                 value: '500*100',
-                label: '500*100 (0.314)'
-                }, {
+                label: '500*100'
+                }, 
+                {
+                value: '500*125',
+                label: '500*125'
+                },
+                {
+                value: '500*310',
+                label: '500*310'
+                },
+
+                //550 *
+
+                 {
+                value: '550*70',
+                label: '550*70'
+                }, 
+                {
+                value: '550*100(基本型号)',
+                label: '550*100 (基本型号)'
+                }
+                ,
+                {
                 value: '550*110',
-                label: '550*110 (0.38)'
+                label: '550*110'
+                },
+                 {
+                value: '550*310',
+                label: '550*310'
                 },
                 {
                 value: '550*350',
-                label: '550*350 (0.516)'
-                }, {
+                label: '550*350'
+                }, 
+                
+
+                // 600 *
+
+                {
+                value: '600*70',
+                label: '600*70'
+                },
+                {
+                value: '600*100',
+                label: '600*100'
+                },
+                {
                 value: '600*110',
-                label: '600*110 (0.423)'
-                }, {
+                label: '600*110'
+                },
+                {
+                value: '600*130',
+                label: '600*130'
+                }, 
+                {
+                value: '600*360',
+                label: '600*360'
+                },
+                {
+                value: '600*400',
+                label: '600*400'
+                },
+                {
+                value: '600*410',
+                label: '600*410'
+                },
+                
+
+
+                // 700 *
+                {
                 value: '700*110',
-                label: '700*110 (0.51)'
-                }, {
+                label: '700*110'
+                }, 
+                
+
+
+                // 800 *
+                {
                 value: '800*110',
-                label: '800*110 (0.596)'
+                label: '800*110'
+                },
+                {
+                value: '800*130(0.605)',
+                label: '800*130 (0.605)'
+                },
+                {
+                value: '800*130(0.684)',
+                label: '800*130 (0.684)'
                 }
-            ],
+                ]
+            }, 
+            {
+                label: '--竹节桩--',
+                options: [
+                    // 400 * 
+                {
+                value: '400*37(60)',
+                label: '400*37 (60)'
+                }, 
+                {
+                value: '400*37(95)',
+                label: '400*37 (95)'
+                }, 
+                {
+                value: '400*65(竹节)',
+                label: '400*65 (竹节)'
+                }, 
+                //500 * 
+                {
+                value: '500*65(竹节)',
+                label: '500*65 (竹节)'
+                }
+                ,
+                 {
+                value: '500*110(台州)',
+                label: '500*110 (台州)'
+                }, 
+                {
+                value: '500*460(100)',
+                label: '500*460 (100)'
+                },
+                //550 *
+
+                 {
+                value: '550*100(竹节)',
+                label: '550*100 (竹节)'
+                }, 
+
+
+                // 600 *
+
+                {
+                value: '600*100(台州)',
+                label: '600*100 (台州)'
+                },
+                {
+                value: '600*110(台州)',
+                label: '600*110 (台州)'
+                },
+                {
+                value: '600*120',
+                label: '600*120'
+                },
+                {
+                value: '600*560(100)',
+                label: '600*560 (100)'
+                }, 
+                {
+                value: '600*560(110)',
+                label: '600*560 (110)'
+                },
+
+                 // 650 *
+                {
+                value: '650*120',
+                label: '650*120'
+                }, 
+                 // 望达小方庄
+                {
+                value: '望达小方庄',
+                label: '望达小方庄'
+                }
+                ]
+            },
+            {
+                label: '--型钢规格--',
+                options: [
+                    // 3 * 
+                {
+                value: '3*9',
+                label: '3*9'
+                }, 
+                // 4 * 
+                {
+                value: '4*12',
+                label: '4*12'
+                }, 
+                {
+                value: '4*15',
+                label: '4*15'
+                }, 
+                // 6 * 
+                {
+                value: '6*15',
+                label: '6*15'
+                }, 
+                {
+                value: '6*18',
+                label: '6*18'
+                }, 
+                //488 *
+                {
+                value: '488*300',
+                label: '488*300'
+                }, 
+                
+                //500 * 
+                {
+                value: '500*200',
+                label: '500*200'
+                }
+                ,
+                //700 * 
+                 {
+                value: '700*300',
+                label: '700*300'
+                }, 
+                ]
+            }],
             transport_data:[],
             transport_data_part:[],
             searchdata:{
@@ -556,9 +797,9 @@ export default {
 
                 loadingPlace:'',
                 unloadingPlace:'',
-                specs:'550*110',
+                specs:'',
 
-                ratio:0.38,
+                ratio:'',
                 meters:'',
                 tonnage:'(系数 * 米数)',
 
@@ -596,7 +837,7 @@ export default {
                    
                 ],
                 specs: [
-                    { required: false, message: '请输入规格', trigger: 'blur' },
+                    { required: true, message: '请输入规格', trigger: 'blur' },
                    
                 ],
                 ratio: [
@@ -648,7 +889,7 @@ export default {
                 unloadingPlace:'',
                 specs:'',
 
-                ratio:'0.38',
+                ratio:'',
                 meters:'',
                 tonnage:'',
 
@@ -666,7 +907,7 @@ export default {
                 unloadingPlace:'',
                 specs:'',
 
-                ratio:'0.38',
+                ratio:'',
                 meters:'',
                 tonnage:'',
 
@@ -678,64 +919,40 @@ export default {
     },
     created(){
         this.init();
-        this.tableheight = window.innerHeight/10 * 9 - window.innerHeight/10 * 4.3 +'px'
+        this.tableheight = window.innerHeight/10 * 9 - window.innerHeight/10 * 4.3 +'Px'
     },
     mounted(){
-        this.tableheight = window.innerHeight/10 * 9 - window.innerHeight/10 * 4.3 +'px'
+        this.tableheight = window.innerHeight/10 * 9 - window.innerHeight/10 * 4.3 +'Px'
 
     },
     watch:{
         transport_data(){
-            this.tableheight = window.innerHeight/10 * 9 - window.innerHeight/10 * 4.3 +'px'
+            this.tableheight = window.innerHeight/10 * 9 - window.innerHeight/10 * 4.3 +'Px'
         },
         "add_data.specs"(){
-                this.add_data.tonnage = (Number(this.add_data.ratio)* Number(this.add_data.meters)).toFixed(5);
-                this.add_data.money = (Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
+                this.add_data.tonnage = isNaN((Number(this.add_data.ratio)* Number(this.add_data.meters)))?'(系数 * 米数)':(Number(this.add_data.ratio)* Number(this.add_data.meters)).toFixed(5);
+                this.add_data.money = isNaN((Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)))?'(吨位 * 单价)':(Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
                
 
         },
         'add_data.tonnage'(){
-                 this.add_data.money = (Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
+                 this.add_data.money = isNaN((Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)))?'正在计算...':(Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
 
         },
         "update_data.specs"(){
-                this.update_data.tonnage = (Number(this.update_data.ratio)* Number(this.update_data.meters)).toFixed(5);
+                this.update_data.tonnage = isNaN((Number(this.update_data.ratio)* Number(this.update_data.meters)))?'(系数 * 米数)':(Number(this.update_data.ratio)* Number(this.update_data.meters)).toFixed(5);
 
-                this.update_data.money = (Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
+                this.update_data.money = isNaN((Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)))?"(吨位 * 单价)":(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
                
 
         },
         'update_data.tonnage'(){
-                 this.update_data.money = (Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
+                 this.update_data.money = isNaN((Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)))?"正在计算...":(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
 
         }
     },
     methods:{
-        beforeadd(){
-            this.add_data={
-                carNum:'',
-                billDate:'',
-                oil:'',
-
-                loadingPlace:'',
-                unloadingPlace:'',
-                specs:'550*110',
-
-                ratio:0.38,
-                meters:'',
-                tonnage:'(系数 * 米数)',
-
-                unitPrice:'',
-                money:'(吨位 * 单价)',
-                remark:'',
-
-            }
-            this.add_reset = false;
-            this.$nextTick(()=>{
-                 this.add_reset = true;
-            })
-            this.add=true;
-        },
+        
          excel(){
             transportApi.excelExport(this.searchdata,res=>{
                 const disposition = res.headers['content-disposition'];
@@ -814,84 +1031,491 @@ export default {
 
         },
         specs_change(val){
-          
+          // 300 *
             if(val=='300*70'){
                 this.add_data.ratio = 0.131;
 
             }
-            if(val=='400*60'){
+
+            // 400 *
+            if(val=='400*60(0.15)'){
                 this.add_data.ratio = 0.15;
 
             }
-            if(val=='488*300'){
-                this.add_data.ratio = 0.129;
+            if(val=='400*60(0.16)'){
+                this.add_data.ratio = 0.16;
+
+            }
+            if(val=='400*70'){
+                this.add_data.ratio = 0.191;
+
+            }
+             if(val=='400*95'){
+                this.add_data.ratio = 0.228;
+
+            }
+            // //488* 
+            // if(val=='488*300'){
+            //     this.add_data.ratio = 0.129;
+
+            // }
+            // 500 *
+            if(val=='500*65(基本型号)'){
+                this.add_data.ratio = 0.222;
 
             }
             if(val=='500*100'){
                 this.add_data.ratio = 0.314;
 
             }
+            if(val=='500*125'){
+                this.add_data.ratio = 0.368;
+
+            }
+            if(val=='500*310'){
+                this.add_data.ratio = 0.436;
+
+            }
+
+            //550 *
+            if(val=='550*70'){
+                this.add_data.ratio = 0.264;
+
+            }
+            if(val=='550*100(基本型号)'){
+                this.add_data.ratio = 0.353;
+
+            }
+
             if(val=='550*110'){
                 this.add_data.ratio = 0.38;
+
+            }
+            if(val=='550*310'){
+                this.add_data.ratio = 0.568;
 
             }
             if(val=='550*350'){
                 this.add_data.ratio = 0.516;
 
             }
+
+            //600 *
+             if(val=='600*70'){
+                this.add_data.ratio = 0.291;
+
+            }
+             if(val=='600*100'){
+                this.add_data.ratio = 0.393;
+
+            }
             if(val=='600*110'){
                 this.add_data.ratio = 0.423;
 
             }
+             if(val=='600*130'){
+                this.add_data.ratio = 0.48;
+
+            }
+             if(val=='600*360'){
+                this.add_data.ratio = 0.646;
+
+            }
+             if(val=='600*400'){
+                this.add_data.ratio = 0.606;
+
+            }
+             if(val=='600*410'){
+                this.add_data.ratio = 0.57;
+
+            }
+            // 700 *
             if(val=='700*110'){
                 this.add_data.ratio = 0.51;
 
             }
+
+            //800*
             if(val=='800*110'){
                 this.add_data.ratio = 0.596;
 
             }
-           
+             if(val=='800*130(0.605)'){
+                this.add_data.ratio = 0.605;
+
+            }
+            if(val=='800*130(0.684)'){
+                this.add_data.ratio = 0.684;
+
+            }
+
+//////////////////////////////竹节桩
+             // 400 *
+            if(val=='400*37(60)'){
+                this.add_data.ratio = 0.15;
+
+            }
+            if(val=='400*37(95)'){
+                this.add_data.ratio = 0.21;
+
+            }
+            if(val=='400*65'){
+                this.add_data.ratio = 0.21;
+
+            }
+
+             // 500 *
+            if(val=='500*65(竹节)'){
+                this.add_data.ratio = 0.209;
+
+            }
+            if(val=='500*110(台州)'){
+                this.add_data.ratio = 0.3;
+
+            }
+            if(val=='500*460(100)'){
+                this.add_data.ratio = 0.289;
+
+            }
+              //550 *
+            if(val=='550*100(竹节)'){
+                this.add_data.ratio = 0.37;
+
+            }
+             //600 *
+             if(val=='600*100(台州)'){
+                this.add_data.ratio = 0.365;
+
+            }
+             if(val=='600*110(台州)'){
+                this.add_data.ratio = 0.392;
+
+            }
+            if(val=='600*120'){
+                this.add_data.ratio = 0.42;
+
+            }
+             if(val=='600*560(100)'){
+                this.add_data.ratio = 0.365;
+
+            }
+             if(val=='600*560(110)'){
+                this.add_data.ratio = 0.412;
+
+            }
+             // 650 *
+            if(val=='650*120'){
+                this.add_data.ratio = 0.45;
+
+            }
+             // 望达小方庄
+            if(val=='望达小方庄'){
+                this.add_data.ratio = 0.234;
+
+            }
+//////////////////////////型钢规格
+ if(val=='3*9'){
+                this.add_data.ratio = 0.54;
+
+            }
+            if(val=='4*12'){
+                this.add_data.ratio = 0.9132;
+
+            }
+             if(val=='4*15'){
+                this.add_data.ratio = 1.1415;
+
+            }
+             if(val=='6*15'){
+                this.add_data.ratio = 1.59;
+
+            }
+             if(val=='6*18'){
+                this.add_data.ratio = 1.903;
+
+            }
+
+              //488* 
+            if(val=='488*300'){
+                this.add_data.ratio = 0.129;
+
+            }
+              //500* 
+            if(val=='500*200'){
+                this.add_data.ratio = 0.0896;
+
+            }
+              //700* 
+            if(val=='700*300'){
+                this.add_data.ratio = 0.185;
+
+            }
         },
         specs_change_update(val){
           
+             // 300 *
             if(val=='300*70'){
                 this.update_data.ratio = 0.131;
 
             }
-            if(val=='400*60'){
+
+            // 400 *
+            if(val=='400*60(0.15)'){
                 this.update_data.ratio = 0.15;
 
             }
-            if(val=='488*300'){
-                this.update_data.ratio = 0.129;
+            if(val=='400*60(0.16)'){
+                this.update_data.ratio = 0.16;
+
+            }
+            if(val=='400*70'){
+                this.update_data.ratio = 0.191;
+
+            }
+             if(val=='400*95'){
+                this.update_data.ratio = 0.228;
+
+            }
+            // //488* 
+            // if(val=='488*300'){
+            //     this.add_data.ratio = 0.129;
+
+            // }
+            // 500 *
+            if(val=='500*65(基本型号)'){
+                this.update_data.ratio = 0.222;
 
             }
             if(val=='500*100'){
                 this.update_data.ratio = 0.314;
 
             }
+            if(val=='500*125'){
+                this.update_data.ratio = 0.368;
+
+            }
+            if(val=='500*310'){
+                this.update_data.ratio = 0.436;
+
+            }
+
+            //550 *
+            if(val=='550*70'){
+                this.update_data.ratio = 0.264;
+
+            }
+            if(val=='550*100(基本型号)'){
+                this.update_data.ratio = 0.353;
+
+            }
+
             if(val=='550*110'){
                 this.update_data.ratio = 0.38;
+
+            }
+            if(val=='550*310'){
+                this.update_data.ratio = 0.568;
 
             }
             if(val=='550*350'){
                 this.update_data.ratio = 0.516;
 
             }
+
+            //600 *
+             if(val=='600*70'){
+                this.update_data.ratio = 0.291;
+
+            }
+             if(val=='600*100'){
+                this.update_data.ratio = 0.393;
+
+            }
             if(val=='600*110'){
                 this.update_data.ratio = 0.423;
 
             }
+             if(val=='600*130'){
+                this.update_data.ratio = 0.48;
+
+            }
+             if(val=='600*360'){
+                this.update_data.ratio = 0.646;
+
+            }
+             if(val=='600*400'){
+                this.update_data.ratio = 0.606;
+
+            }
+             if(val=='600*410'){
+                this.update_data.ratio = 0.57;
+
+            }
+            // 700 *
             if(val=='700*110'){
                 this.update_data.ratio = 0.51;
 
             }
+
+            //800*
             if(val=='800*110'){
                 this.update_data.ratio = 0.596;
 
             }
+             if(val=='800*130(0.605)'){
+                this.update_data.ratio = 0.605;
+
+            }
+            if(val=='800*130(0.684)'){
+                this.update_data.ratio = 0.684;
+
+            }
+
+//////////////////////////////竹节桩
+             // 400 *
+            if(val=='400*37(60)'){
+                this.update_data.ratio = 0.15;
+
+            }
+            if(val=='400*37(95)'){
+                this.update_data.ratio = 0.21;
+
+            }
+            if(val=='400*65'){
+                this.update_data.ratio = 0.21;
+
+            }
+
+             // 500 *
+            if(val=='500*65(竹节)'){
+                this.update_data.ratio = 0.209;
+
+            }
+            if(val=='500*110(台州)'){
+                this.update_data.ratio = 0.3;
+
+            }
+            if(val=='500*460(100)'){
+                this.update_data.ratio = 0.289;
+
+            }
+              //550 *
+            if(val=='550*100(竹节)'){
+                this.update_data.ratio = 0.37;
+
+            }
+             //600 *
+             if(val=='600*100(台州)'){
+                this.update_data.ratio = 0.365;
+
+            }
+             if(val=='600*110(台州)'){
+                this.update_data.ratio = 0.392;
+
+            }
+            if(val=='600*120'){
+                this.update_data.ratio = 0.42;
+
+            }
+             if(val=='600*560(100)'){
+                this.update_data.ratio = 0.365;
+
+            }
+             if(val=='600*560(110)'){
+                this.update_data.ratio = 0.412;
+
+            }
+             // 650 *
+            if(val=='650*120'){
+                this.update_data.ratio = 0.45;
+
+            }
+             // 望达小方庄
+            if(val=='望达小方庄'){
+                this.update_data.ratio = 0.234;
+
+            }
+//////////////////////////型钢规格
+ if(val=='3*9'){
+                this.update_data.ratio = 0.54;
+
+            }
+            if(val=='4*12'){
+                this.update_data.ratio = 0.9132;
+
+            }
+             if(val=='4*15'){
+                this.update_data.ratio = 1.1415;
+
+            }
+             if(val=='6*15'){
+                this.update_data.ratio = 1.59;
+
+            }
+             if(val=='6*18'){
+                this.update_data.ratio = 1.903;
+
+            }
+
+              //488* 
+            if(val=='488*300'){
+                this.update_data.ratio = 0.129;
+
+            }
+              //500* 
+            if(val=='500*200'){
+                this.update_data.ratio = 0.0896;
+
+            }
+              //700* 
+            if(val=='700*300'){
+                this.update_data.ratio = 0.185;
+
+            }
            
+        },
+        beforeadd(){
+            this.add_data={
+                carNum:'',
+                billDate:'',
+                oil:'',
+
+                loadingPlace:'',
+                unloadingPlace:'',
+                specs:'',
+
+                ratio:'',
+                meters:'',
+                tonnage:'(系数 * 米数)',
+
+                unitPrice:'',
+                money:'(吨位 * 单价)',
+                remark:'',
+
+            }
+            this.add_reset = false;
+            this.$nextTick(()=>{
+                this.add_data={
+                carNum:'',
+                billDate:'',
+                oil:'',
+
+                loadingPlace:'',
+                unloadingPlace:'',
+                specs:'',
+
+                ratio:'',
+                meters:'',
+                tonnage:'(系数 * 米数)',
+
+                unitPrice:'',
+                money:'(吨位 * 单价)',
+                remark:'',
+
+            }
+                 this.add_reset = true;
+            })
+            this.add=true;
         },
         addFun(){
              this.$refs.addform.validate((valid) => {
@@ -1124,8 +1748,8 @@ export default {
         padding: 0 5%;
         margin:1vh 0 ;
         .title{
-                height: 35px;
-                line-height: 35px;
+                height: 35Px;
+                line-height: 35Px;
                 width: 100%;
                 padding: 1%;
                 color:rgba(17, 24,49,1);
@@ -1133,18 +1757,19 @@ export default {
                 position: relative;
 
                  margin: 1vh 0;
-                font-size: 20px;
+                font-size: 20Px;
               
                 /deep/.el-button{
-                    width: 90px;
-                    height: 35px;
-                    font-size:14px;
-                    padding: 5px 10px;
+                    width: 90Px;
+                    height: 35Px;
+                    font-size:14Px;
+                    padding: 5Px 10Px;
                     position: absolute;
                     right: 2%;
                     border-color: rgba(17, 24,49,1);
                     background-color: rgba(17, 24,49,1);
                                   color: #fff;
+                                   border-radius:4Px ;
                 }
                 .el-button:hover{ 
                                 
@@ -1155,9 +1780,9 @@ export default {
         }
         .search-part{
                 width: 96%;
-                border: 1px solid #eee;
+                border: 1Px solid #eee;
                 padding: 2%;
-                margin-bottom: 15px;
+                margin-bottom: 15Px;
             
                 /deep/.el-form{
                     width: 100%;
@@ -1168,13 +1793,18 @@ export default {
                     }
                     .el-form-item{
                         width: 100%;
-                        margin-bottom:10px;
+                        margin-bottom:10Px;
+                        .el-form-item__label{
+                            font-size: 15Px;
+                            line-height: 38Px;
+                        }
                         .el-form-item__content{
-                        width:calc(100% - 100px);
+                        width:calc(100% - 100Px);
                         .el-input{
                             .el-input__inner{
-                                height: 40px;
-                                line-height:30px ;
+                                height: 40Px;
+                                line-height:30Px ;
+                                 border-radius:4Px ;
                             } 
                             .el-input__inner:focus {
                                 border-color: rgba(17, 24,49,1);
@@ -1185,20 +1815,21 @@ export default {
                     }
                     .el-form-item.timerange{
                     width: 100%;
-                    margin-bottom:10px;
+                    margin-bottom:10Px;
                     .el-form-item__content{
                    
-                        width:calc(100% - 100px);
+                        width:calc(100% - 100Px);
                    
                         .el-date-editor{
-                             height: 42px;
+                             height: 42Px;
                             
                             width: 100%;
+                            
                             .el-range-input{
 
                         
-                                height: 40px;
-                                line-height:40px ;
+                                height: 40Px;
+                                line-height:40Px ;
                             } 
                              .el-range-input:focus {
                                 border-color: rgba(17, 24,49,1);
@@ -1218,8 +1849,8 @@ export default {
                            
                             
                             .el-input__inner{
-                                height: 40px;
-                                line-height:40px ;
+                                height: 40Px;
+                                line-height:40Px ;
                             } 
                             .el-input__inner:focus {
                                 border-color: rgba(17, 24,49,1);
@@ -1231,23 +1862,24 @@ export default {
 
                 }
                 .rightbtn{
-                    width: calc(100% - 20px);
+                    width: calc(100% - 20Px);
                   
                     text-align: right;
-                        padding-right: 20px;
+                    padding-right: 20Px;
 
                     
                 
                     .el-button{
-                        width: 95px;
+                        width: 95Px;
 
-                        padding:0px 10px;
+                        padding:0Px 10Px;
                         background-color: rgba(17, 24,49,1);
                         color:#fff;
                         border-color:rgba(17, 24,49,1);
-                        margin-top: 2px;
-                        font-size: 14px;
-                        height: 35px;
+                        margin-top: 2Px;
+                        font-size: 14Px;
+                        height: 35Px;
+                        border-radius:4Px ;
                     
 
                     }
@@ -1264,16 +1896,17 @@ export default {
         }
          .exlcon{
                 width: 100%;
-                margin-bottom: 10px;
+                margin-bottom: 10Px;
                /deep/.el-button{
-                    width: 90px;
-                                height:35px;
+                    width: 90Px;
+                                height:35Px;
                                         
-                                        padding:8px 10px !important;
+                                        padding:8Px 10Px !important;
                                         border-color: rgba(17, 24,49,1);
                                         background-color: #fff;
                                         color: rgba(17, 24,49,1);
-                                        font-size: 14px;
+                                        font-size: 14Px;
+                                         border-radius:4Px ;
 
                                     }
                                     .el-button:hover{ 
@@ -1289,22 +1922,22 @@ export default {
                 overflow-y:  auto !important;
                     .el-table__header-wrapper{
                         display: flex;
-                        width: 120px !important;;
+                        width: 120Px !important;;
                          overflow:  hidden !important;
                         .el-table__header{
-                           width: 120px !important;
+                           width: 120Px !important;
                             overflow:  hidden !important;
                         }
 
                         table{
-                             width: 120px !important;;
+                             width: 120Px !important;;
                             display: flex !important;
                                     flex-direction: row;
                                     overflow:  hidden !important;
                                     flex-wrap: wrap;
 
                             thead{
-                                 width: 120px !important;;
+                                 width: 120Px !important;;
                                 // color:rgba(17, 24,49,1);
                                 background-color:rgba(17, 24,49,1);
                                display: flex !important;
@@ -1316,21 +1949,21 @@ export default {
                                     flex-direction: row;
                                     overflow:  hidden !important;
                                     flex-wrap: wrap;
-                                        width: 120px !important;;
+                                        width: 120Px !important;;
                                      th{
                                          text-align: left;
-                                         width: 120px !important;
-                                        padding:13px 0 !important;
+                                         width: 120Px !important;
+                                        padding:13Px 0 !important;
                                         // background-color: #eee;
                                         background-color:rgba(17, 24,49,1);
                                         color: #fff;
-                                        border: 1px solid rgb(142, 144, 153) ;
-                                        border-radius: 3px;
+                                        border: 1Px solid rgb(142, 144, 153) ;
+                                        border-radius: 3Px;
                                     }
                                     th:nth-child(13){
                                         
                                          
-                                            height: 77px;
+                                            height: 77Px;
                                       
                                             
                                         
@@ -1344,7 +1977,7 @@ export default {
                         }
                         th.is-leaf{
                             // color:rgba(17, 24,49,1);
-                            padding:2px 0 !important;
+                            padding:2Px 0 !important;
                             // background-color: #eee;
                         }
                        .sbtn{
@@ -1352,8 +1985,8 @@ export default {
                             padding: 0;
                           font-weight: 800;
                             color:rgba(17, 24,49,1);
-                            font-size: 10px;
-                            margin:0 8px;
+                            font-size: 10Px;
+                            margin:0 8Px;
                         }
                         .sbtn.dele{
                             color: #e33e33;
@@ -1372,7 +2005,7 @@ export default {
                         .el-table__body-wrapper{
                           
                             display: flex;
-                            width: calc(100% - 34px);
+                            width: calc(100% - 34Px);
                             overflow:  none !important;
                             .el-table__body{
                                  width:min-content !important; 
@@ -1385,12 +2018,12 @@ export default {
                                         flex-direction: row;
                             
                                         flex-wrap: wrap;
-                                            width: 120px;
+                                            width: 120Px;
                                         td{
                                             text-align: left;
-                                            width: 120px !important;
-                                            height: 51px;
-                                            padding:13px 0 !important;
+                                            width: 120Px !important;
+                                            height: 51Px;
+                                            padding:13Px 0 !important;
                                             color: #000;
                                             font-weight:600;
                                             
@@ -1398,15 +2031,15 @@ export default {
                                         }
                                         td:nth-child(13){
                                             .el-button{
-                                                 font-size: 14px;
+                                                 font-size: 14Px;
                                                  
-                                                 margin: 0 20px 15px 0;
+                                                 margin: 0 20Px 15Px 0;
                                                  text-decoration: underline;
 
                                             }
                                         
                                          
-                                            height: 77px;
+                                            height: 77Px;
                                            
                                       
                                             
@@ -1424,37 +2057,37 @@ export default {
                             width: 100%;
 
                         
-                            margin: 10px 0 20px 0;
+                            margin: 10Px 0 20Px 0;
                             /deep/.el-pagination{
                                 text-align: right;
                                 position: relative;
-                                padding: 2px 0;
-                                margin-bottom: 5px;
+                                padding: 2Px 0;
+                                margin-bottom: 5Px;
                                 .el-pagination__sizes{
                                     position: absolute;
-                                    bottom:-35px;
-                                    right: 135px;
+                                    bottom:-35Px;
+                                    right: 135Px;
                                      .el-input .el-input__inner{
-                                         font-size: 15px;
+                                         font-size: 15Px;
 
                                     }
                                 }
                                 
                                 span{
-                                    font-size: 13px !important;
+                                    font-size: 13Px !important;
                                 }
                                 button{
-                                    padding: 0 2px;
-                                    min-width:25px;
+                                    padding: 0 2Px;
+                                    min-width:25Px;
                                 
-                                    font-size: 18px;
-                                    border-radius: 4px;
+                                    font-size: 18Px;
+                                    border-radius: 4Px;
                                     margin: auto;
                                 }
                                 .el-pager{
                                     li{
-                                        min-width: 32px;
-                                        font-size: 16px;
+                                        min-width: 32Px;
+                                        font-size: 16Px;
                                     }
                                 
                                 
@@ -1465,16 +2098,16 @@ export default {
 
                                     position: absolute;
                                     right: 2%;
-                                    bottom: -35px;
-                                     font-size: 16px;
+                                    bottom: -35Px;
+                                     font-size: 16Px;
                                 }
 
                             }
 
                             .tit{
-                                font-size: 14px;
-                                height: 32px;
-                                line-height: 32px;
+                                font-size: 14Px;
+                                height: 32Px;
+                                line-height: 32Px;
                                 padding-left: 2%;
                             }
                         
@@ -1485,7 +2118,7 @@ export default {
             width: 100%;
             height:3vh;
             line-height: 3vh;
-            font-size: 12px;
+            font-size: 12Px;
             text-align: center;
             color: rgb(204, 200, 200);
             
@@ -1497,7 +2130,7 @@ export default {
         .el-dialog{
             margin-top: 7vh !important;
             .el-dialog__body{
-                padding: 10px 20px 50px 20px;
+                padding: 10Px 20Px 50Px 20Px;
                     .content{
                         .el-form{
                             width: 100%;
@@ -1510,7 +2143,7 @@ export default {
                             .el-form-item{
                                  width: 97%;
                           
-                               margin:4px 0 19px 0;
+                               margin:4Px 0 19Px 0;
                                  .el-form-item__label {
                                     color: #000;
                                 }
@@ -1534,8 +2167,8 @@ export default {
                                         width: 100%;
                                         .el-input__inner{
                                             width: 100%;
-                                            height: 40px;
-                                            line-height:40px ;
+                                            height: 40Px;
+                                            line-height:40Px ;
                                         } 
                                         .el-input__inner:focus {
                                             border-color: rgba(17, 24,49,1);
@@ -1548,13 +2181,13 @@ export default {
                         }
                         .footer{
                             width: 98%;
-                            padding: 20px  1%;
+                            padding: 20Px  1%;
                             text-align: right;
 
                             .el-button{
-                                height:33px;
+                                height:33Px;
                                 
-                                padding:9px 20px !important;
+                                padding:9Px 20Px !important;
                                  border-color: rgba(17, 24,49,1);
                                   background-color: rgba(17, 24,49,1);
                                   color: #fff;

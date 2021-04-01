@@ -110,12 +110,12 @@ export default {
             margin: 1.5vh 0 0.5vh 10%;
             line-height: 4vh;
             text-align: center;
-            border:1px solid rgba(17, 24,49,1);
-            border-radius: 4px;
+            border:1Px solid rgba(17, 24,49,1);
+            border-radius: 4Px;
             //   background-color: #fff;
               background-color: rgba(17, 24,49,1);
             i{
-                font-size: 35px;
+                font-size: 35Px;
                color: #fff;
             }
         }
@@ -137,11 +137,13 @@ export default {
        color: #fff;
        width:76%;
        padding-right: 4%;
+        font-size:16Px;
        span{
-            font-size:16px;
+            font-size:16Px;
         }
         .el-button{
-          margin: auto;  font-size: 16px;
+          margin: auto; 
+           font-size: 16Px;
         }
     }
 }
@@ -158,7 +160,18 @@ export default {
         width:78%;
         padding-right: 2%;
         span{
-            font-size:14px;
+            font-size:14Px;
+        }
+        i{
+            font-size:14Px;
+        }
+        .el-button{
+            span{
+                font-size:14Px;
+
+            }
+            
+
         }
     }
 }

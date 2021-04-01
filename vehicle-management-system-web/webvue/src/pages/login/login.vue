@@ -2,7 +2,7 @@
     <div class="logincon"> 
         <div class="alltit">
             <span class="logo-regin">
-            车辆信息管控平台</span>
+            车辆信息管理平台</span>
         </div> 
         <div class="login"> 
             <div class="tittle">
@@ -116,7 +116,7 @@ export default {
 <style lang="scss" scoped>
 .logincon{
     width: 100%;
-    height: 98.5vh;
+    height: 100vh;
     background: #243663 url(../../assets/images/Login_bg.jpg) no-repeat center;
     background-position: 80% 80%;
     border-radius: 4px;

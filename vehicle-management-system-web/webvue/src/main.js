@@ -11,6 +11,11 @@ Vue.use(Mint);
 
 const FastClick = require('fastclick')
 FastClick.attach(document.body)
+// main.js
+ import './utils/flexible';
+// import './utils/rem'
+//import './utils/hotcss'
+
 
 
 
