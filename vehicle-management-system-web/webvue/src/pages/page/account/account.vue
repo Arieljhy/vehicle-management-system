@@ -1101,7 +1101,7 @@ export default {
        /deep/ .el-table{
             .el-table__fixed{
             
-                 height: calc(93vh - 270px) !important;
+                 height: calc(93vh - 277Px) !important;
                  .el-table__fixed-body-wrapper::after{
                                   content: '\00A0';
                                  
@@ -1112,7 +1112,7 @@ export default {
                     }
                .el-table__fixed-body-wrapper{
                 //    height: calc(90vh - 330px) !important;
-                 height: calc(93vh - 270px) !important;
+                 height: calc(93vh - 357Px) !important;
                
                   table{
                       tbody{
@@ -1132,7 +1132,7 @@ export default {
            }
            .el-table__fixed-right{
                 // height: calc(90vh - 235px) !important;
-                 height: calc(93vh - 270px) !important;
+                 height: calc(93vh - 277Px) !important;
                right: 6px !important;
                .el-table__fixed-body-wrapper::after{
                                   content: '\00A0';
@@ -1141,7 +1141,7 @@ export default {
                     }
                .el-table__fixed-body-wrapper{
                     // height: calc(90vh - 330px) !important;
-                     height: calc(93vh - 270px) !important;
+                     height: calc(93vh - 357Px) !important;
                
                   table{
                       tbody{

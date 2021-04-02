@@ -36,12 +36,29 @@
                                 placeholder="结束日期">
                                 </el-date-picker>
                             </el-form-item>
+                             <el-form-item label="规格" prop="specs">
+                        <el-select v-model="searchdata.specs" 
+                         >
+                               <el-option-group
+                            v-for="group in specs_options"
+                            :key="group.label"
+                            :label="group.label">
+                            <el-option
+                                v-for="item in group.options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                            </el-option-group>
+                        </el-select>
+                    </el-form-item>
                         <el-form-item label="装货地" >
                                 <el-input v-model="searchdata.loadingPlace"></el-input>
                             </el-form-item>
                                 <el-form-item label="卸货地" >
                                 <el-input v-model="searchdata.unloadingPlace"></el-input>
                             </el-form-item>
+
 
                     
                     
@@ -57,6 +74,18 @@
             </div>
              <div class="exlcon">
                 <el-button @click="excel()">导出Excel</el-button>
+                <div class="right-title">
+                    <div class="ti">
+                       总米数(米)：
+
+                    </div>
+                    <div class="de">
+                        {{sumMeters}} 
+
+                    </div>
+                    
+
+                </div>
             </div>
             <div class="content">
                 <el-table
@@ -281,15 +310,15 @@
                         <el-input @input="tonnage()"  v-model="add_data.meters"></el-input>
                     </el-form-item>
                      <el-form-item label="吨位(吨)" prop="tonnage">
-                        <el-input :readonly="true" :disabled="true" v-model="add_data.tonnage" ></el-input>
+                        <el-input :readonly="true" :disabled="true" v-model="add_data.tonnage" :placeholder="add_placeholder.tonnage">></el-input>
                     </el-form-item>
 
              
                    <el-form-item label="单价(元)" prop="unitPrice">
                         <el-input @input="getmoney()"  v-model="add_data.unitPrice"></el-input>
                     </el-form-item>
-                        <el-form-item label="运费(元)" prop="money">
-                        <el-input disabled v-model="add_data.money"></el-input>
+                        <el-form-item label="运费(元)" prop="money" :placeholder="add_placeholder.money">>
+                        <el-input  v-model="add_data.money"></el-input>
                     </el-form-item>
                      <el-form-item label="备注" prop="remark">
                         <el-input v-model="add_data.remark"></el-input>
@@ -367,7 +396,7 @@
                         <el-input @input="tonnage_update()"  v-model="update_data.meters"></el-input>
                     </el-form-item>
                      <el-form-item label="吨位(吨)" prop="tonnage">
-                        <el-input :readonly="true" :disabled="true" v-model="update_data.tonnage" ></el-input>
+                        <el-input :readonly="true" :disabled="true" v-model="update_data.tonnage" :placeholder="update_placeholder.tonnage"></el-input>
                     </el-form-item>
 
               
@@ -375,7 +404,7 @@
                         <el-input @input="getmoney_update()"  v-model="update_data.unitPrice"></el-input>
                     </el-form-item>
                         <el-form-item label="运费(元)" prop="money">
-                        <el-input disabled v-model="update_data.money"></el-input>
+                        <el-input  v-model="update_data.money" :placeholder="update_placeholder.tonnage"></el-input>
                     </el-form-item>
                      <el-form-item label="备注" prop="remark">
                         <el-input v-model="update_data.remark"></el-input>
@@ -482,6 +511,7 @@ import transportApi from '@/api/transport/transport';
 export default {
     data(){
         return{
+              sumMeters :0,
               pickerOptions:{
                 disabledDate: time => {
                    
@@ -784,13 +814,21 @@ export default {
                 carNum:'',
                 billDate:'',
                 loadingPlace:'',
-                unloadingPlace:''
+                unloadingPlace:'',
+                specs:''
             },
             tableheight:'200',
-            
+             add_placeholder:{
+                tonnage:'(系数 * 米数)',
+                money:'(吨位 * 单价)'
+            },
+             update_placeholder:{
+                tonnage:'(系数 * 米数)',
+                money:'(吨位 * 单价)'
+            },
             add:false,
             add_reset:true,
-            add_data:{
+           add_data:{
                 carNum:'',
                 billDate:'',
                 oil:'',
@@ -799,12 +837,12 @@ export default {
                 unloadingPlace:'',
                 specs:'',
 
-                ratio:'',
-                meters:'',
-                tonnage:'(系数 * 米数)',
+                ratio:undefined,
+                meters:undefined,
+                tonnage:undefined,
 
-                unitPrice:'',
-                money:'(吨位 * 单价)',
+                unitPrice:undefined,
+                money:undefined,
                 remark:'',
 
             },
@@ -856,7 +894,7 @@ export default {
                    
                 ],
                 tonnage: [
-                    { required: false, message: '请输入吨位', trigger: 'blur' },
+                    { required: true, message: '请输入吨位', trigger: 'blur' },
                    
                 ],
                 unitPrice: [
@@ -871,6 +909,12 @@ export default {
                 ],
                 money: [
                     { required: true, message: '请输入运费', trigger: 'blur' },
+                    {
+                        required: true,
+                        pattern: /^[0-9]+.?[0-9]*$/,
+                        message: '请输入数字',
+                        trigger: 'change'
+                    }
                    
                 ],
 
@@ -879,7 +923,7 @@ export default {
                    
                 ],
             },
-            detail:false,
+             detail:false,
             detail_data:{
                 carNum:'',
                 billDate:'',
@@ -889,12 +933,12 @@ export default {
                 unloadingPlace:'',
                 specs:'',
 
-                ratio:'',
-                meters:'',
-                tonnage:'',
+                ratio:undefined,
+                meters:undefined,
+                tonnage:undefined,
 
-                unitPrice:'',
-                money:'',
+                unitPrice:undefined,
+                money:undefined,
                 remark:'',
             },
             update:false,
@@ -907,12 +951,12 @@ export default {
                 unloadingPlace:'',
                 specs:'',
 
-                ratio:'',
-                meters:'',
-                tonnage:'',
+                ratio:undefined,
+                meters:undefined,
+                tonnage:undefined,
 
-                unitPrice:'',
-                money:'',
+                unitPrice:undefined,
+                money:undefined,
                 remark:'',
             }
         }
@@ -930,24 +974,24 @@ export default {
             this.tableheight = window.innerHeight/10 * 9 - window.innerHeight/10 * 4.3 +'Px'
         },
         "add_data.specs"(){
-                this.add_data.tonnage = isNaN((Number(this.add_data.ratio)* Number(this.add_data.meters)))?'(系数 * 米数)':(Number(this.add_data.ratio)* Number(this.add_data.meters)).toFixed(5);
-                this.add_data.money = isNaN((Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)))?'(吨位 * 单价)':(Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
+                this.add_data.tonnage = isNaN((Number(this.add_data.ratio)* Number(this.add_data.meters)))?undefined:(Number(this.add_data.ratio)* Number(this.add_data.meters)).toFixed(5);
+                this.add_data.money = isNaN((Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)))?undefined:(Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
                
 
         },
         'add_data.tonnage'(){
-                 this.add_data.money = isNaN((Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)))?'正在计算...':(Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
+                 this.add_data.money = isNaN((Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)))?undefined:(Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
 
         },
         "update_data.specs"(){
-                this.update_data.tonnage = isNaN((Number(this.update_data.ratio)* Number(this.update_data.meters)))?'(系数 * 米数)':(Number(this.update_data.ratio)* Number(this.update_data.meters)).toFixed(5);
+                this.update_data.tonnage = isNaN((Number(this.update_data.ratio)* Number(this.update_data.meters)))?undefined:(Number(this.update_data.ratio)* Number(this.update_data.meters)).toFixed(5);
 
-                this.update_data.money = isNaN((Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)))?"(吨位 * 单价)":(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
+                this.update_data.money = isNaN((Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)))?undefined:(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
                
 
         },
         'update_data.tonnage'(){
-                 this.update_data.money = isNaN((Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)))?"正在计算...":(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
+                 this.update_data.money = isNaN((Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)))?undefined:(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
 
         }
     },
@@ -1001,6 +1045,7 @@ export default {
                     if(res.data.code == 0){
                         this.transport_data = res.data.data.rows;
                         this.total = res.data.data.total;
+                          this.sumMeters = res.data.sumMeters;
                         this.handleCurrentChange(1); 
                     }
                 })
@@ -1011,7 +1056,8 @@ export default {
                     carNum:'',
                     billDate:'',
                     loadingPlace:'',
-                    unloadingPlace:''
+                    unloadingPlace:'',
+                     specs:''
 
                 }
                 this.start_date = '';
@@ -1024,6 +1070,7 @@ export default {
                     if(res.data.code == 0){
                         this.transport_data = res.data.data.rows;
                         this.total = res.data.data.total;
+                          this.sumMeters = res.data.sumMeters;
                         this.handleCurrentChange(1); 
                     }
                 })
@@ -1159,7 +1206,7 @@ export default {
                 this.add_data.ratio = 0.21;
 
             }
-            if(val=='400*65'){
+            if(val=='400*65(竹节)'){
                 this.add_data.ratio = 0.21;
 
             }
@@ -1381,7 +1428,7 @@ export default {
                 this.update_data.ratio = 0.21;
 
             }
-            if(val=='400*65'){
+            if(val=='400*65(竹节)'){
                 this.update_data.ratio = 0.21;
 
             }
@@ -1474,7 +1521,7 @@ export default {
             }
            
         },
-        beforeadd(){
+         beforeadd(){
             this.add_data={
                 carNum:'',
                 billDate:'',
@@ -1484,37 +1531,21 @@ export default {
                 unloadingPlace:'',
                 specs:'',
 
-                ratio:'',
-                meters:'',
-                tonnage:'(系数 * 米数)',
+                ratio:undefined,
+                meters:undefined,
+                tonnage:undefined,
 
-                unitPrice:'',
-                money:'(吨位 * 单价)',
+                unitPrice:undefined,
+                money:undefined,
                 remark:'',
 
             }
             this.add_reset = false;
             this.$nextTick(()=>{
-                this.add_data={
-                carNum:'',
-                billDate:'',
-                oil:'',
-
-                loadingPlace:'',
-                unloadingPlace:'',
-                specs:'',
-
-                ratio:'',
-                meters:'',
-                tonnage:'(系数 * 米数)',
-
-                unitPrice:'',
-                money:'(吨位 * 单价)',
-                remark:'',
-
-            }
+                
                  this.add_reset = true;
             })
+           
             this.add=true;
         },
         addFun(){
@@ -1546,27 +1577,43 @@ export default {
             
            
         },
-        tonnage(){
-            if(this.add_data.tonnage.length!=0&&this.add_data.meters.length!=0){
-                if(isNaN(Number(this.add_data.ratio)* Number(this.add_data.meters))){
-                    this.add_data.tonnage = '请输入正确的米数！'
-                }else{
-                    this.add_data.tonnage = (Number(this.add_data.ratio)* Number(this.add_data.meters)).toFixed(5);
-                    
+     tonnage(){
+       
+                if(isNaN(this.add_data.meters)){
+                    this.add_placeholder.tonnage = '请输入正确的米数！'
+                    return;
                 }
-                 
-            }else{
-                 this.add_data.tonnage = '正在计算...'
-            }
-           
+                if(this.add_data.meters==''){
+                    this.add_data.tonnage = undefined;
+                    this.add_placeholder.tonnage = '(系数 * 米数)'
+                    return;
+                }
+                if(this.add_data.meters!=undefined){
+                     
+                    this.add_data.tonnage = isNaN((Number(this.add_data.ratio)* Number(this.add_data.meters)))?undefined:(Number(this.add_data.ratio)* Number(this.add_data.meters)).toFixed(5);
+                  
+                }
+                else{
+                     this.add_placeholder.tonnage = '(系数 * 米数)'
+                }
 
         },
         getmoney(){
-            if(this.add_data.tonnage.length!=0&&this.add_data.meters.length!=0&&this.add_data.unitPrice.length!=0){
+
+           if(this.add_data.unitPrice==''){
+      
+                this.add_placeholder.money = '(吨位 * 单价)'
+                    this.add_data.money = undefined;
+                    return;
+                    
+            } 
+            if(this.add_data.tonnage!=undefined&&this.add_data.meters!=undefined&&this.add_data.unitPrice!=undefined){
                 
-                 this.add_data.money = (Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
-            }else{
-                 this.add_data.money = '正在计算...'
+                 this.add_data.money = isNaN(Number(this.add_data.tonnage) * Number(this.add_data.unitPrice))?undefined:(Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
+            }
+            else{
+                this.add_placeholder.money = '(吨位 * 单价)'
+                
             }
 
         },
@@ -1579,7 +1626,7 @@ export default {
                 
                 if(res.data.code == 0){
                     this.transport_data = res.data.data.rows;
-                    
+                      this.sumMeters = res.data.sumMeters;
                     this.total = res.data.data.total;
                     this.handleCurrentChange(1); 
                 }
@@ -1595,27 +1642,46 @@ export default {
             this.update = true;
 
         },
-        tonnage_update(){
-            if(this.update_data.tonnage.length!=0&&this.update_data.meters.length!=0){
-                if(isNaN(Number(this.update_data.ratio)* Number(this.update_data.meters))){
-                    this.update_data.tonnage = '请输入正确的米数！'
-                }else{
-                    this.update_data.tonnage = (Number(this.update_data.ratio)* Number(this.update_data.meters)).toFixed(5);
-                    
+   tonnage_update(){
+                 if(isNaN(this.update_data.meters)){
+                    this.update_placeholder.tonnage = '请输入正确的米数！'
+                    return;
+                }
+                 if(this.update_data.meters==''){
+                    this.update_data.tonnage = undefined;
+                    this.update_placeholder.tonnage = '(系数 * 米数)'
+                    return;
+                }
+                 if(this.update_data.meters!=undefined){
+                    this.update_data.tonnage = isNaN((Number(this.update_data.ratio)* Number(this.update_data.meters)))?undefined:(Number(this.update_data.ratio)* Number(this.update_data.meters)).toFixed(5);
+                }
+                else{
+                     this.update_placeholder.tonnage = '(系数 * 米数)'
                 }
                  
-            }else{
-                 this.update_data.tonnage = '正在计算...'
-            }
+        
+                 
+            
            
 
         },
         getmoney_update(){
-            if(this.update_data.tonnage.length!=0&&this.update_data.meters.length!=0&&this.update_data.unitPrice.length!=0){
+         
+
+            if(this.update_data.unitPrice==''){
+      
+                this.update_placeholder.money = '(吨位 * 单价)'
+                    this.update_data.money = undefined;
+                    return;
+                    
+            } 
+            if(this.update_data.tonnage!=undefined&&this.update_data.meters!=undefined&&this.update_data.unitPrice!=undefined){
                 
-                 this.update_data.money = (Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
-            }else{
-                 this.update_data.money = '正在计算...'
+                 this.update_data.money = isNaN(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice))?undefined:(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
+            }
+            else{
+                this.update_placeholder.money = '(吨位 * 单价)'
+                
             }
 
         },
@@ -1897,6 +1963,23 @@ export default {
          .exlcon{
                 width: 100%;
                 margin-bottom: 10Px;
+                  line-height:35Px;
+         display: flex;
+        justify-content: space-between;
+                 .right-title{
+                display: flex;
+                font-size: 12Px;
+                font-weight: 600;
+                .ti{
+                    font-size: 12Px;
+
+
+                }
+                .de{
+                    color: #e33e33 !important;
+                }
+
+            }
                /deep/.el-button{
                     width: 90Px;
                                 height:35Px;
