@@ -2,6 +2,7 @@ import router from './router';
 import {Message} from "element-ui";
 import userApi from '@/api/user/user'
 router.beforeEach((to, from, next) => {
+var url = window.location.href;
 
 
   var jwttoken = getCookie("jwttoken");
@@ -16,7 +17,6 @@ router.beforeEach((to, from, next) => {
     next('/login_m');
   }
   
-  
   if(jwttoken == -1&&to.path=='/login'){
     setCookie("jwttoken",0);
     next();
@@ -26,6 +26,7 @@ router.beforeEach((to, from, next) => {
       next();
   }
   if(jwttoken == 0){
+
     next();
   }
 
@@ -35,15 +36,14 @@ router.beforeEach((to, from, next) => {
      if(to.path=='/login'){
       
         next('/home');
-
-       
-      
      }
      else if(to.path=='/login_m'){
         next('/home_m');
      }
      else{
-      next();
+     
+        next();  
+      
      }
   }
 }

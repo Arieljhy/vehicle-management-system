@@ -963,7 +963,8 @@ export default {
         margin-bottom: 10px;
          display: flex;
         /deep/.el-form{
-            width: 85%;
+            width: 84%;
+            padding-right: 1%;
             
            .con{
                 display: flex;
@@ -1013,8 +1014,6 @@ export default {
                             .el-range-input{
 
                         
-                                height: 0.1rem;
-                                line-height:0.1rem ;
                             } 
                              .el-range-input:focus {
                                 border-color: rgba(17, 24,49,1);
@@ -1060,8 +1059,9 @@ export default {
                 color:#fff;
                 border-color:rgba(17, 24,49,1);
                 margin-top: 51px;
-                font-size: 14px;
-                 height: 0.24rem;
+                font-size: 13px;
+                font-weight: 600;
+                 height: 30px;
                 
               
 
@@ -1101,7 +1101,7 @@ export default {
        /deep/ .el-table{
             .el-table__fixed{
             
-                 height: calc(93vh - 277Px) !important;
+                 height: calc(93vh - 280Px) !important;
                  .el-table__fixed-body-wrapper::after{
                                   content: '\00A0';
                                  
@@ -1112,7 +1112,7 @@ export default {
                     }
                .el-table__fixed-body-wrapper{
                 //    height: calc(90vh - 330px) !important;
-                 height: calc(93vh - 357Px) !important;
+                 height: calc(93vh - 360Px) !important;
                
                   table{
                       tbody{
@@ -1132,7 +1132,7 @@ export default {
            }
            .el-table__fixed-right{
                 // height: calc(90vh - 235px) !important;
-                 height: calc(93vh - 277Px) !important;
+                 height: calc(93vh - 280Px) !important;
                right: 6px !important;
                .el-table__fixed-body-wrapper::after{
                                   content: '\00A0';
@@ -1141,7 +1141,7 @@ export default {
                     }
                .el-table__fixed-body-wrapper{
                     // height: calc(90vh - 330px) !important;
-                     height: calc(93vh - 357Px) !important;
+                     height: calc(93vh - 360Px) !important;
                
                   table{
                       tbody{

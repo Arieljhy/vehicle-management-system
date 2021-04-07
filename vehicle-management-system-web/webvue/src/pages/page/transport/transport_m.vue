@@ -1866,6 +1866,9 @@ export default {
                         }
                         .el-form-item__content{
                         width:calc(100% - 100Px);
+                        .el-select{
+                            width: 100%;
+                        }
                         .el-input{
                             .el-input__inner{
                                 height: 40Px;
@@ -2239,6 +2242,10 @@ export default {
                                     }
                                     .el-select{
                                         width: 100%;
+                                        .el-input__inner{
+                                             width: 100%;
+
+                                        }
 
                                     }
                                     .el-input.is-disabled .el-input__inner{

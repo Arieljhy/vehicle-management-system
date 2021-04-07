@@ -11,9 +11,16 @@ export default {
             name:''
         }
     },
-    created(){},
+    created(){
+        debugger;
+    },
     mounted(){
         this.name = this.getCookie('username')!=null?this.getCookie('username'):'默认';
+    },
+    watch:{
+        $router:()=>{
+            console.log("sx");
+        }
     },
     methods:{
         

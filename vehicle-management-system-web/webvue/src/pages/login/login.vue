@@ -72,7 +72,7 @@ export default {
                       this.setCookie("jwttoken",res.data.jwttoken)
                 
                       this.setCookie("username",res.data.data.username)
-                     this.$router.replace('/home');
+                     this.$router.push('/home');
                     
                 }else{
                     this.$message.error(res.data.msg);

@@ -6,6 +6,11 @@ import Layout from './Layout.vue'
 
 
 export const constantRouterMap =[
+    {
+        path:'',
+        redirect:'/home'
+
+    },
     
     {
         path:'/login',
@@ -49,7 +54,7 @@ export const constantRouterMap =[
             },
             {
                     path:'home_m',
-                    name:'home_m',
+                    name:'Home_m',
                     meta: {
                         title: '',
                         requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
@@ -100,6 +105,7 @@ export const constantRouterMap =[
             ]
 
     },
+    {path:'*',component:()=>import('./pages/login/login.vue')}
 
 ]
 export default new Router({
