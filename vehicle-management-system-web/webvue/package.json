@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "node ./src/components/Upload/js/server.js"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -17,6 +18,9 @@
     "vux-loader": "^1.2.9"
   },
   "devDependencies": {
+    "@koa/cors": "^3.1.0",
+    "@koa/multer": "^3.0.0",
+    "@koa/router": "^10.0.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
@@ -25,6 +29,10 @@
     "element-ui": "^2.15.1",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "koa": "^2.13.1",
+    "koa-router": "^10.0.0",
+    "koa-static": "^5.0.0",
+    "koa2-cors": "^2.0.6",
     "less": "^4.1.1",
     "node-sass": "^4.14.1",
     "postcss-px2rem-exclude": "^0.0.6",

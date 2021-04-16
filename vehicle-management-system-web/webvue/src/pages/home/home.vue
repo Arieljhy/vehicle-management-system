@@ -12,7 +12,7 @@ export default {
         }
     },
     created(){
-        debugger;
+     
     },
     mounted(){
         this.name = this.getCookie('username')!=null?this.getCookie('username'):'默认';

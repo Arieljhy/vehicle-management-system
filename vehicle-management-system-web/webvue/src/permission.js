@@ -7,46 +7,48 @@ var url = window.location.href;
 
   var jwttoken = getCookie("jwttoken");
   if (to.matched.some(record => record.meta.requireAuth)){
- 
-  if(jwttoken == null&&to.path=='/login'){
-    setCookie("jwttoken",-1);
-    next('/login');
-  } 
-  if(jwttoken == null&&to.path=='/login_m'){
-    setCookie("jwttoken",-1);
-    next('/login_m');
-  }
-  
-  if(jwttoken == -1&&to.path=='/login'){
-    setCookie("jwttoken",0);
-    next();
-  } 
-  if(jwttoken == -1&&to.path=='/login_m'){
-    setCookie("jwttoken",0);
-      next();
-  }
-  if(jwttoken == 0){
 
-    next();
-  }
+      if(jwttoken == null&&to.path=='/login'){
+        setCookie("jwttoken",-1);
+        next('/login');
+      } 
+      if(jwttoken == null&&to.path=='/login_m'){
+        setCookie("jwttoken",-1);
+        next('/login_m');
+      }
+      
+      if(jwttoken == -1&&to.path=='/login'){
+        setCookie("jwttoken",0);
+        next();
+      } 
+      if(jwttoken == -1&&to.path=='/login_m'){
+        setCookie("jwttoken",0);
+          next();
+      }
+      if(jwttoken == 0){
+        if(to.path=='/login'||to.path=='/login_m'){
+          next();
+        }
+        
+      }
 
-  if(jwttoken!=null&&jwttoken!=0&&jwttoken!=-1){
-  
- 
-     if(to.path=='/login'){
+      if(jwttoken!=null&&jwttoken!=0&&jwttoken!=-1){
       
-        next('/home');
-     }
-     else if(to.path=='/login_m'){
-        next('/home_m');
-     }
-     else{
-     
-        next();  
-      
-     }
-  }
-}
+    
+        if(to.path=='/login'){
+          
+            next('/home');
+        }
+        else if(to.path=='/login_m'){
+            next('/home_m');
+        }
+        else{
+        
+            next();  
+          
+        }
+      }
+    }
 })
 
  export function setCookie(name,value){

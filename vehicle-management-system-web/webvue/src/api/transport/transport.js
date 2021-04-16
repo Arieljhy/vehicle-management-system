@@ -18,6 +18,9 @@ export default{
     excelExport(data,success,fail) {
         http.getexcel('/api/excel/excelExport',data,success,fail);
     },
+    excelImport(config,data,success,fail) {
+        http.importexcel('/api/excel/importExcelt',config,data,success,fail);
+    },
 
     
     

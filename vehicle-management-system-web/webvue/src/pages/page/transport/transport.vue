@@ -1,8 +1,16 @@
 <template>
     <div class="management">
         <div class="title">
-            货运明细
-            <el-button class="add" @click="beforeadd()">添加<i class="iconfont icon-tianjia" style="font-size:10px;font-weight:600;margin-left:2px;"></i></el-button>
+            <div class="ti">
+                货运明细
+
+            </div>
+            
+            <div class="btn_r">
+                <el-button class="imp" @click="import_e()">导入</el-button>
+                <el-button class="add" @click="beforeadd()">添加<i class="iconfont icon-tianjia" style="font-size:10px;font-weight:600;margin-left:2px;"></i></el-button>
+            </div>
+            
         </div>
       
        <div class="search-part">
@@ -490,13 +498,42 @@
            </el-form>
         </div>
         </el-dialog>
+
+         <!-- 导入 弹窗 -->
+       <el-dialog
+            class="dialog"
+            title="导入"
+            :visible.sync="import_open"
+            :modal-append-to-body='false'
+            width="40%"
+            :close-on-click-modal="false"
+         >
+        <div class="content" style="height:300px;">
+             <!-- <Upload name="file" :drag="true" :on-error="onError" :on-success="onSuccess" :limit="1" multiple :on-change="onChange"  :file-list="fileList" :action="action">
+                <el-button class="clitoup">点击上传</el-button>
+                </Upload> -->
+                <UploadFile :url="`http://121.4.245.39/api/excel/importExcelt`" />
+        </div>
+        </el-dialog>
     </div>
 </template>
 <script>
 import transportApi from '@/api/transport/transport';
+import Upload from '@/components/Upload/upload';
+import UploadFile from '@/components/Uploade/upload';
+
+import gobutton from '@/components/Upload/com/button';
 export default {
+    components:{
+        Upload,
+        gobutton,
+        UploadFile
+    },
     data(){
         return{
+            fileList:[],
+            action:'http://121.4.245.39/api/excel/importExcelt',
+            import_open:false,
             sumMeters:0,
              pickerOptions:{
                 disabledDate: time => {
@@ -955,7 +992,20 @@ export default {
         }
     },
     methods:{
-        
+        onSuccess(){
+            this.$message.success("上传成功！");
+        },
+         onError(){
+            this.$message.error("上传失败！");
+        },
+        onChange(){},
+         onExceed() {
+
+    },
+        import_e(){
+            this.import_open = true;
+
+        },
          excel(){
             transportApi.excelExport(this.searchdata,res=>{
                 const disposition = res.headers['content-disposition'];
@@ -1728,27 +1778,46 @@ export default {
     height: 93vh;
     .title{
         font-size: 20px;
-        width: 100%;
-        padding: 1%;
+        width: 99%;
+        padding: 1% 0 1% 1%;
         color:rgba(17, 24,49,1);
         font-weight: 600;
-        position: relative;
-        /deep/.el-button{
+  display: flex ;
+        .ti{
+            width: 20%;
+        }
+        .btn_r{
+            width: 80%;
+           
+            text-align: right;
+            /deep/.el-button.imp{
                     padding: 7px 13px;
-                    position: absolute;
-                    right: 1.75%;
+                  
+                
                     border-color: rgba(17, 24,49,1);
                     background-color: rgba(17, 24,49,1);
                                   color: #fff;
                                   font-size: 0.1rem;
                 }
-                
-                .el-button:hover{ 
+             /deep/.el-button.add{
+                    padding: 7px 13px;
+                   margin-left: 10px;
+                    border-color: rgba(17, 24,49,1);
+                    background-color: rgba(17, 24,49,1);
+                                  color: #fff;
+                                  font-size: 0.1rem;
+                }
+             .el-button:hover{ 
                                 
                     background-color: #fff ;
                     color: rgba(17, 24,49,1);
 
                 }
+        }
+
+       
+                
+               
     }
     .search-part{
         width: 96%;
@@ -1900,11 +1969,17 @@ export default {
               
 
             }
-             .el-button:hover {
+             .el-button.cz:hover {
                 color: rgba(17, 24,49,1);
                 border-color:rgba(17, 24,49,1);
                 background-color: #ecf5ff;
             }
+             .el-button:hover{ 
+                                
+                    background-color: #fff ;
+                    color: rgba(17, 24,49,1);
+
+                }
         }
     }
      .exlcon{

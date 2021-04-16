@@ -1,5 +1,14 @@
 import axios from 'axios';
 import {Loading,Message} from 'element-ui';
+import Vue from 'vue'
+import {Upload,Button,Progress,Dialog} from 'element-ui';
+    Vue.use(Upload);
+ 
+    Vue.use(Progress);
+    Vue.use(Dialog);
+ 
+
+
 axios.defaults.withCredentials = false;
 axios.defaults.headers.post['Content-Type']= "application/x-www-form-urlencoded";
 let loading;
@@ -245,6 +254,29 @@ export default {
             }
         )
     },
+    importexcel(url,config,data,done,fail){
+    let jwttoken = getCookie("jwttoken");
+    let sheader = '';
+    if(jwttoken!=null&&jwttoken!=0&&jwttoken!=-1){
+         sheader = jwttoken;
+         
+    }
+    return axios.post(
+        url,
+        data,
+        config,
+    ).then(data=>done(data)).catch(
+        error=>{
+         
+            if(fail){
+                fail(error);
+            }else{
+
+               
+            }
+        }
+    )
+},
     getexcel(url,...options){
         let jwttoken = getCookie("jwttoken");
         let sheader = '';
