@@ -19,7 +19,7 @@ export default {
     },
     watch:{
         $router:()=>{
-            console.log("sx");
+  
         }
     },
     methods:{

@@ -4,8 +4,16 @@
         <div class="container">
                 
             <div class="title">
-                货运明细
-                <el-button class="add" @click="beforeadd">添加<i class="iconfont icon-tianjia" style="font-size:10Px;font-weight:600;margin-left:2Px;"></i></el-button>
+                <div class="ti">
+                     货运明细
+
+                </div>
+               
+                <div class="btn_r">
+                    <el-button class="imp" @click="import_e()">导入</el-button>
+                    <el-button class="add" @click="excel()">导出Excel</el-button>
+                </div>
+                
             </div>
       
             <div class="search-part">
@@ -73,7 +81,12 @@
                 
             </div>
              <div class="exlcon">
-                <el-button @click="excel()">导出Excel</el-button>
+                 <div class="left">
+                      <el-button  @click="beforeadd">添加<i class="iconfont icon-tianjia" style="font-size:10Px;font-weight:600;margin-left:2Px;"></i></el-button>
+                <el-button @click="all_deleted()">批量删除</el-button>
+
+                 </div>
+              
                 <div class="right-title">
                     <div class="ti">
                        总米数(米)：
@@ -91,11 +104,11 @@
                 <el-table
                         ref="transporttable"
                         :data="transport_data_part"
-                    
+                     @selection-change="handleSelectionChange"
                         border
                         style="width: 100%">
 
-
+<el-table-column type="selection" ></el-table-column>
                         <el-table-column
                         prop="carNum"
                         label="车牌号"
@@ -502,15 +515,37 @@
            </el-form>
         </div>
         </el-dialog>
+        <!-- 导入 弹窗 -->
+       <el-dialog
+            class="add-dialog"
+            title="导入"
+            :visible.sync="import_open"
+            :modal-append-to-body='false'
+            width="93%"
+            :close-on-click-modal="false"
+         >
+        <div class="content" style="height:300px;">
+           
+                <UploadFile @init="init()" @close="import_open=false" :url="`http://121.4.245.39/api/excel/importExcelt`" />
+        </div>
+        </el-dialog>
         
     </div>
 </template>
 <script>
 
 import transportApi from '@/api/transport/transport';
+import UploadFile from '@/components/Uploade/upload';
 export default {
+    components:{
+        UploadFile
+    },
     data(){
         return{
+             selection_del:[],
+            fileList:[],
+            action:'http://121.4.245.39/api/excel/importExcelt',
+            import_open:false,
               sumMeters :0,
               pickerOptions:{
                 disabledDate: time => {
@@ -996,6 +1031,102 @@ export default {
         }
     },
     methods:{
+        all_deleted(){
+          
+            if(this.selection_del.length==0){
+                
+                 this.$toast({
+                                    message: '请选择要删除的数据',
+                                    position: 'middle',
+                                    duration: 500
+                    });
+            }else{
+                 this.$MessageBox({
+                title: '提示',
+                message: `确定要删除选中的 ‘${this.selection_del.length}  ’ 条数据吗?`,
+                showCancelButton: true
+            }).then(action => { 
+                if (action == 'confirm') {     //确认的回调
+
+                  
+
+                  const allpromise =   [];
+        
+                  
+                    for(let i=0;i<this.selection_del.length;i++){
+                     
+                    let pitem= new Promise((resolve,reject) => {
+                         transportApi.delCarDate({id:this.selection_del[i].id},res=>{
+                            if(res.data.code==0){
+                                resolve(1);
+                            }else{
+                                 resolve(0);
+                            }
+                        })
+
+                     }) 
+                     allpromise.push(pitem);
+                    }
+                    Promise.all(allpromise).then(res=>{
+                     
+                    
+                            if(res.length==res.reduce((a,b)=> a+b)){
+                                this.init();
+                                  this.$toast({
+                                    message: '删除成功～',
+                                    position: 'middle',
+                                    duration: 1000
+                                });
+                                
+                            }else{
+                                this.init();
+                                 this.$toast({
+                                    message: '删除失败',
+                                    position: 'middle',
+                                    duration: 1000
+                                });
+                                
+
+                            }
+
+                    });
+                   
+                    
+                }
+            });
+                
+
+            }
+            
+        },
+        handleSelectionChange(val){
+            
+            this.selection_del = val;
+        },
+        onSuccess(){
+            this.$toast({
+                                    message: '上传成功！',
+                                    position: 'middle',
+                                    duration: 1000
+                                });
+        
+        },
+         onError(){
+             this.$toast({
+                                    message: '上传失败！',
+                                    position: 'middle',
+                                    duration: 1000
+                                });
+          
+        },
+        onChange(){},
+         onExceed() {
+
+    },
+        import_e(){
+            this.import_open = true;
+
+        },
         
          excel(){
             transportApi.excelExport(this.searchdata,res=>{
@@ -1814,9 +1945,13 @@ export default {
         padding: 0 5%;
         margin:1vh 0 ;
         .title{
-                height: 35Px;
+             display: flex ;
+                
+                .ti{
+            width: 30%;
+            height: 35Px;
                 line-height: 35Px;
-                width: 100%;
+              
                 padding: 1%;
                 color:rgba(17, 24,49,1);
                 font-weight: 600;
@@ -1824,25 +1959,43 @@ export default {
 
                  margin: 1vh 0;
                 font-size: 20Px;
-              
-                /deep/.el-button{
-                    width: 90Px;
-                    height: 35Px;
-                    font-size:14Px;
-                    padding: 5Px 10Px;
-                    position: absolute;
-                    right: 2%;
-                    border-color: rgba(17, 24,49,1);
-                    background-color: rgba(17, 24,49,1);
-                                  color: #fff;
-                                   border-radius:4Px ;
-                }
-                .el-button:hover{ 
-                                
-                    background-color: #fff ;
-                    color: rgba(17, 24,49,1);
+                 
+        }
+                 .btn_r{
+            width: 70%;
+            height: 35Px;
+                line-height: 35Px;
+                  margin: 1vh 0;
+                    padding: 1% 0;
+            text-align: right;
+                    /deep/.el-button.imp{
+                            padding: 7Px 13Px;
+                        
+                        
+                            border-color: rgba(17, 24,49,1);
+                            background-color: rgba(17, 24,49,1);
+                                        color: #fff;
+                                        font-size: 16Px;
+                        }
+                /deep/.el-button.add{
+                            padding: 7Px 13Px;
+                        
+                        
+                            border-color: rgba(17, 24,49,1);
+                            background-color: rgba(17, 24,49,1);
+                                        color: #fff;
+                                          font-size: 16Px;
+                        }
+                        .el-button:hover{ 
+                                        
+                            background-color: #fff ;
+                            color: rgba(17, 24,49,1);
 
-                }
+                        }
+        }
+
+              
+              
         }
         .search-part{
                 width: 96%;
@@ -1969,21 +2122,8 @@ export default {
                   line-height:35Px;
          display: flex;
         justify-content: space-between;
-                 .right-title{
-                display: flex;
-                font-size: 12Px;
-                font-weight: 600;
-                .ti{
-                    font-size: 12Px;
-
-
-                }
-                .de{
-                    color: #e33e33 !important;
-                }
-
-            }
-               /deep/.el-button{
+        .left{
+            /deep/.el-button{
                     width: 90Px;
                                 height:35Px;
                                         
@@ -2001,11 +2141,32 @@ export default {
                                         color: rgba(17, 24,49,1);
 
                                     }
+            
+        }
+                 .right-title{
+                display: flex;
+                font-size: 12Px;
+                font-weight: 600;
+                .ti{
+                    font-size: 12Px;
+
+
+                }
+                .de{
+                    color: #e33e33 !important;
+                }
+
+            }
+               
             }
         .content{
             /deep/ .el-table{
                 display: flex;
                 overflow-y:  auto !important;
+                .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+                background-color: rgba(17, 24,49,1);
+                border-color: rgba(17, 24,49,1);
+            }
                     .el-table__header-wrapper{
                         display: flex;
                         width: 120Px !important;;
@@ -2046,7 +2207,15 @@ export default {
                                         border: 1Px solid rgb(142, 144, 153) ;
                                         border-radius: 3Px;
                                     }
-                                    th:nth-child(13){
+                                     th:nth-child(1){
+                                        
+                                         
+                                       background-color: #fff;
+                                      
+                                            
+                                        
+                                        }
+                                    th:nth-child(14){
                                         
                                          
                                             height: 77Px;
@@ -2115,7 +2284,7 @@ export default {
                                             
                                         
                                         }
-                                        td:nth-child(13){
+                                        td:nth-child(14){
                                             .el-button{
                                                  font-size: 14Px;
                                                  

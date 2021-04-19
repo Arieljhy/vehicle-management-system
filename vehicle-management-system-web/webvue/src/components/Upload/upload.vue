@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     onInputChange (e) {
-      console.log("hhhh");
+     
       // e.target.files is pseudo array, need to convert to real array
       const rawFiles = Array.from(e.target.files);
       this.uploadFiles(rawFiles);
@@ -112,7 +112,7 @@ export default {
         return;
       
       }
-      console.log("rawFiles",rawFiles);
+ 
       // if (this.limit && this.limit < filesLen) {
       //   return this.onExceed(rawFiles, this.files);
       // }
@@ -207,7 +207,7 @@ export default {
     onDelete (file) {
       const i = this.files.indexOf(file);
       this.files.splice(i, 1);
-      console.log("this.files",this.files);
+    
       // this.abort(file);
     },
     abort (file) {

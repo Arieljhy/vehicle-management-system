@@ -16,7 +16,7 @@ app.use(router.routes());
 router.post('/uploads',upload.single('file'),async(ctx)=>{
     const domain = ctx.protocol +'://' +ctx.host +'/';
     const { path , originalname } = ctx.file;
-    console.log("domain",domain);
+    
     ctx.body = {
         code:200,
         data,

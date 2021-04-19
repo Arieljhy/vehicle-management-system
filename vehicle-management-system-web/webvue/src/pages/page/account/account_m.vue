@@ -5,7 +5,8 @@
                
        <div class="title">
             账单管理
-            <el-button class="add" @click="beforeadd">添加<i class="iconfont icon-tianjia" style="font-size:10Px;font-weight:600;margin-left:2Px;"></i></el-button>
+              <el-button class="add" @click="excel()">导出Excel</el-button>
+           
         </div>
       
        <div class="search-part">
@@ -48,7 +49,8 @@
            
        </div>
         <div class="exlcon">
-                <el-button @click="excel()">导出Excel</el-button>
+             <el-button  @click="beforeadd">添加<i class="iconfont icon-tianjia" style="font-size:10Px;font-weight:600;margin-left:2Px;"></i></el-button>
+              
             </div>
        <div class="content">
            <el-table

@@ -99,6 +99,7 @@ axios.interceptors.response.use(
     },
     error=>{
          tryHideFullScreenLoading();
+
         switch (error.response.status){
             case 403:
                 Message.warning('无权限');
@@ -120,7 +121,7 @@ axios.interceptors.response.use(
             case 404:
                 return Promise.reject("404接口不存在")
             case  500:
-                return Promise.reject("服务器出错，请稍后重试")
+                return Promise.resolve(error.response)
             default:
                 return Promise.reject(error.response.status)
 

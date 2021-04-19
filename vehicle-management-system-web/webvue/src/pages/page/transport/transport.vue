@@ -8,7 +8,8 @@
             
             <div class="btn_r">
                 <el-button class="imp" @click="import_e()">导入</el-button>
-                <el-button class="add" @click="beforeadd()">添加<i class="iconfont icon-tianjia" style="font-size:10px;font-weight:600;margin-left:2px;"></i></el-button>
+                <el-button  class="add" @click="excel()">导出Excel</el-button>
+                
             </div>
             
         </div>
@@ -71,7 +72,12 @@
            
        </div>
         <div class="exlcon">
-           <el-button @click="excel()">导出Excel</el-button>
+            <div class="left">
+                <el-button  @click="beforeadd()">添加<i class="iconfont icon-tianjia" style="font-size:10px;font-weight:600;margin-left:2px;"></i></el-button>
+                <el-button @click="all_deleted()">批量删除</el-button>
+
+            </div>
+           
             <div class="right-title">
                     <div class="ti">
                         总米数(米)：
@@ -87,10 +93,12 @@
        </div>
        <div class="content">
            <el-table
+           @selection-change="handleSelectionChange"
                 :data="transport_data_part"
                 :height="tableheight"
                 border
                 style="width: 100%">
+                <el-table-column type="selection" align="center"></el-table-column>
                 <el-table-column
                 prop="carNum"
                 label="车牌号"
@@ -512,25 +520,24 @@
              <!-- <Upload name="file" :drag="true" :on-error="onError" :on-success="onSuccess" :limit="1" multiple :on-change="onChange"  :file-list="fileList" :action="action">
                 <el-button class="clitoup">点击上传</el-button>
                 </Upload> -->
-                <UploadFile :url="`http://121.4.245.39/api/excel/importExcelt`" />
+                <UploadFile @init="init()" @close="import_open=false" :url="`http://121.4.245.39/api/excel/importExcelt`" />
         </div>
         </el-dialog>
     </div>
 </template>
 <script>
 import transportApi from '@/api/transport/transport';
-import Upload from '@/components/Upload/upload';
+// import Upload from '@/components/Upload/upload';
 import UploadFile from '@/components/Uploade/upload';
 
-import gobutton from '@/components/Upload/com/button';
 export default {
     components:{
-        Upload,
-        gobutton,
+     
         UploadFile
     },
     data(){
         return{
+            selection_del:[],
             fileList:[],
             action:'http://121.4.245.39/api/excel/importExcelt',
             import_open:false,
@@ -992,6 +999,63 @@ export default {
         }
     },
     methods:{
+        all_deleted(){
+          
+            if(this.selection_del.length==0){
+                this.$message.warning("请选择要删除的数据");
+            }else{
+                 this.$confirm(`确定要删除选中的 ‘${this.selection_del.length}  ’ 条数据吗?`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                })
+                .then(() => {
+                  
+
+                  const allpromise =   [];
+        
+                  
+                    for(let i=0;i<this.selection_del.length;i++){
+                     
+                    let pitem= new Promise((resolve,reject) => {
+                         transportApi.delCarDate({id:this.selection_del[i].id},res=>{
+                            if(res.data.code==0){
+                                resolve(1);
+                            }else{
+                                 resolve(0);
+                            }
+                        })
+
+                     }) 
+                     allpromise.push(pitem);
+                    }
+                    Promise.all(allpromise).then(res=>{
+                     
+                    
+                            if(res.length==res.reduce((a,b)=> a+b)){
+                                this.init();
+                                this.$message.success("批量删除成功～");
+                                
+                            }else{
+                                this.$message.error("批量删除失败");
+                                this.init();
+
+                            }
+
+                    });
+                   
+                   
+                    
+                    
+                })
+                .catch(() => {})
+
+            }
+            
+        },
+        handleSelectionChange(val){
+            
+            this.selection_del = val;
+        },
         onSuccess(){
             this.$message.success("上传成功！");
         },
@@ -1007,6 +1071,7 @@ export default {
 
         },
          excel(){
+            
             transportApi.excelExport(this.searchdata,res=>{
                 const disposition = res.headers['content-disposition'];
                 let fileName = disposition.substring(disposition.indexOf('filename=') + 9, disposition.length);
@@ -1988,7 +2053,9 @@ export default {
           line-height:30px;
          display: flex;
         justify-content: space-between;
-        /deep/.el-button{
+        .left{
+            text-align: left;
+             /deep/.el-button{
                         height:30px;
                                 
                                 padding:8px 10px !important;
@@ -2004,6 +2071,9 @@ export default {
                  color: rgba(17, 24,49,1);
 
             }
+
+        }
+       
             .right-title{
                 display: flex;
                 font-size: 12px;
@@ -2021,6 +2091,10 @@ export default {
     }
     .content{
        /deep/ .el-table{
+           .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+                background-color: rgba(17, 24,49,1);
+                border-color: rgba(17, 24,49,1);
+            }
            .el-table__fixed{
               
                      height: calc(93vh - 280Px) !important;

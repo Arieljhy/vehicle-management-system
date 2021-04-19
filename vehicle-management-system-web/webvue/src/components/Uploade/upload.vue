@@ -1,7 +1,7 @@
 
 <template>
   <div class="upload">
-    <!--文件上传入口-->
+    <!--文件上传入口   :on-success="upload_success"  :on-error="upload_error"-->
     <div class="uploadfile">
       <el-upload
         ref="upload"
@@ -14,8 +14,8 @@
         :on-exceed="handleExceed"
         :action="url"
         :file-list="filelist"
-        :on-success="upload_success"
-        :on-error="upload_error"
+       
+       
        
         :http-request="upload"
       >
@@ -40,9 +40,10 @@ import transportApi from '@/api/transport/transport';
     Vue.use(Progress);
     Vue.use(Dialog);
     import axios from 'axios';
-import {Loading,Message} from 'element-ui';
-axios.defaults.withCredentials = false;
- 
+    
+    import {Loading,Message} from 'element-ui';
+    axios.defaults.withCredentials = false;
+  
     export default {
         name: "UploadFile",
         data(){
@@ -59,12 +60,11 @@ axios.defaults.withCredentials = false;
         props:['url'],
         methods:{
             upload(fileObj){
-                console.log("ifcom",fileObj);
                 if(fileObj.file.length==0){
                     this.$notify({
                         title: '提示',
                         message: '请选择文件',
-                        duration: 1000
+                        duration: 3000
                     });
                     return;
                 }
@@ -74,7 +74,7 @@ axios.defaults.withCredentials = false;
                     sheader = jwttoken;
                 }
                 let fd = new FormData();
-                console.log("fileeee",fileObj);
+                // console.log("fileeee",fileObj);
                 fd.append('file',fileObj.file);
                 return axios.request({
                     url: 'api/excel/importExcelt',
@@ -84,6 +84,7 @@ axios.defaults.withCredentials = false;
                     const complete = (progressEvent.loaded / progressEvent.total * 100 | 0)
                     fileObj.onProgress({ percent: complete })
                     },
+                    responseType: 'blob',
                     headers:sheader.length!=0?{
                         'Content-Type': 'multipart/form-data',
                         "jwttoken":sheader
@@ -91,14 +92,53 @@ axios.defaults.withCredentials = false;
                             'Content-Type': 'multipart/form-data',
                     }
                 }).then((res)=>{
-                    console.log("rescccc",res);
-                    if(res.code!=90000){
-                        this.upload_success();
+           
+                 
+                    if(res.status==200){
+                        if(res.data.size==0){
+                            this.$emit("close")
+                            this.$emit("init");
+                            this.upload_success();
+
+                        }else{
+                             this.$emit("close")
+                            this.$emit("init");
+                            this.$notify({
+                                title: '提示',
+                                message: '导入的数据中有 错误数据，请将这部分错误数据 修改后，重新上传！',
+                                duration: 5000
+                            });
+                         const disposition = res.headers['content-disposition'];
+                            let fileName = disposition.substring(disposition.indexOf('filename=') + 9, disposition.length);
+                            fileName= decodeURIComponent(fileName).replace(/\"/g, "").replace(/\s+/g,"")
+
+
+                            let blob = new Blob([res.data], {
+                                type: "application/vnd.ms-excel;charset=utf-8"
+                            });
+                            let objectUrl = URL.createObjectURL(blob);
+                           
+
+                            let a = document.createElement("a");
+                            a.href = objectUrl;
+                            a.download = fileName;
+
+                            a.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}));
+                            window.URL.revokeObjectURL(blob);
+
+                        }
+                     
+                      
+                    }
+                    else{
+                        this.upload_error();
                     }
 
                 }).catch(
                     error=>{
-                     this.upload_error();
+                        consolee.log("eerror",error);
+                    
+                     //this.upload_error();
                         // if(fail){
                         //     fail(error);
                         // }else{
@@ -118,16 +158,23 @@ axios.defaults.withCredentials = false;
                 }
             },
             upload_error(response,file,fileList){
-                fileList.splice(fileList.indexOf(file),1);  
-               
-                this.$notify({
+             
+                 this.$notify({
                     title: '提示',
-                    message: '上传失败,上传文件不符合模板要求，请重新上传',
-                    duration: 3000
+                    message: '上传失败!!   上传文件不符合要求，请重新上传',
+                    duration: 5000
                 });
+                fileList.splice(fileList.indexOf(file),1);  
+              
+                
+            
                  
             },
             upload_success(response,file,fileList){
+                
+                this.$message.success("上传成功");
+                fileList.splice(fileList.indexOf(file),1);  
+                
                 //   if(response.code==200){
                 //  //状态码为200时则上传成功
                   
@@ -146,7 +193,7 @@ axios.defaults.withCredentials = false;
                     return null;
                 },
             beforeUpload(file){
-                console.log("hhh");
+                
                 if(this.filelist.length!=0){
                     this.$message.warning('请点击删掉文件')
                 }
@@ -158,7 +205,7 @@ axios.defaults.withCredentials = false;
           },
           submitUpload(){
             this.loading = true;
-         console.log("111", this.$refs.upload);
+         
            
             this.$refs.upload.submit();
            
@@ -215,7 +262,7 @@ axios.defaults.withCredentials = false;
          right: 0;
          bottom: 0;
 
-            padding: 10px 12px;
+            padding: 10Px 12Px;
             background-color: rgba(17, 24,49,1);
             color: #fff;
             border: none;
@@ -246,8 +293,8 @@ axios.defaults.withCredentials = false;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-left: -100px;
-    margin-top: -150px;
+    margin-left: -100Px;
+    margin-top: -150Px;
   }
 }
   
