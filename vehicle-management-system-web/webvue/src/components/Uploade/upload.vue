@@ -193,10 +193,16 @@ import transportApi from '@/api/transport/transport';
                     return null;
                 },
             beforeUpload(file){
+                // console.log("filexxxx",file);
+                // if(file===undefined){
+                //     this.$message.warning('请选择上传文件');
+                    
+                // }
                 
-                if(this.filelist.length!=0){
-                    this.$message.warning('请点击删掉文件')
-                }
+                
+                // if(this.filelist.length!=0){
+                //     this.$message.warning('请点击删掉文件')
+                // }
               
           },
           handleExceed(){
@@ -205,9 +211,12 @@ import transportApi from '@/api/transport/transport';
           },
           submitUpload(){
             this.loading = true;
-         
            
-            this.$refs.upload.submit();
+         
+           this.$refs.upload.beforeUpload();
+                this.$refs.upload.submit();
+               
+            
            
           },
           ensure(){
@@ -224,7 +233,7 @@ import transportApi from '@/api/transport/transport';
   
     .uploadfile{
       width: 100%;
-      height:300Px;
+      height:270Px;
   
     position: relative;
     .upload-demo{

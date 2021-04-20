@@ -330,7 +330,7 @@
                    <el-form-item label="单价(元)" prop="unitPrice">
                         <el-input @input="getmoney()"  v-model="add_data.unitPrice"></el-input>
                     </el-form-item>
-                        <el-form-item label="运费(元)" prop="money" :placeholder="add_placeholder.money">>
+                        <el-form-item label="运费(元)" prop="money" :placeholder="add_placeholder.money">
                         <el-input  v-model="add_data.money"></el-input>
                     </el-form-item>
                      <el-form-item label="备注" prop="remark">
@@ -417,7 +417,7 @@
                         <el-input @input="getmoney_update()"  v-model="update_data.unitPrice"></el-input>
                     </el-form-item>
                         <el-form-item label="运费(元)" prop="money">
-                        <el-input  v-model="update_data.money" :placeholder="update_placeholder.tonnage"></el-input>
+                        <el-input  v-model="update_data.money" :placeholder="update_placeholder.money"></el-input>
                     </el-form-item>
                      <el-form-item label="备注" prop="remark">
                         <el-input v-model="update_data.remark"></el-input>
@@ -525,7 +525,9 @@
             :close-on-click-modal="false"
          >
         <div class="content" style="height:300px;">
-           
+            <div class="tit" style="color:#e33e33;margin-bottom:10Px;font-size:17Px;font-weight:600;" >
+                    请慎重操作，切勿上传重复Excel数据!!!!!!
+                </div>
                 <UploadFile @init="init()" @close="import_open=false" :url="`http://121.4.245.39/api/excel/importExcelt`" />
         </div>
         </el-dialog>
@@ -542,6 +544,7 @@ export default {
     },
     data(){
         return{
+             update_data_moneycopy:undefined,
              selection_del:[],
             fileList:[],
             action:'http://121.4.245.39/api/excel/importExcelt',
@@ -594,6 +597,15 @@ export default {
             start_date:'',
             end_date:'',
             specs_options: [
+                {
+                label: '--清空--',
+                options: [
+                    // 300 *
+                {
+                value: undefined,
+                label: '空'
+                }]
+            },
             {
                 label: '--基本型号--',
                 options: [
@@ -910,7 +922,7 @@ export default {
                    
                 ],
                 specs: [
-                    { required: true, message: '请输入规格', trigger: 'blur' },
+                    { required: false, message: '请输入规格', trigger: 'blur' },
                    
                 ],
                 ratio: [
@@ -918,9 +930,9 @@ export default {
                    
                 ],
                 meters: [
-                    { required: true, message: '请输入米数', trigger: 'blur' },
+                    { required: false, message: '请输入米数', trigger: 'blur' },
                     {
-                        required: true,
+                        required: false,
                         pattern: /^[0-9]+.?[0-9]*$/,
                         message: '请输入数字',
                         trigger: 'change'
@@ -929,13 +941,13 @@ export default {
                    
                 ],
                 tonnage: [
-                    { required: true, message: '请输入吨位', trigger: 'blur' },
+                    { required: false, message: '请输入吨位', trigger: 'blur' },
                    
                 ],
                 unitPrice: [
-                    { required: true, message: '请输入单价', trigger: 'blur' },
+                    { required: false, message: '请输入单价', trigger: 'blur' },
                     {
-                        required: true,
+                        required: false,
                         pattern: /^[0-9]+.?[0-9]*$/,
                         message: '请输入数字',
                         trigger: 'change'
@@ -947,7 +959,7 @@ export default {
                     {
                         required: true,
                         pattern: /^[0-9]+.?[0-9]*$/,
-                        message: '请输入数字',
+                         message: '正在计算，或者手动输入数字',
                         trigger: 'change'
                     }
                    
@@ -1018,17 +1030,17 @@ export default {
                  this.add_data.money = isNaN((Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)))?undefined:(Number(this.add_data.tonnage) * Number(this.add_data.unitPrice)).toFixed(5);
 
         },
-        "update_data.specs"(){
-                this.update_data.tonnage = isNaN((Number(this.update_data.ratio)* Number(this.update_data.meters)))?undefined:(Number(this.update_data.ratio)* Number(this.update_data.meters)).toFixed(5);
+        // "update_data.specs"(){
+        //         this.update_data.tonnage = isNaN((Number(this.update_data.ratio)* Number(this.update_data.meters)))?undefined:(Number(this.update_data.ratio)* Number(this.update_data.meters)).toFixed(5);
 
-                this.update_data.money = isNaN((Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)))?undefined:(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
+        //         this.update_data.money = isNaN((Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)))?undefined:(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
                
 
-        },
-        'update_data.tonnage'(){
-                 this.update_data.money = isNaN((Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)))?undefined:(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
+        // },
+        // 'update_data.tonnage'(){
+        //          this.update_data.money = isNaN((Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)))?undefined:(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
 
-        }
+        // }
     },
     methods:{
         all_deleted(){
@@ -1043,7 +1055,7 @@ export default {
             }else{
                  this.$MessageBox({
                 title: '提示',
-                message: `确定要删除选中的 ‘${this.selection_del.length}  ’ 条数据吗?`,
+                message: `确定要删除选中的 “${this.selection_del.length}条" 数据吗?`,
                 showCancelButton: true
             }).then(action => { 
                 if (action == 'confirm') {     //确认的回调
@@ -1071,12 +1083,13 @@ export default {
                      
                     
                             if(res.length==res.reduce((a,b)=> a+b)){
-                                this.init();
+                            
                                   this.$toast({
                                     message: '删除成功～',
                                     position: 'middle',
                                     duration: 1000
                                 });
+                                    this.init();
                                 
                             }else{
                                 this.init();
@@ -1209,6 +1222,10 @@ export default {
 
         },
         specs_change(val){
+             if(val==undefined){
+                this.add_data.ratio = undefined;
+
+            }
           // 300 *
             if(val=='300*70'){
                 this.add_data.ratio = 0.131;
@@ -1430,7 +1447,10 @@ export default {
             }
         },
         specs_change_update(val){
-          
+           if(val==undefined){
+                this.update_data.ratio = undefined;
+
+            }
              // 300 *
             if(val=='300*70'){
                 this.update_data.ratio = 0.131;
@@ -1650,6 +1670,29 @@ export default {
                 this.update_data.ratio = 0.185;
 
             }
+
+
+             console.log("11");
+            if(this.update_data.meters){
+                  console.log("22");
+                    if(this.update_data.ratio){
+                       
+                        this.update_data.tonnage = isNaN((Number(this.update_data.ratio)* Number(this.update_data.meters)))?undefined:(Number(this.update_data.ratio)* Number(this.update_data.meters)).toFixed(5);
+                        if(this.update_data.unitPrice){
+                            console.log("33");
+                        this.update_data.money = isNaN((Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)))?undefined:(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
+                        }
+               
+
+                    }else{
+                         this.update_data.tonnage = undefined;
+                         if(this.update_data.unitPrice){
+                        this.update_data.money  = undefined;
+                        }
+                    }
+                
+
+            }
            
         },
          beforeadd(){
@@ -1694,6 +1737,15 @@ export default {
                             });
                             this.init();
                             this.add = false;
+                        }
+                        if(res.data.code==1){
+                             this.$toast({
+                                    message: res.data.msg,
+                                    position: 'middle',
+                                    duration: 500
+                            });
+                          
+
                         }
                     })
                 } else {
@@ -1769,26 +1821,51 @@ export default {
 
         },
         goupdate(row){
-            this.update_data =Object.assign({},row) ;
+             this.update_data =Object.assign({},row) ;
+            console.log(" this.update_data", row,this.update_data );
+            this.update_data_moneycopy = row.money;
+            this.update_placeholder.money = `原运费(${this.update_data_moneycopy})`
             this.update = true;
 
         },
-   tonnage_update(){
-                 if(isNaN(this.update_data.meters)){
+        tonnage_update(){
+            console.log("this.update_data.ratio",this.update_data.ratio);
+            if(this.update_data.ratio){
+                if(isNaN(this.update_data.meters)){
                     this.update_placeholder.tonnage = '请输入正确的米数！'
                     return;
                 }
                  if(this.update_data.meters==''){
+                     console.log("m1");
                     this.update_data.tonnage = undefined;
+                    this.update_data.money = undefined;
                     this.update_placeholder.tonnage = '(系数 * 米数)'
                     return;
                 }
-                 if(this.update_data.meters!=undefined){
+
+                 if(this.update_data.meters){
+                     console.log("m2");
                     this.update_data.tonnage = isNaN((Number(this.update_data.ratio)* Number(this.update_data.meters)))?undefined:(Number(this.update_data.ratio)* Number(this.update_data.meters)).toFixed(5);
+                    if(this.update_data.tonnage&&this.update_data.unitPrice){
+                        this.update_data.money = isNaN(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice))?undefined:(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
+                    }else{
+                        this.update_data.money = undefined;
+                    }
+                    
                 }
                 else{
+                   console.log("m3");
+                    this.update_data.money = undefined;
                      this.update_placeholder.tonnage = '(系数 * 米数)'
+                     
                 }
+
+            }else{
+                console.log("m4");
+                this.update_data.money = undefined;
+
+            }
+                 
                  
         
                  
@@ -1798,20 +1875,23 @@ export default {
         },
         getmoney_update(){
          
-
+            console.log("hhhh");
             if(this.update_data.unitPrice==''){
       
-                this.update_placeholder.money = '(吨位 * 单价)'
+                this.update_placeholder.money = `原运费(${this.update_data_moneycopy})`
                     this.update_data.money = undefined;
                     return;
                     
             } 
-            if(this.update_data.tonnage!=undefined&&this.update_data.meters!=undefined&&this.update_data.unitPrice!=undefined){
-                
+            if(this.update_data.tonnage&&this.update_data.meters&&this.update_data.unitPrice){
+                console.log("h1")
                  this.update_data.money = isNaN(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice))?undefined:(Number(this.update_data.tonnage) * Number(this.update_data.unitPrice)).toFixed(5);
             }
             else{
-                this.update_placeholder.money = '(吨位 * 单价)'
+                console.log("h2")
+
+                this.update_placeholder.money = `原运费(${this.update_data_moneycopy})`
+                this.update_data.money =undefined;
                 
             }
 
